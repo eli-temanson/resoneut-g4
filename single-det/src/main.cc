@@ -36,6 +36,9 @@
 // Allows user to choose the random engine
 #include "Randomize.hh"
 
+// using json-c++ reader
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 int main(int argc,char** argv)
 {

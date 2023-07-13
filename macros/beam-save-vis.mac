@@ -7,7 +7,7 @@
 /tracking/verbose 0
 /tracking/storeTrajectory 0
 
-/analysis/setFileName data/vis-test
+/analysis/setFileName analysis/vis-test
 /gun/particle gamma
 /gun/energy 59. keV
 
