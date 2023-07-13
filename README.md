@@ -14,9 +14,9 @@ I prefer to use Visual Studio Code
 
 ### TO-DO
  * Add an configuration file reader json. 
+ * Add masslookup class to the source.
  * Add a particle rxn generator (kinematics).
  * Complete geometry setup. 
-
 
 ### Referencing Geant4 Example B5, RunAction and run2.mac to produce multiple .root output files
 ```
