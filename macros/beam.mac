@@ -1,0 +1,44 @@
+#=================================================================
+#   Macro file for Geant4 Simulation
+#   Execute by "./g4-sim beam.mac"
+#   Date of Last Modified: Feb. 9, 2022
+#   Author: Eli Temanson
+#=================================================================
+
+# Files Necessary for batch mode
+#
+/run/numberOfThreads 8
+/run/initialize
+/run/verbose 0
+/event/verbose 0
+/tracking/verbose 0
+/tracking/storeTrajectory 0
+
+# Set what and how many particles to send
+#
+#/analysis/setFileName data/Am241-26 #-with-shield
+#/gun/particle gamma
+#/gun/energy 26. keV
+#/run/beamOn 100000
+
+#/analysis/setFileName data/Am241-59 #-with-shield
+#/gun/particle gamma
+#/gun/energy 59. keV
+#/run/beamOn 100000
+
+#/analysis/setFileName data/Ba133-30
+#/analysis/ntuple/setFileName data/Ntuple-Ba133-30
+#/gun/particle gamma
+#/gun/energy 30.85 keV
+#/run/beamOn 1000
+
+/analysis/setFileName data/Ba133-356
+/gun/particle gamma
+/gun/energy 356.02 keV
+/run/beamOn 100000
+
+#/analysis/setFileName data/Cs137-662
+#/analysis/ntuple/setFileNameToAll data/Ntuple-Cs137-662
+#/gun/particle gamma
+#/gun/energy 662. keV
+#/run/beamOn 1000

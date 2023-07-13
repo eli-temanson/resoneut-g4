@@ -1,0 +1,65 @@
+//===================================================================
+//  Primary Generator Action for Geant4 Simulation
+//
+//  The purpose of this class is to initialize a partice gun. The 
+//    type, direction, energy and randomization can all be setup in 
+//    the "GeneratePrimaries" function. This class is class from the 
+//    ActionInitialization class using, 
+//      > "SetUserAction(new PrimaryGeneratorAction)"
+//
+//  A future use of this class is setting up 2-body kinematics and 
+//    3-body breakup for reaction reconstruction.
+//
+//  Date of Last Modified: 12/15/2021
+//  Author: Eli Temanson
+//===================================================================
+
+#include "PrimaryGeneratorAction.hh"
+
+
+PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(), pParticleGun(nullptr)
+{
+  pParticleGun = new G4ParticleGun(1);
+
+  // default particle kinematic
+  //
+  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+  G4ParticleDefinition* particle = particleTable->FindParticle("neutron");
+  pParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
+  pParticleGun->SetParticleEnergy(200 * keV);
+  pParticleGun->SetParticleDefinition(particle);
+}
+
+PrimaryGeneratorAction::~PrimaryGeneratorAction() 
+{ 
+  delete pParticleGun; 
+}
+
+// This function is called at the begining of each event
+//
+void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+{
+  // default particle kinematic
+  //
+  //G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+  //G4String particleName = "gamma";
+  //G4ParticleDefinition* particle = particleTable->FindParticle(particleName);
+  //
+  //pParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
+  //pParticleGun->SetParticleEnergy(59. * keV);
+  //pParticleGun->SetParticleDefinition(particle);
+
+  G4double envSizeXY = 10*cm;
+  G4double envSizeZ = 10*cm;
+  G4double size = 0.5; 
+
+  // Set gun position
+  //
+  pParticleGun->SetParticlePosition(G4ThreeVector(size * envSizeXY * (G4UniformRand()-0.5),
+                                                  size * envSizeXY * (G4UniformRand()-0.5),
+                                                  -1.0 * envSizeZ));
+
+  pParticleGun->GeneratePrimaryVertex(anEvent);
+}
+
+

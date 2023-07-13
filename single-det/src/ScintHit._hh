@@ -1,0 +1,89 @@
+
+#ifndef ScintHit_h
+#define ScintHit_h 1
+
+#include "G4VHit.hh"
+#include "G4THitsCollection.hh"
+#include "G4Allocator.hh"
+#include "G4ThreeVector.hh"
+#include "G4Threading.hh"
+
+/// hit class
+///
+/// It defines data members to store the the energy deposit and track lengths
+/// of charged particles in a selected volume:
+/// - fEdep, fTrackLength
+
+class ScintHit : public G4VHit
+{
+  public:
+    ScintHit();
+    ScintHit(const ScintHit&) = default;
+    ~ScintHit() override;
+
+    // operators
+    ScintHit& operator=(const ScintHit&) = default;
+    G4bool operator==(const ScintHit&) const;
+
+    inline void* operator new(size_t);
+    inline void  operator delete(void*);
+
+    // methods from base class
+    void Draw()  override{}
+    void Print() override;
+
+    // methods to handle data
+    void Add(G4double de, G4double dl);
+
+    // get methods
+    G4double GetEdep() const;
+    G4double GetTrackLength() const;
+
+  private:
+    G4double fEdep = 0.;        ///< Energy deposit in the sensitive volume
+    G4double fTrackLength = 0.; ///< Track length in the  sensitive volume
+};
+
+//
+//
+
+using ScintHitsCollection = G4THitsCollection<ScintHit>;
+
+extern G4ThreadLocal G4Allocator<ScintHit>* ScintHitAllocator;
+
+
+//
+//
+
+inline void* ScintHit::operator new(size_t)
+{
+  if (!ScintHitAllocator) {
+    ScintHitAllocator = new G4Allocator<ScintHit>;
+  }
+  void *hit;
+  hit = (void *) ScintHitAllocator->MallocSingle();
+  return hit;
+}
+
+inline void ScintHit::operator delete(void *hit)
+{
+  if (!ScintHitAllocator) {
+    ScintHitAllocator = new G4Allocator<ScintHit>;
+  }
+  ScintHitAllocator->FreeSingle((ScintHit*) hit);
+}
+
+inline void ScintHit::Add(G4double de, G4double dl) {
+  fEdep += de;
+  fTrackLength += dl;
+}
+
+inline G4double ScintHit::GetEdep() const {
+  return fEdep;
+}
+
+inline G4double ScintHit::GetTrackLength() const {
+  return fTrackLength;
+}
+
+#endif

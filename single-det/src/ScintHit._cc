@@ -1,0 +1,53 @@
+
+#include "ScintHit.hh"
+
+#include "G4UnitsTable.hh"
+#include "G4VVisManager.hh"
+#include "G4Circle.hh"
+#include "G4Colour.hh"
+#include "G4VisAttributes.hh"
+
+#include <iomanip>
+
+G4ThreadLocal G4Allocator<ScintHit>* ScintHitAllocator = nullptr;
+
+ScintHit::ScintHit() {}
+
+ScintHit::~ScintHit() {}
+
+// 
+// ScintHit::ScintHit(const ScintHit& right)
+//   : G4VHit()
+// {
+//   fEdep        = right.fEdep;
+//   fTrackLength = right.fTrackLength;
+// }
+
+// 
+// const ScintHit& ScintHit::operator=(const ScintHit& right)
+// {
+//   fEdep        = right.fEdep;
+//   fTrackLength = right.fTrackLength;
+
+//   return *this;
+// }
+
+
+G4bool ScintHit::operator==(const ScintHit& right) const
+{
+  return ( this == &right ) ? true : false;
+}
+
+
+
+void ScintHit::Print()
+{
+  G4cout
+     << "Edep: "
+     << std::setw(7) << G4BestUnit(fEdep,"Energy")
+     << " track length: "
+     << std::setw(7) << G4BestUnit( fTrackLength,"Length")
+     << G4endl;
+}
+
+
