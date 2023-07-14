@@ -54,7 +54,9 @@
 //
 #include "ScintSD.hh"
 #include "G4SDManager.hh"
+#include "GenericSD.hh"
 
+//===============================================================================
 // Detector construction class to define materials and geometry.
 //
 class DetectorConstruction : public G4VUserDetectorConstruction
@@ -65,17 +67,22 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     virtual G4VPhysicalVolume* Construct();
 
     virtual void ConstructSDandField();
-    // G4LogicalVolume* GetWorldVolume() const {return scint_logic;}
-    G4LogicalVolume* GetWorldVolume() const {return world_logic;}
-    G4LogicalVolume* GetTargetVolume() const {return TargetLogical;}
-    G4LogicalVolume* GetDetectVolume() const {return DetectLogical;}
+
+    // Add Set_Parameter_() functions here.
+ 
+    G4LogicalVolume* GetWorldVolume() const {return pWorldLogic;}
+    // G4LogicalVolume* GetTargetVolume() const {return pTargetLogical;}
+    G4LogicalVolume* GetDetectVolume() const {return pDetectLogical;}
 
   private:
-    G4LogicalVolume* scint_logic;
-    G4LogicalVolume* world_logic;
-    G4LogicalVolume* TargetLogical;
-    G4LogicalVolume* DetectLogical;
+    void ConstructMaterials();
+    void SetAttributes();
 
+    G4LogicalVolume* pWorldLogic;
+    // G4LogicalVolume* pTargetLogical;
+    G4LogicalVolume* pDetectLogical;
+
+    G4UserLimits* pStepLimit;
 };
 
 

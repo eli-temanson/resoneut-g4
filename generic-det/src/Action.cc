@@ -32,12 +32,8 @@
 //===================================================================
 // Action Initalizaiton Class.
 //
-ActionInitialization::ActionInitialization() 
-  : G4VUserActionInitialization() 
-{ 
-
-}
-ActionInitialization::~ActionInitialization() { }
+ActionInitialization::ActionInitialization() : G4VUserActionInitialization() {}
+ActionInitialization::~ActionInitialization() {}
 
 // Add all Actions
 // 
@@ -50,8 +46,8 @@ void ActionInitialization::Build() const {
 
   auto eventAction = new EventAction;
   SetUserAction(eventAction);
-  SetUserAction(new TrackingAction(eventAction));
   SetUserAction(new SteppingAction(eventAction));
+  SetUserAction(new TrackingAction(eventAction));
 
 }
 
@@ -59,8 +55,7 @@ void ActionInitialization::Build() const {
 //===================================================================
 // Run Action Class.
 //
-RunAction::RunAction() 
-{ 
+RunAction::RunAction() { 
   // Get analysis manager
   //
   auto analysisManager = G4AnalysisManager::Instance();
@@ -75,29 +70,28 @@ RunAction::RunAction()
 
   // Creating ntuple
   //
-  analysisManager->CreateNtuple("hits", "hits");
-  analysisManager->CreateNtupleIColumn("fEvent");
-  analysisManager->CreateNtupleDColumn("fX");
-  analysisManager->CreateNtupleDColumn("fY");
-  analysisManager->CreateNtupleDColumn("fZ");
-  analysisManager->CreateNtupleDColumn("fT");
-  analysisManager->FinishNtuple();
+  // analysisManager->CreateNtuple("hits", "hits");
+  // analysisManager->CreateNtupleIColumn("fEvent");
+  // analysisManager->CreateNtupleDColumn("fX");
+  // analysisManager->CreateNtupleDColumn("fY");
+  // analysisManager->CreateNtupleDColumn("fZ");
+  // analysisManager->CreateNtupleDColumn("fT");
+  // analysisManager->FinishNtuple();
   // analysisManager->SetNtupleFileName(0, "data/Ntuple-hits");
 
   analysisManager->CreateNtuple("events", "events");
-  analysisManager->CreateNtupleDColumn("edep");
+  analysisManager->CreateNtupleDColumn("edep_SD");
+  analysisManager->CreateNtupleDColumn("edep_event");
   analysisManager->FinishNtuple();
   // analysisManager->SetNtupleFileName(1, "data/Ntuple-events");
 
 }
 
-RunAction::~RunAction()
-{
+RunAction::~RunAction() {
   delete G4AnalysisManager::Instance();
 }
 
-void RunAction::BeginOfRunAction(const G4Run*)
-{
+void RunAction::BeginOfRunAction(const G4Run*) {
   // Open an output file
   //
   auto analysisManager = G4AnalysisManager::Instance();
@@ -111,8 +105,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
   analysisManager->OpenFile();
 }
 
-void RunAction::EndOfRunAction(const G4Run* /*run*/)
-{
+void RunAction::EndOfRunAction(const G4Run* /*run*/) {
   // save histograms & ntuple
   //
   auto analysisManager = G4AnalysisManager::Instance();
@@ -126,35 +119,60 @@ void RunAction::EndOfRunAction(const G4Run* /*run*/)
 //===================================================================
 // Event Action Class
 //
-EventAction::EventAction() {}
+EventAction::EventAction() : G4UserEventAction() {
+  s1HCID = -1;
+}
 EventAction::~EventAction() {}
 
-void EventAction::BeginOfEventAction(const G4Event* event) { }
+void EventAction::BeginOfEventAction(const G4Event* event) {
+  // G4SDManager* pSDmanager = G4SDManager::GetSDMpointer();
+  // s1HCID = G4SDManager::GetSDMpointer()->GetCollectionID("S1/genCollection");
 
-void EventAction::EndOfEventAction(const G4Event* event) 
-{
-  // Get hits collections IDs (only once)
-  if ( scintHCID == -1 ) 
-  {
-    scintHCID = G4SDManager::GetSDMpointer()->GetCollectionID("ScintHitsCollection");
+  Energy = 0.0;
+
+}
+
+void EventAction::EndOfEventAction(const G4Event* event) {
+  G4HCofThisEvent* hce = event->GetHCofThisEvent();
+  if(!hce) {
+    G4ExceptionDescription msg;
+    msg << "No hits collection of this event found.\n";
+    // G4Exception("MMEventAction::EndOfEventAction()", "Code001", JustWarning, msg);
+    return;
   }
 
-  // Get hits collections
-  auto scintHC = GetHitsCollection(scintHCID, event);
-  // Get hit with total values
-  auto scintHit = (*scintHC)[0];
-  // G4cout << "----- Hit Entries: "<< scintHC->entries() << G4endl;
+  // Get hits collections IDs (only once)
+  if( s1HCID == -1 ) {
+    s1HCID = G4SDManager::GetSDMpointer()->GetCollectionID("S1/genCollection");
+    G4cout << "s1HCID Set: " << s1HCID << G4endl;
+  }
 
-  // G4cout << "----------- "<< scintHit->GetEdep() << G4endl;
+  GenericHitsCollection* S1;
+  S1 = static_cast<GenericHitsCollection*>(hce->GetHC(s1HCID));
+
+  // Get hits collections
+  auto s1HC = GetHitsCollection(s1HCID, event);
+  // Get hit with total values
+  auto s1Hit = (*s1HC)[0];
+  G4cout << "debug-1" << G4endl;
+
+  // for(G4int i = 0; i < (s1HC->entries()); ++i) {
+    G4cout << (*s1HC)[0]->GetEdep() / keV << G4endl;
+    G4cout << Energy / keV << G4endl;
+  // }
+
+
   auto analysisManager = G4AnalysisManager::Instance();
-  analysisManager->FillNtupleDColumn(1, 0, scintHit->GetEdep()/keV); 
-  analysisManager->AddNtupleRow(1);
+  analysisManager->FillNtupleDColumn(0, 0, s1Hit->GetEdep() / keV); 
+  analysisManager->FillNtupleDColumn(0, 1, Energy / keV);
+
+  analysisManager->AddNtupleRow();
 }
 
 
-ScintHitsCollection* EventAction::GetHitsCollection(G4int hcid,const G4Event* event) const
+GenericHitsCollection* EventAction::GetHitsCollection(G4int hcid, const G4Event* event) const
 {
-  auto hitsCollection = static_cast<ScintHitsCollection*>(event->GetHCofThisEvent()->GetHC(hcid));
+  auto hitsCollection = static_cast<GenericHitsCollection*>(event->GetHCofThisEvent()->GetHC(hcid));
 
   if ( ! hitsCollection ) {
     G4ExceptionDescription msg;
@@ -167,64 +185,53 @@ ScintHitsCollection* EventAction::GetHitsCollection(G4int hcid,const G4Event* ev
 
 
 
-
-
 //===================================================================
 // Stepping Action Class.
 //
-SteppingAction::SteppingAction(EventAction* event) : fEventAction(event) {}
+SteppingAction::SteppingAction(EventAction* event) : pEventAction(event) {}
 SteppingAction::~SteppingAction(){}
 
-void SteppingAction::UserSteppingAction(const G4Step *step) 
-{
-  // fEventAction->fEdep += step->GetTotalEnergyDeposit();
+void SteppingAction::UserSteppingAction(const G4Step *step) {
 
-  // if (step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() == "Scintillation")
-  // {
-  //   G4cerr << "Process: " << step->GetPostStepPoint()->GetProcessDefinedStep()->GetProcessName() << G4endl;
-  // }
-  
-  //static G4ParticleDefinition* opticalphoton = G4OpticalPhoton::OpticalPhotonDefinition();
+  pEventAction->AddEnergy(step->GetTotalEnergyDeposit());
+
 }
-
 
 
 //===================================================================
 // Tracking Action Class.
 //
-TrackingAction::TrackingAction(EventAction* event) : fEventAction(event) {
-    fName = "BinaryReaction";
+TrackingAction::TrackingAction(EventAction* event) : pEventAction(event) {
+  Name = "BinaryReaction";
 }
 TrackingAction::~TrackingAction() {}
 
 void TrackingAction::PreUserTrackingAction(const G4Track* track) {
-    const G4VProcess* creatorProcess = track->GetCreatorProcess();
-    if(!creatorProcess) return;
+  const G4VProcess* creatorProcess = track->GetCreatorProcess();
+  if(!creatorProcess) return;
+  // if(creatorProcess->GetProcessName() != Name) return;
+  // if(track->GetTrackID() != 2) return;
 
-    if(creatorProcess->GetProcessName() != fName) return;
+  TrackingInformation* info = (TrackingInformation*) track->GetUserInformation();
 
-    if(track->GetTrackID() != 2) return;
+  // These need to be defined in the event action class (Action.hh)
+  //
+  pEventAction->AddEnergy(info->GetEnergy());
+  // fEventAction->SetCMEnergy(info->GetCMEnergy());
+  // fEventAction->SetVertexZ(info->GetVertex().z());
+  // fEventAction->SetQValue(info->GetQValue());
+  // fEventAction->SetExcitedEnergy(info->GetExcitedEnergy());
 
-    // TrackingInformation* info = (TrackingInformation*) track->GetUserInformation();
+  // fEventAction->SetLightAngleCM(info->GetCMLightTheta());
+  // fEventAction->SetLightAngleLab(info->GetLabLightTheta());
+  // fEventAction->SetLightEnergy(info->GetLightEnergy());
+  // fEventAction->SetLightRecoilCharge(info->GetLightRecoil()->GetAtomicNumber());
+  // fEventAction->SetLightRecoilMass(info->GetLightRecoil()->GetAtomicMass());
 
-    // // These need to be defined in the event action class (Action.hh)
-    //
-    // fEventAction->SetEnergy(info->GetEnergy());
-    // fEventAction->SetCMEnergy(info->GetCMEnergy());
-    // fEventAction->SetVertexZ(info->GetVertex().z());
-    // fEventAction->SetQValue(info->GetQValue());
-    // fEventAction->SetExcitedEnergy(info->GetExcitedEnergy());
-
-    // fEventAction->SetLightAngleCM(info->GetCMLightTheta());
-    // fEventAction->SetLightAngleLab(info->GetLabLightTheta());
-    // fEventAction->SetLightEnergy(info->GetLightEnergy());
-    // fEventAction->SetLightRecoilCharge(info->GetLightRecoil()->GetAtomicNumber());
-    // fEventAction->SetLightRecoilMass(info->GetLightRecoil()->GetAtomicMass());
-
-    // fEventAction->SetHeavyAngleCM(info->GetCMHeavyTheta());
-    // fEventAction->SetHeavyAngleLab(info->GetLabHeavyTheta());
-    // fEventAction->SetHeavyEnergy(info->GetHeavyEnergy());
-    // fEventAction->SetHeavyRecoilCharge(info->GetHeavyRecoil()->GetAtomicNumber());
-    // fEventAction->SetHeavyRecoilMass(info->GetHeavyRecoil()->GetAtomicMass());
+  // fEventAction->SetHeavyAngleCM(info->GetCMHeavyTheta());
+  // fEventAction->SetHeavyAngleLab(info->GetLabHeavyTheta());
+  // fEventAction->SetHeavyEnergy(info->GetHeavyEnergy());
+  // fEventAction->SetHeavyRecoilCharge(info->GetHeavyRecoil()->GetAtomicNumber());
+  // fEventAction->SetHeavyRecoilMass(info->GetHeavyRecoil()->GetAtomicMass());
 
 }

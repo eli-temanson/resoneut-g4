@@ -35,7 +35,7 @@
 class GenericHit : public G4VHit
 {
 public:
-    GenericHit();
+    // GenericHit();
     GenericHit(G4int, G4int, G4double, G4double, G4ThreeVector, G4ParticleDefinition*);
     ~GenericHit();
     
@@ -94,7 +94,7 @@ public:
   ~GenericSD();
     
 private:
-  virtual G4bool ProcessHits(G4Step *, G4TouchableHistory *);
+  virtual G4bool ProcessHits(G4Step*, G4TouchableHistory*);
   virtual void Initialize(G4HCofThisEvent *);
   virtual void EndOfEvent(G4HCofThisEvent *);
 

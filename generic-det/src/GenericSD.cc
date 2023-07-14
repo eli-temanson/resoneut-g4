@@ -20,35 +20,43 @@
 //===================================================================
 
 #include "GenericSD.hh"
+#include "G4SDManager.hh"
 
 //===================================================================
 // GenericSD class.
 //
-
 GenericSD::GenericSD(G4String name) :
   G4VSensitiveDetector(name), 
-  hitCollection(nullptr), 
+  hitCollection(0), 
   HCID(-1) {
-  collectionName.insert("GenericHitsCollection");
+  collectionName.insert("genCollection");
 }
 
 GenericSD::~GenericSD() {}
 
+// void GenericSD::Initialize(G4HCofThisEvent* hce) {
+//   hitCollection = new GenericHitsCollection(GetName(), collectionName[0]);
+//   static G4int hcid = GetCollectionID(0);  
+//   hce->AddHitsCollection(hcid, hitCollection);
+//   hitCollection->insert(new GenericHit());
+// }
+
 void GenericSD::Initialize(G4HCofThisEvent* hce) {
   hitCollection = new GenericHitsCollection(GetName(), collectionName[0]);
-
-  static G4int hcid = GetCollectionID(0);  
-  hce->AddHitsCollection(hcid, hitCollection);
-  hitCollection->insert(new GenericHit());
+  if(HCID < 0) {
+    HCID = G4SDManager::GetSDMpointer()->GetCollectionID(hitCollection);
+  }
+  hce->AddHitsCollection(HCID, hitCollection);
 }
 
 G4bool GenericSD::ProcessHits(G4Step *step, G4TouchableHistory *ROhist) {
   
   G4double edep = step->GetTotalEnergyDeposit();
+  G4cout << "edep GenericSD: " << edep << G4endl;
   if(edep/eV < .1) return true;
 
   G4String type = step->GetTrack()->GetDefinition()->GetParticleType();
-  if(type != "nucleus" && type != "baryon") return true;
+  // if(type != "nucleus" && type != "baryon") return true;
 
   G4StepPoint* preStepPoint = step->GetPreStepPoint();
   G4StepPoint* postStepPoint = step->GetPostStepPoint();
@@ -78,11 +86,16 @@ void GenericSD::EndOfEvent(G4HCofThisEvent*) {}
 
 G4ThreadLocal G4Allocator<GenericHit>* GenericHitAllocator;
 
-GenericHit::GenericHit() : 
-  G4VHit(), 
-  edep(0.0) {}
+// GenericHit::GenericHit() : 
+//   G4VHit(), 
+//   edep(0.0) {}
 
-GenericHit::GenericHit(G4int id, G4int trackID, G4double time, G4double energy, G4ThreeVector pos, G4ParticleDefinition* particle) : 
+GenericHit::GenericHit(G4int id, 
+  G4int trackID, 
+  G4double time, 
+  G4double energy, 
+  G4ThreeVector pos, 
+  G4ParticleDefinition* particle) : 
     G4VHit(), 
     ID(id), 
     TrackID(trackID), 

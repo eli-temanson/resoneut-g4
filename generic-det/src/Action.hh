@@ -29,7 +29,6 @@
 #define Action_h 1
 
 #include "G4GenericAnalysisManager.hh"
-// #include "TrackingAction.hh"
 
 using G4AnalysisManager = G4GenericAnalysisManager;
 
@@ -77,7 +76,7 @@ public:
 #include "G4Event.hh"
 
 #include "G4SDManager.hh"
-#include "ScintSD.hh"
+#include "GenericSD.hh"
 
 class EventAction : public G4UserEventAction
 {
@@ -87,9 +86,16 @@ class EventAction : public G4UserEventAction
     virtual void BeginOfEventAction(const G4Event*);
     virtual void EndOfEventAction(const G4Event*);
     
+    // Set Values functions here.
+    void AddEnergy(G4double e) {Energy += e;}
+    // void SetEnergy(G4double e) {Energy = e;}
+
   private:
-    ScintHitsCollection* GetHitsCollection(G4int, const G4Event*) const;
-    G4int scintHCID = -1;
+    GenericHitsCollection* GetHitsCollection(G4int, const G4Event*) const;
+    G4int s1HCID = -1;
+
+    // Define Values here.
+    G4double Energy;
 
 };
 
@@ -109,7 +115,7 @@ class SteppingAction : public G4UserSteppingAction
     virtual void UserSteppingAction(const G4Step*);
     
   private:
-    EventAction* fEventAction;
+    EventAction* pEventAction;
 };
 
 
@@ -131,8 +137,8 @@ public:
     void PreUserTrackingAction(const G4Track*);
 
 private:
-    G4String fName;
-    EventAction* fEventAction;
+    G4String Name;
+    EventAction* pEventAction;
 };
 
 

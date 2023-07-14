@@ -24,7 +24,7 @@ G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double,
       (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
   G4LogicalVolume* fWorldLogical = detectorConstruction->GetWorldVolume();
-  G4LogicalVolume* fTargetLogical = detectorConstruction->GetTargetVolume();
+  // G4LogicalVolume* fTargetLogical = detectorConstruction->GetTargetVolume();
   G4LogicalVolume* currentVolume = aTrack.GetStep()->GetPostStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
 
   G4String excitedname = aTrack.GetDynamicParticle()->GetDefinition()->GetParticleName();
@@ -32,10 +32,14 @@ G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double,
   G4double position = aTrack.GetPosition().z();
 
   // Mean Free Path
+  // G4double mfp = (energy <= fScatteringEnergy &&
+  //                 aTrack.GetTrackID() == 1 &&
+  //                 (currentVolume == fTargetLogical ||
+  //                 (currentVolume == fWorldLogical && position > -0.0066 && position < 0.1))) ? 0. : DBL_MAX;
+
   G4double mfp = (energy <= fScatteringEnergy &&
                   aTrack.GetTrackID() == 1 &&
-                  (currentVolume == fTargetLogical ||
-                  (currentVolume == fWorldLogical && position > -0.0066 && position < 0.1))) ? 0. : DBL_MAX;
+                  (currentVolume == fWorldLogical && position > -0.0066 && position < 0.1)) ? 0. : DBL_MAX;
 
   // if(mfp < 1) G4cout << fScatteringEnergy << '\t' << energy << '\t' << aTrack.GetTrackID() << '\t' << currentVolume->GetName() << '\t' << mfp << '\t' << aTrack.GetPosition().z() << G4endl;
   // G4cout << fScatteringEnergy << '\t' << energy << '\t' << aTrack.GetTrackID() << '\t' << currentVolume->GetName() << '\t' << mfp << '\t' << aTrack.GetPosition().z() << G4endl;

@@ -15,24 +15,28 @@
 //===================================================================
 
 #include "PrimaryGeneratorAction.hh"
+#include "G4GeneralParticleSource.hh"
 
 
 PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(), pParticleGun(nullptr)
 {
-  pParticleGun = new G4ParticleGun(1);
+  pParticleSource = new G4GeneralParticleSource();
 
-  // default particle kinematic
-  //
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4ParticleDefinition* particle = particleTable->FindParticle("neutron");
-  pParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
-  pParticleGun->SetParticleEnergy(200 * keV);
-  pParticleGun->SetParticleDefinition(particle);
+  // pParticleGun = new G4ParticleGun(1);
+
+  // // default particle kinematic
+  // //
+  // G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
+  // G4ParticleDefinition* particle = particleTable->FindParticle("proton");
+  // pParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
+  // pParticleGun->SetParticleEnergy(2.0 * MeV);
+  // pParticleGun->SetParticleDefinition(particle);
 }
 
 PrimaryGeneratorAction::~PrimaryGeneratorAction() 
 { 
   delete pParticleGun; 
+  delete pParticleSource;
 }
 
 // This function is called at the begining of each event
@@ -49,17 +53,22 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   //pParticleGun->SetParticleEnergy(59. * keV);
   //pParticleGun->SetParticleDefinition(particle);
 
-  G4double envSizeXY = 10*cm;
-  G4double envSizeZ = 10*cm;
-  G4double size = 0.5; 
+  // G4double envSizeXY = 50.0*cm;
+  // G4double envSizeZ = 1.0*cm;
+  // G4double size = 0.5; 
 
   // Set gun position
-  //
-  pParticleGun->SetParticlePosition(G4ThreeVector(size * envSizeXY * (G4UniformRand()-0.5),
-                                                  size * envSizeXY * (G4UniformRand()-0.5),
-                                                  -1.0 * envSizeZ));
+  // //
+  // pParticleGun->SetParticlePosition(G4ThreeVector( (G4UniformRand()*(50.0-20.0) - 20.0)*mm,
+  //                                                  (G4UniformRand()*(50.0-20.0) - 20.0)*mm,
+  //                                                 -1.0 * envSizeZ));
+  // pParticleGun->SetParticlePosition(G4ThreeVector(size * envSizeXY * (G4UniformRand()-0.5),
+  //                                                 size * envSizeXY * (G4UniformRand()-0.5),
+  //                                                 -1.0 * envSizeZ));
 
-  pParticleGun->GeneratePrimaryVertex(anEvent);
+  // pParticleGun->GeneratePrimaryVertex(anEvent);
+
+  pParticleSource->GeneratePrimaryVertex(anEvent);
 }
 
 

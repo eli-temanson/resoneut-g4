@@ -30,6 +30,8 @@
 #include "Randomize.hh"
 #include "globals.hh"
 
+class G4GeneralParticleSource;
+class G4Event;
 
 // The primary generator action class with particle gun.
 //
@@ -47,6 +49,8 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   
   private:
     G4ParticleGun*  pParticleGun; // pointer a to G4 gun class
+    G4GeneralParticleSource* pParticleSource;
+
 };
 
 

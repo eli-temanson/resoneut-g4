@@ -56,9 +56,9 @@ int main(int argc,char** argv)
   //
   G4VModularPhysicsList* physicsList = new QGSP_BERT_HP;
   // physicsList->SetVerboseLevel(0);
-  physicsList->ReplacePhysics(new G4EmStandardPhysics_option4());
-  G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
-  physicsList->RegisterPhysics(opticalPhysics);
+  // physicsList->ReplacePhysics(new G4EmStandardPhysics_option4());
+  // G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
+  // physicsList->RegisterPhysics(opticalPhysics);
   // BinaryReactionPhysics* reactionPhysics = new BinaryReactionPhysics();
   // physicsList->RegisterPhysics(new G4StepLimiterPhysics());
   // physicsList->RegisterPhysics(reactionPhysics);
