@@ -16,23 +16,26 @@ NucleonStates* NucleonStates::Instance() {
 
 void NucleonStates::ReadJSON() {
     // Read and parse nuclear_states.json
-    Json::Value config_nuclear_states;
+    // Json::Value config_nuclear_states;
     std::ifstream config_nuclear_states_stream("nuclear_states.json");
     ASSERT_WITH_MESSAGE(config_nuclear_states_stream.is_open(), "Could not find 'nuclear_states.json'\n");
-    config_nuclear_states_stream >> config_nuclear_states;
+    
+    json config_nuclear_states = json::parse(config_nuclear_states_stream);
+    // config_nuclear_states_stream >> config_nuclear_states;
     config_nuclear_states_stream.close();
+    
 
     std::vector<isotope_struct> isotopes;
     for(int i = 0; i < config_nuclear_states["Isotopes"].size(); i++) {
-        std::string name = config_nuclear_states["Isotopes"][i]["Name"].asString();
-        uint charge = config_nuclear_states["Isotopes"][i]["ZA"][0].asUInt();
-        uint mass = config_nuclear_states["Isotopes"][i]["ZA"][1].asUInt();
+        std::string name = config_nuclear_states["Isotopes"][i]["Name"].get<std::string>();
+        uint charge = config_nuclear_states["Isotopes"][i]["ZA"][0].get<uint>();
+        uint mass = config_nuclear_states["Isotopes"][i]["ZA"][1].get<uint>();
 
         std::vector<state_struct> states;
         for(int j = 0; j < config_nuclear_states["Isotopes"][i]["States"].size(); j++) {
-            double energy = config_nuclear_states["Isotopes"][i]["States"][j]["Energy"].asDouble();
+            double energy = config_nuclear_states["Isotopes"][i]["States"][j]["Energy"].get<double>();
             uint spin;
-            std::string spinparity = config_nuclear_states["Isotopes"][i]["States"][j]["Spin-parity"].asString();
+            std::string spinparity = config_nuclear_states["Isotopes"][i]["States"][j]["Spin-parity"].get<std::string>();
             char parity_char = spinparity.back();
             bool parity, good_state;
             if(parity_char == '+') {
@@ -59,8 +62,8 @@ void NucleonStates::ReadJSON() {
                 spin = 0;
             }
             double probability = 1.;
-            if(config_nuclear_states["Isotopes"][i]["States"][j]["Probability"].isDouble()) {
-                probability = config_nuclear_states["Isotopes"][i]["States"][j]["Probability"].asDouble();
+            if(config_nuclear_states["Isotopes"][i]["States"][j]["Probability"].type() == json::value_t::number_float) {
+                probability = config_nuclear_states["Isotopes"][i]["States"][j]["Probability"].get<double>();
             }
             state_struct state = {energy, spin, parity, probability};
             states.push_back(state);
@@ -77,9 +80,9 @@ void NucleonStates::ReadJSON() {
 
         std::vector<theshold_struct> thresholds;
         for(int j = 0; j < config_nuclear_states["Isotopes"][i]["Thresholds"].size(); j++) {
-            double energy = config_nuclear_states["Isotopes"][i]["Thresholds"][j]["Energy"].asDouble();
-            uint threshold_charge = config_nuclear_states["Isotopes"][i]["Thresholds"][j]["Decay"][0].asUInt();
-            uint threshold_mass = config_nuclear_states["Isotopes"][i]["Thresholds"][j]["Decay"][1].asUInt();
+            double energy = config_nuclear_states["Isotopes"][i]["Thresholds"][j]["Energy"].get<double>();
+            uint threshold_charge = config_nuclear_states["Isotopes"][i]["Thresholds"][j]["Decay"][0].get<uint>();
+            uint threshold_mass = config_nuclear_states["Isotopes"][i]["Thresholds"][j]["Decay"][1].get<uint>();
             theshold_struct threshold = {energy, threshold_charge, threshold_mass};
             thresholds.push_back(threshold);
         }

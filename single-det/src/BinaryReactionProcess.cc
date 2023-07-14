@@ -2,7 +2,7 @@
 
 #include "BinaryReactionProcess.hh"
 #include "NucleonStates.hh"
-// #include "TypeDef.hh"
+#include "TypeDef.hh"
 
 BinaryReactionProcess::BinaryReactionProcess(const G4String& processName)
   : G4VDiscreteProcess(processName, fHadronic), fScatteringEnergy(1e6) {
@@ -12,7 +12,7 @@ BinaryReactionProcess::BinaryReactionProcess(const G4String& processName)
 
 BinaryReactionProcess::~BinaryReactionProcess() {}
 
-G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4ForceCondition* condition) {
+G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double, G4ForceCondition* condition) {
 
   G4double energy = aTrack.GetKineticEnergy()/MeV;
 
@@ -248,10 +248,12 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
   G4Track* sec1 = new G4Track(new G4DynamicParticle(lightRecoilDef,lightLab.unit(), lightEnergyLab*MeV),
                   aTrack.GetGlobalTime(), aTrack.GetPosition());
-  sec1->SetUserInformation(new MMTrackingInformation(energy, cmEnergy, pAngleLightCM,
-                                                     pAngleLightLab, aAngleLightCM, pAngleHeavyCM, pAngleHeavyLab,
-                                                     lightEnergyLab, heavyEnergyLab, aTrack.GetPosition(), qValue, excitedEnergy,
-                                                     lightRecoilDef, heavyRecoilDef));
+                  
+  sec1->SetUserInformation(new TrackingInformation(energy, cmEnergy, pAngleLightCM,
+                                                  pAngleLightLab, aAngleLightCM, pAngleHeavyCM, pAngleHeavyLab,
+                                                  lightEnergyLab, heavyEnergyLab, aTrack.GetPosition(), qValue, excitedEnergy,
+                                                  lightRecoilDef, heavyRecoilDef));
+
   G4Track* sec2 = new G4Track(new G4DynamicParticle(heavyRecoilDef, heavyLab.unit(), heavyEnergyLab*MeV),
                   aTrack.GetGlobalTime(), aTrack.GetPosition());
 

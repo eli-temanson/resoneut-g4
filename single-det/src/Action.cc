@@ -64,7 +64,7 @@ RunAction::RunAction()
   auto analysisManager = G4AnalysisManager::Instance();
   analysisManager->SetDefaultFileType("root");
   analysisManager->SetNtupleMerging(true);
-  analysisManager->SetFileName("data/ouput");
+  analysisManager->SetFileName("analysis/ouput");
   analysisManager->SetNtupleDirectoryName("tuples");
 
   // Creating histograms

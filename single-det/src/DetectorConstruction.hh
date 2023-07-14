@@ -65,10 +65,16 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     virtual G4VPhysicalVolume* Construct();
 
     virtual void ConstructSDandField();
-    
+    // G4LogicalVolume* GetWorldVolume() const {return scint_logic;}
+    G4LogicalVolume* GetWorldVolume() const {return world_logic;}
+    G4LogicalVolume* GetTargetVolume() const {return TargetLogical;}
+    G4LogicalVolume* GetDetectVolume() const {return DetectLogical;}
+
   private:
     G4LogicalVolume* scint_logic;
-    // G4LogicalVolume* scint_logic_2;
+    G4LogicalVolume* world_logic;
+    G4LogicalVolume* TargetLogical;
+    G4LogicalVolume* DetectLogical;
 
 };
 

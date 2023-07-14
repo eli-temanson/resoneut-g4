@@ -56,9 +56,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   // World logic definition
   //
-  G4LogicalVolume* world_logic = new G4LogicalVolume(solidWorld,	// the geometry/solid 
-                                                    world_mat,  // the material
-                                                    "World");	  // the name
+  world_logic = new G4LogicalVolume(solidWorld,	// the geometry/solid 
+                                    world_mat,  // the material
+                                    "World");	  // the name
   // Set world invisible
   //
   world_logic->SetVisAttributes(G4VisAttributes::GetInvisible()); 
@@ -73,6 +73,24 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                       				false,              //no boolean operation
                       				0,                  //copy number
                       				checkOverlaps);     //overlaps checking
+
+  //===============================================================================
+  // C2D4 Target
+  // 6.60 um for 0.7 mg/cm2
+  // 3.77 um for 0.4 mg/cm2
+  G4Material* C2D4 = new G4Material("C2D4", 1.06*g/cm3, 2);
+  G4Element* C  = new G4Element("Carbon",   "C",  6.0,  12.011*g/mole);
+  G4Element* D = new G4Element("Deuterium Atom", "D", 1);
+  C2D4->AddElement(C, 2);
+  C2D4->AddElement(D, 4);
+
+  G4double targetThickness = 6.60*um;
+  G4VSolid* targetSolid = new G4Tubs("targetSolid", 0.0, 20.0*mm, targetThickness/2.0, 0.0, 360.0*deg);
+  TargetLogical =  new G4LogicalVolume(targetSolid, C2D4, "targetLogical");
+  new G4PVPlacement(0, G4ThreeVector(0.0, 0.0, 0.0), TargetLogical, "targetPhysical", world_logic, false, 0, checkOverlaps);
+  // G4double maxStep = 0.02*targetThickness;
+  // fStepLimit = new G4UserLimits(maxStep);
+  // TargetLogical->SetUserLimits(fStepLimit);
 
 
 

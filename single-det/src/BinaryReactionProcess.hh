@@ -7,7 +7,7 @@
 #include "G4VDiscreteProcess.hh"
 
 #include "DetectorConstruction.hh"
-// #include "MMTrackingInformation.hh"
+#include "TrackingInformation.hh"
 
 #include <cmath>
 

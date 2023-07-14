@@ -7,11 +7,15 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <string>
 
 #include "G4Types.hh"
 #include "globals.hh"
 
-#include "json/json.h"
+// using json-c++ reader
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 #include "TypeDef.hh"
 
 class NucleonStates {
