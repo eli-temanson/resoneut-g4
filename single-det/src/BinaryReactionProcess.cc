@@ -1,23 +1,28 @@
+
+
 #include "BinaryReactionProcess.hh"
 #include "NucleonStates.hh"
-#include "TypeDef.hh"
+// #include "TypeDef.hh"
 
 BinaryReactionProcess::BinaryReactionProcess(const G4String& processName)
   : G4VDiscreteProcess(processName, fHadronic), fScatteringEnergy(1e6) {
+  
   SetProcessSubType(111);
 }
 
 BinaryReactionProcess::~BinaryReactionProcess() {}
 
-G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double /*previousStepSize*/,
-                                                G4ForceCondition* condition) {
+G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4ForceCondition* condition) {
+
   G4double energy = aTrack.GetKineticEnergy()/MeV;
 
   G4int particleMass = aTrack.GetDefinition()->GetAtomicMass();
   G4int particleCharge = aTrack.GetDefinition()->GetAtomicNumber();
 
-  const MMDetectorConstruction* detectorConstruction = static_cast<const MMDetectorConstruction*>
+  // Why is there a detector construction here??
+  const DetectorConstruction* detectorConstruction = static_cast<const DetectorConstruction*>
       (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+
   G4LogicalVolume* fWorldLogical = detectorConstruction->GetWorldVolume();
   G4LogicalVolume* fTargetLogical = detectorConstruction->GetTargetVolume();
   G4LogicalVolume* currentVolume = aTrack.GetStep()->GetPostStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
@@ -26,6 +31,7 @@ G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double 
 
   G4double position = aTrack.GetPosition().z();
 
+  // Mean Free Path
   G4double mfp = (energy <= fScatteringEnergy &&
                   aTrack.GetTrackID() == 1 &&
                   (currentVolume == fTargetLogical ||
@@ -36,12 +42,12 @@ G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double 
 
   // Look at excited name and see if it's in an excited state
   size_t pos = excitedname.find('[');
-  double measuredExcitedEnergy = 0.;
+  double measuredExcitedEnergy = 0.0;
   G4String beamNameEnergy = "";
+
   if(pos > 1000) {
-    measuredExcitedEnergy = 0.;
-  }
-  else {
+    measuredExcitedEnergy = 0.0;
+  } else {
     beamNameEnergy = excitedname.substr(pos + 1, std::string::npos);
     beamNameEnergy.pop_back();
     measuredExcitedEnergy = std::atof(beamNameEnergy.c_str())/1000.;
@@ -64,6 +70,8 @@ G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double 
   *condition = NotForced;
   return mfp;
 }
+
+
 
 G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep) {
 
@@ -103,7 +111,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
     return G4VDiscreteProcess::PostStepDoIt(aTrack, aStep);
   }
 
-  const MMDetectorConstruction* detectorConstruction = static_cast<const MMDetectorConstruction*>
+  const DetectorConstruction* detectorConstruction = static_cast<const DetectorConstruction*>
       (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
   G4LogicalVolume* fWorldLogical = detectorConstruction->GetWorldVolume();
@@ -176,8 +184,11 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
   // Check if reaction is possible
   if(cmEnergy + qValue < 0) {
-    G4cout << "Not enough energy: " << incomingParticleName << '\t' << "; Energy: " << energy << "; CM Energy: " << cmEnergy << G4endl;
+    G4cout << "Not enough energy: " << incomingParticleName << '\t' 
+          << "; Energy: " << energy << "; CM Energy: " << cmEnergy << G4endl;
+    
     G4cout << "\t Q Value: " << qValue << "; Vertex Location: " << aTrack.GetPosition().z() << G4endl;
+    
     return G4VDiscreteProcess::PostStepDoIt(aTrack, aStep);
   }
 
@@ -186,13 +197,13 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4double B = beamMassPDG*lightRecoilMassPDG/(beamMassPDG + targetMassPDG)/(lightRecoilMassPDG + heavyRecoilMassPDG)*
               (energy/totalEnergy);
   G4double D = targetMassPDG*heavyRecoilMassPDG/(beamMassPDG + targetMassPDG)/(lightRecoilMassPDG + heavyRecoilMassPDG)*
-              (1. + beamMassPDG/targetMassPDG*qValue/totalEnergy);
+              (1.0 + beamMassPDG/targetMassPDG*qValue/totalEnergy);
 
   G4double maxAngle = (B < D) ? M_PI : asin(sqrt(D/B));
   // G4double arg = (1. - cos(maxAngle))*G4UniformRand() + cos(maxAngle);
   // G4double pAngleLightLab = acos(arg);
   G4double pAngleLightLab = maxAngle*G4UniformRand();
-  G4double aAngleLightLab = 2.*M_PI*G4UniformRand();
+  G4double aAngleLightLab = 2.0*M_PI*G4UniformRand();
 
   G4ThreeVector lightVector(sin(pAngleLightLab)*cos(aAngleLightLab), sin(pAngleLightLab)*sin(aAngleLightLab),
                             cos(pAngleLightLab));
@@ -254,6 +265,8 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   return &aParticleChange;
 }
 
+
+
 void BinaryReactionProcess::StartTracking(G4Track* track) {
   G4VProcess::StartTracking(track);	// Apply base class actions
 
@@ -266,6 +279,9 @@ void BinaryReactionProcess::StartTracking(G4Track* track) {
 
   fScatteringEnergy = (beamEnergy - beamEnergyMin)*G4UniformRand() + beamEnergyMin;
 }
+
+
+
 
 G4VParticleChange* BinaryReactionProcess::Decay(const G4Track& aTrack, G4int lightCharge, G4int lightMass,
   G4int heavyCharge, G4int heavyMass) {
@@ -297,14 +313,14 @@ G4VParticleChange* BinaryReactionProcess::Decay(const G4Track& aTrack, G4int lig
     (particle1Def->GetPDGMass() + particle2Def->GetPDGMass());
   G4double cmEnergy = qValue;
 
-  if(cmEnergy < 0.) return &aParticleChange; // Below the threshold
+  if(cmEnergy < 0.0) return &aParticleChange; // Below the threshold
 
   // Generate random CM Angles
   G4double cmTheta = M_PI*G4UniformRand();; // 0 to pi
-  G4double cmPhi = 2.*M_PI*G4UniformRand(); // 0 to 2pi
+  G4double cmPhi = 2.0*M_PI*G4UniformRand(); // 0 to 2pi
 
-  G4double p1 = sqrt(2.*particle1->GetMass()*cmEnergy*particle2Mass/(particle1Mass + particle2Mass));
-  G4double p2 = sqrt(2.*particle2->GetMass()*cmEnergy*particle1Mass/(particle1Mass + particle2Mass));
+  G4double p1 = sqrt(2.0*particle1->GetMass()*cmEnergy*particle2Mass/(particle1Mass + particle2Mass));
+  G4double p2 = sqrt(2.0*particle2->GetMass()*cmEnergy*particle1Mass/(particle1Mass + particle2Mass));
 
   // Get momentum directions
   G4ThreeVector p_new_1 = G4ThreeVector(p1*sin(cmTheta)*sin(cmPhi), p1*sin(cmTheta)*cos(cmPhi), p1*cos(cmTheta));
@@ -317,15 +333,15 @@ G4VParticleChange* BinaryReactionProcess::Decay(const G4Track& aTrack, G4int lig
 
   G4double total_mom_1 = p_new_1.getR();
   G4double total_mom_2 = p_new_2.getR();
-  particle1->SetKineticEnergy((total_mom_1*total_mom_1)/(2.*particle1->GetMass()));
-  particle2->SetKineticEnergy((total_mom_2*total_mom_2)/(2.*particle2->GetMass()));
+  particle1->SetKineticEnergy((total_mom_1*total_mom_1)/(2.0*particle1->GetMass()));
+  particle2->SetKineticEnergy((total_mom_2*total_mom_2)/(2.0*particle2->GetMass()));
 
   G4Track* sec1 = new G4Track(particle1, aTrack.GetGlobalTime(), aTrack.GetPosition());
   G4Track* sec2 = new G4Track(particle2, aTrack.GetGlobalTime(), aTrack.GetPosition());
 
   aParticleChange.AddSecondary(sec1);
   aParticleChange.AddSecondary(sec2);
-  aParticleChange.ProposeEnergy(0.);
+  aParticleChange.ProposeEnergy(0.0);
   aParticleChange.ProposeTrackStatus(fStopAndKill);
 
   return &aParticleChange;

@@ -6,8 +6,8 @@
 #include "G4SystemOfUnits.hh"
 #include "G4VDiscreteProcess.hh"
 
-#include "MMDetectorConstruction.hh"
-#include "MMTrackingInformation.hh"
+#include "DetectorConstruction.hh"
+// #include "MMTrackingInformation.hh"
 
 #include <cmath>
 
@@ -23,12 +23,11 @@ public:
 
   void StartTracking(G4Track*);
 
-  void SetNumGrids(G4int numGrids) {fNumGrids = numGrids;}
+  // void SetNumGrids(G4int numGrids) {fNumGrids = numGrids;}
 
 private:
   G4double fScatteringEnergy;
-
-  G4int fNumGrids;
+  // G4int fNumGrids;
 };
 
 #endif

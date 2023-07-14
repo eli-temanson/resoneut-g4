@@ -1,3 +1,4 @@
+
 #include "NucleonStates.hh"
 
 NucleonStates* NucleonStates::fInstance = NULL;
@@ -17,8 +18,7 @@ void NucleonStates::ReadJSON() {
     // Read and parse nuclear_states.json
     Json::Value config_nuclear_states;
     std::ifstream config_nuclear_states_stream("nuclear_states.json");
-    ASSERT_WITH_MESSAGE(config_nuclear_states_stream.is_open(), 
-        "Could not find 'nuclear_states.json'\n");
+    ASSERT_WITH_MESSAGE(config_nuclear_states_stream.is_open(), "Could not find 'nuclear_states.json'\n");
     config_nuclear_states_stream >> config_nuclear_states;
     config_nuclear_states_stream.close();
 

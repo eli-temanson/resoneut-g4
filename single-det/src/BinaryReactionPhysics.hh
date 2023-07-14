@@ -1,3 +1,4 @@
+
 #ifndef BinaryReactionPhysics_h
 #define BinaryReactionPhysics_h
 
@@ -21,10 +22,10 @@ public:
   virtual void ConstructParticle();
   virtual void ConstructProcess();
 
-  void SetNumGrids(G4int numGrids) {fNumGrids = numGrids;}
+  // void SetNumGrids(G4int numGrids) {fNumGrids = numGrids;}
 
 private:
-  G4int fNumGrids;
+  // G4int fNumGrids;
 };
 
 #endif

@@ -21,7 +21,7 @@ void BinaryReactionPhysics::ConstructParticle() {
 
 void BinaryReactionPhysics::ConstructProcess() {
   BinaryReactionProcess* reactionProcess = new BinaryReactionProcess();
-  reactionProcess->SetNumGrids(fNumGrids);
+  // reactionProcess->SetNumGrids(fNumGrids);
   G4PhysicsListHelper::GetPhysicsListHelper()->RegisterProcess(reactionProcess, G4GenericIon::GenericIon());
 }
 
