@@ -1,6 +1,6 @@
 
-#ifndef kinematics_hh
-#define kinematics_hh
+#ifndef kinematics_h
+#define kinematics_h
 
 //C and C++ libraries.
 #include <cmath>
@@ -18,11 +18,12 @@ namespace kinematics {
 
   struct Particle {
       double M,InvMass,KE,E,Ecm;
-      double X,Y,Z;
+      double x, y, z;
       double Theta,Phi;
       double Px,Py,Pz,P;
       TLorentzVector LV;
       TVector3 Pos;
+      int A, Z;
   };
 
   class Kinematics{
@@ -39,8 +40,6 @@ namespace kinematics {
     Particle Beam,Target,Ejectile,Fragment,Decay_Light,Decay_Heavy;
 
     void SetReaction(int nucleus[][2]);
-    void SetReaction(const std::string& beam,const std::string& target,const std::string& ejectile,const std::string& fragment,const std::string& product,const std::string& heavy);
-   
     double QValue = 0.0;
     double DecayQValueEst = 0.0;
     double DecayQValue = 0.0;

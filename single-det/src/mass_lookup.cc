@@ -5,7 +5,7 @@ adopted from G. McCann's code in the MASK repository
 but it's now using a json file
 */
 
-#include "mass_lookup.hpp"
+#include "mass_lookup.hh"
 
 #include <fstream>
 #include <iostream>
@@ -39,7 +39,7 @@ MassLookup::MassLookup() {
       massTable[key.GetID()] = it.value()["isotope_mass"];	
     }
   }
-  std::cout << "Finished filling mass table."
+  std::cout << "Finished filling mass table." << std::endl;
 }
 
 // Returns nuclear mass in MeV
