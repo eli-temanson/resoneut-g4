@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.0)
 set(PROJECT_NAME resoneut-g4)
 project(${PROJECT_NAME})
-set(OUTPUT_NAME single_det)
+set(OUTPUT_NAME generic-det)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
