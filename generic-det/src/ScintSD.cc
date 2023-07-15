@@ -70,7 +70,7 @@ G4bool ScintSD::ProcessHits(G4Step *step, G4TouchableHistory *ROhist)
     // G4cout << "Photon position: " << posPhoton << G4endl;
     // const G4VTouchable *touchable = step->GetPreStepPoint()->GetTouchable();
     // G4int copyNo = touchable->GetCopyNumber();
-    //G4cout << "Copy number: " << copyNo << G4endl;
+    // G4cout << "Copy number: " << copyNo << G4endl;
     // G4VPhysicalVolume *physVol = touchable->GetVolume();
     // G4ThreeVector posDetector = physVol->GetTranslation();
 

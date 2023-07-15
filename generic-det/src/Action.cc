@@ -120,7 +120,7 @@ void RunAction::EndOfRunAction(const G4Run* /*run*/) {
 // Event Action Class
 //
 EventAction::EventAction() : G4UserEventAction() {
-  s1HCID = -1;
+  // s1HCID = -1;
 }
 EventAction::~EventAction() {}
 
@@ -133,6 +133,7 @@ void EventAction::BeginOfEventAction(const G4Event* event) {
 }
 
 void EventAction::EndOfEventAction(const G4Event* event) {
+
   G4HCofThisEvent* hce = event->GetHCofThisEvent();
   if(!hce) {
     G4ExceptionDescription msg;
@@ -143,30 +144,33 @@ void EventAction::EndOfEventAction(const G4Event* event) {
 
   // Get hits collections IDs (only once)
   if( s1HCID == -1 ) {
-    s1HCID = G4SDManager::GetSDMpointer()->GetCollectionID("S1/genCollection");
+    s1HCID = G4SDManager::GetSDMpointer()->GetCollectionID("S1/hitCollection");
     G4cout << "s1HCID Set: " << s1HCID << G4endl;
   }
 
-  GenericHitsCollection* S1;
-  S1 = static_cast<GenericHitsCollection*>(hce->GetHC(s1HCID));
+  GenericHitsCollection* pHitCol;
+  pHitCol = static_cast<GenericHitsCollection*>(hce->GetHC(s1HCID));
+  if( pHitCol ) {
+    G4cout << "pHitCol nentries: " << pHitCol->entries() << G4endl;
+  }
+  // S1 = static_cast<GenericHitsCollection*>(hce->GetHC(s1HCID));
 
   // Get hits collections
-  auto s1HC = GetHitsCollection(s1HCID, event);
+  // auto s1HC = GetHitsCollection(s1HCID, event);
   // Get hit with total values
-  auto s1Hit = (*s1HC)[0];
-  G4cout << "debug-1" << G4endl;
+  // auto s1Hit = (*s1HC)[0];
+  // G4cout << "debug-1" << G4endl;
 
   // for(G4int i = 0; i < (s1HC->entries()); ++i) {
-    G4cout << (*s1HC)[0]->GetEdep() / keV << G4endl;
-    G4cout << Energy / keV << G4endl;
+    // G4cout << (*s1HC)[0]->GetEdep() / keV << G4endl;
+    // G4cout << Energy / keV << G4endl;
   // }
 
 
-  auto analysisManager = G4AnalysisManager::Instance();
-  analysisManager->FillNtupleDColumn(0, 0, s1Hit->GetEdep() / keV); 
-  analysisManager->FillNtupleDColumn(0, 1, Energy / keV);
-
-  analysisManager->AddNtupleRow();
+  // auto analysisManager = G4AnalysisManager::Instance();
+  // analysisManager->FillNtupleDColumn(0, 0, (*pHitCol)[0]->GetEdep() / keV); 
+  // analysisManager->FillNtupleDColumn(0, 1, Energy / keV);
+  // analysisManager->AddNtupleRow();
 }
 
 
@@ -193,6 +197,7 @@ SteppingAction::~SteppingAction(){}
 
 void SteppingAction::UserSteppingAction(const G4Step *step) {
 
+  G4cout << "Step edep: " << step->GetTotalEnergyDeposit() << G4endl;
   pEventAction->AddEnergy(step->GetTotalEnergyDeposit());
 
 }

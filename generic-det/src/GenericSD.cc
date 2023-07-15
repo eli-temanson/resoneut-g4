@@ -25,11 +25,14 @@
 //===================================================================
 // GenericSD class.
 //
-GenericSD::GenericSD(G4String name) :
-  G4VSensitiveDetector(name), 
-  hitCollection(0), 
-  HCID(-1) {
-  collectionName.insert("genCollection");
+GenericSD::GenericSD(G4String n) :
+  G4VSensitiveDetector(n), 
+  hitCollection(nullptr) 
+  // HCID(-1) 
+  {
+  collectionName.insert("hitCollection");
+  // name = n;
+
 }
 
 GenericSD::~GenericSD() {}
@@ -42,18 +45,28 @@ GenericSD::~GenericSD() {}
 // }
 
 void GenericSD::Initialize(G4HCofThisEvent* hce) {
-  hitCollection = new GenericHitsCollection(GetName(), collectionName[0]);
-  if(HCID < 0) {
-    HCID = G4SDManager::GetSDMpointer()->GetCollectionID(hitCollection);
-  }
-  hce->AddHitsCollection(HCID, hitCollection);
+
+  hitCollection = new GenericHitsCollection(SensitiveDetectorName, collectionName[0]);
+  
+  static G4int hcid = GetCollectionID(0);  
+  hce->AddHitsCollection(hcid, hitCollection);
+  hitCollection->insert(new GenericHit());
+
+  // if(HCID < 0) {
+  //   HCID = G4SDManager::GetSDMpointer()->GetCollectionID(hitCollection);
+  // }
+  // hce->AddHitsCollection(HCID, hitCollection);
+
 }
+
 
 G4bool GenericSD::ProcessHits(G4Step *step, G4TouchableHistory *ROhist) {
   
+  auto hit = (*hitCollection)[0];
+
   G4double edep = step->GetTotalEnergyDeposit();
-  G4cout << "edep GenericSD: " << edep << G4endl;
-  if(edep/eV < .1) return true;
+  G4cout << "Step edep: " <<  step->GetTotalEnergyDeposit() << G4endl;
+  // if(edep/eV < .1) return true;
 
   G4String type = step->GetTrack()->GetDefinition()->GetParticleType();
   // if(type != "nucleus" && type != "baryon") return true;
@@ -70,7 +83,8 @@ G4bool GenericSD::ProcessHits(G4Step *step, G4TouchableHistory *ROhist) {
 
   G4ParticleDefinition* particle = step->GetTrack()->GetDefinition();
 
-  GenericHit* hit = new GenericHit(copyNo, trackID, hitTime/ns, edep/MeV, position/mm, particle);
+  // GenericHit* hit = new GenericHit();
+  // GenericHit* hit = new GenericHit(copyNo, trackID, hitTime/ns, edep/MeV, position/mm, particle);
   hitCollection->insert(hit);
 
   return true;
@@ -86,9 +100,9 @@ void GenericSD::EndOfEvent(G4HCofThisEvent*) {}
 
 G4ThreadLocal G4Allocator<GenericHit>* GenericHitAllocator;
 
-// GenericHit::GenericHit() : 
-//   G4VHit(), 
-//   edep(0.0) {}
+GenericHit::GenericHit() : 
+  G4VHit(), 
+  edep(0.0) {}
 
 GenericHit::GenericHit(G4int id, 
   G4int trackID, 

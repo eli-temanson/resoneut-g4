@@ -35,7 +35,7 @@
 class GenericHit : public G4VHit
 {
 public:
-    // GenericHit();
+    GenericHit();
     GenericHit(G4int, G4int, G4double, G4double, G4ThreeVector, G4ParticleDefinition*);
     ~GenericHit();
     
@@ -48,8 +48,8 @@ public:
     G4ThreeVector GetPosition() const {return Position;}
     G4ParticleDefinition* GetParticle() const {return Particle;}
 
-    inline void* operator new(size_t);
-    inline void operator delete(void*);
+    // inline void* operator new(size_t);
+    // inline void operator delete(void*);
 
 private:
     G4double edep;
@@ -67,16 +67,16 @@ private:
 #include "G4THitsCollection.hh"
 typedef G4THitsCollection<GenericHit> GenericHitsCollection;
 
-extern G4ThreadLocal G4Allocator<GenericHit>* GenericHitAllocator;
+// extern G4ThreadLocal G4Allocator<GenericHit>* GenericHitAllocator;
 
-inline void* GenericHit::operator new(size_t) {
-  if (!GenericHitAllocator) GenericHitAllocator = new G4Allocator<GenericHit>;
-  return (void*)GenericHitAllocator->MallocSingle();
-}
+// inline void* GenericHit::operator new(size_t) {
+//   if (!GenericHitAllocator) GenericHitAllocator = new G4Allocator<GenericHit>;
+//   return (void*)GenericHitAllocator->MallocSingle();
+// }
 
-inline void GenericHit::operator delete(void* aHit) {
-  GenericHitAllocator->FreeSingle((GenericHit*) aHit);
-}
+// inline void GenericHit::operator delete(void* aHit) {
+//   GenericHitAllocator->FreeSingle((GenericHit*) aHit);
+// }
 
 
 //===================================================================
@@ -92,14 +92,16 @@ class GenericSD : public G4VSensitiveDetector
 public:
   GenericSD(G4String);
   ~GenericSD();
-    
-private:
-  virtual G4bool ProcessHits(G4Step*, G4TouchableHistory*);
-  virtual void Initialize(G4HCofThisEvent *);
-  virtual void EndOfEvent(G4HCofThisEvent *);
+  // G4String GetName() const { return name; }
 
+private:
+  virtual void Initialize(G4HCofThisEvent *);
+  virtual G4bool ProcessHits(G4Step*, G4TouchableHistory*);
+  virtual void EndOfEvent(G4HCofThisEvent *);
+  
+  // G4String name;
   GenericHitsCollection* hitCollection;
-  G4int HCID;
+  // G4int HCID;
 };
 
 #endif

@@ -52,7 +52,7 @@
 
 // User functions
 //
-#include "ScintSD.hh"
+// #include "ScintSD.hh"
 #include "G4SDManager.hh"
 #include "GenericSD.hh"
 

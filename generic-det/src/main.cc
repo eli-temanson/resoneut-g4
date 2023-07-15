@@ -50,13 +50,14 @@ int main(int argc,char** argv)
 
   // Detector construction
   //
-  runManager->SetUserInitialization(new DetectorConstruction());
-  
+  DetectorConstruction* pDetector = new DetectorConstruction();
+  runManager->SetUserInitialization(pDetector);
+
   // Physics list
   //
   G4VModularPhysicsList* physicsList = new QGSP_BERT_HP;
   // physicsList->SetVerboseLevel(0);
-  // physicsList->ReplacePhysics(new G4EmStandardPhysics_option4());
+  physicsList->ReplacePhysics(new G4EmStandardPhysics_option4());
   // G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
   // physicsList->RegisterPhysics(opticalPhysics);
   // BinaryReactionPhysics* reactionPhysics = new BinaryReactionPhysics();
@@ -68,7 +69,9 @@ int main(int argc,char** argv)
   // User action initialization
   //
   runManager->SetUserInitialization(new ActionInitialization());
-  
+
+
+  //===================================================================
   // Initialize visualization
   //
   G4VisManager* visManager = new G4VisExecutive("Quiet");

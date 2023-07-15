@@ -4,14 +4,15 @@
 /run/initialize
 /run/verbose 0
 /event/verbose 0
-/tracking/verbose 0
-/tracking/storeTrajectory 0
+/tracking/verbose 1
+/tracking/storeTrajectory 1
 
 /analysis/setFileName analysis/test
 /gps/particle proton
-/gps/ene/type Lin
-/gps/ene/min 0.2 MeV
-/gps/ene/max 0.5 MeV
+/gps/energy 1 MeV
+# /gps/ene/type Lin
+# /gps/ene/min 0.2 MeV
+# /gps/ene/max 0.5 MeV
 /gps/ang/type iso
 /gps/ang/mintheta 160 deg
 /gps/ang/maxtheta 170 deg

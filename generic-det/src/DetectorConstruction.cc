@@ -64,14 +64,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   // The creation of the physical world
   //
-  G4VPhysicalVolume* pPhysWorld = new G4PVPlacement(0,	//no rotation
-  									          G4ThreeVector(),	  //at (0,0,0)
-                      				pWorldLogic,        //its logical volume
-                      				"World",            //its name
-                      				0,                  //its mother  volume
-                      				false,              //no boolean operation
-                      				0,                  //copy number
-                      				checkOverlaps);     //overlaps checking
+  G4VPhysicalVolume* pPhysWorld = new G4PVPlacement(
+    0,	                // no rotation
+  	G4ThreeVector(),	  // at (0,0,0)
+    pWorldLogic,        // its logical volume
+    "World",            // its name
+    0,                  // its mother  volume
+    false,              // no boolean operation
+    0,                  // copy number
+    checkOverlaps);     // overlaps checking
 
 
   //===============================================================================
@@ -96,12 +97,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   pDetectLogical = new G4LogicalVolume(
     pS1Geo, // the geometry/solid 
     pS1Mat,   // the material
-    "S1");	   // the name
+    "DetectLogic");	   // the name
 
   new G4PVPlacement(0,	//no rotation
     G4ThreeVector(0,0,120.0*mm),	  // the center at (0,0,0)
     pDetectLogical,        // the logical volume
-    "S1",     // the name
+    "DetectLogic",  // the name
     pWorldLogic,        // the mother (logical) volume
     false,              // no boolean operation
     1,                  // copy number
@@ -275,8 +276,10 @@ void DetectorConstruction::ConstructSDandField(){
   G4SDManager* pSDmanager = G4SDManager::GetSDMpointer();
 
   // Silicon
-  G4VSensitiveDetector* pS1 = new GenericSD("S1");
-  pSDmanager->AddNewDetector(pS1);
+  // G4VSensitiveDetector* pS1 = new GenericSD("S1");
+  auto pS1 = new GenericSD("S1");
+  G4SDManager::GetSDMpointer()->AddNewDetector(pS1);
+  // pSDmanager->AddNewDetector(pS1);
   pDetectLogical->SetSensitiveDetector(pS1);
 
 }
