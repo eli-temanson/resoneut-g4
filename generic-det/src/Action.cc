@@ -151,7 +151,7 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   auto s1HC = GetHitsCollection(s1HCID, event);
   // auto s1Hit = (*s1HC)[0]; // Get hit with total values
   G4double s1Etot = 0.0;
-  for(G4int i = 0; i < s1HC->entries(); ++i) {
+  for(G4int i = 1; i < s1HC->entries(); ++i) {
     s1Etot += (*s1HC)[i]->GetEnergy() / MeV;
   }
   // G4cout << "s1Etot: " << s1Etot << G4endl;
@@ -166,12 +166,12 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   auto s2HC = GetHitsCollection(s2HCID, event);
   G4double s2Etot = 0.0;
   if(s2HC) {
-    for(G4int i = 0; i < s2HC->entries(); ++i) {
+    for(G4int i = 1; i < s2HC->entries(); ++i) {
       s2Etot += (*s2HC)[i]->GetEnergy() / MeV;
     }
   }
   // G4cout << "s2Etot: " << s2Etot << G4endl;
-
+  // G4cout << "Etot: " << s1Etot+s2Etot << G4endl;
 
   auto analysisManager = G4AnalysisManager::Instance();
   analysisManager->FillNtupleDColumn(0, 0, s1Etot); 

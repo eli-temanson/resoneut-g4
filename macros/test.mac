@@ -9,10 +9,11 @@
 
 /analysis/setFileName analysis/test
 /gps/particle proton
+# /gps/particle alpha
 /gps/ang/type iso
 /gps/ene/type Lin
 /gps/ene/min 1 MeV
-/gps/ene/max 10 MeV
+/gps/ene/max 25 MeV
 /gps/ene/gradient 1
 /gps/ene/intercept 1
 /gps/ang/mintheta 160 deg
@@ -24,4 +25,4 @@
 # /vis/scene/add/trajectories
 # /vis/scene/endOfEventAction accumulate
 
-/run/beamOn 100000
+/run/beamOn 50000

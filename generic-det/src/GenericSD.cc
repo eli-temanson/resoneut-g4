@@ -66,14 +66,14 @@ G4bool GenericSD::ProcessHits(G4Step *step, G4TouchableHistory *ROhist) {
   // auto hit = (*hitCollection)[0];
   // if (step->GetPreStepPoint()->GetProcessDefinedStep()) {
   //   // G4cout << "ProcName: " << step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName() << G4endl;
-  //   if (step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName() == "Transportation") return true;
+  //   // if (step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName() == "Transportation") return true;
   //   // if (step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName() == "initStep") return true;
   // } else {
   //   return true;
   // }
 
   G4double edep = step->GetTotalEnergyDeposit();
-  if(edep / eV < .1) return true;
+  // if(edep / eV < 1) return true;
 
   // G4cout << SensitiveDetectorName <<" Hit edep: " << edep << G4endl;
 
