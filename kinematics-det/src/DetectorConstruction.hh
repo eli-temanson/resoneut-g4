@@ -52,7 +52,6 @@
 
 // User functions
 //
-// #include "ScintSD.hh"
 #include "G4SDManager.hh"
 #include "GenericSD.hh"
 
@@ -71,11 +70,10 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     // Add Set_Parameter_() functions here.
  
     G4LogicalVolume* GetWorldVolume() const {return pWorldLogic;}
-    // G4LogicalVolume* GetTargetVolume() const {return pTargetLogical;}
+    G4LogicalVolume* GetTargetVolume() const {return pTargetLogical;}
     G4LogicalVolume* GetDetectVolume() const {return pDetectLogical;}
     G4LogicalVolume* GetS1Volume() const {return pS1Logical;}
     G4LogicalVolume* GetS2Volume() const {return pS2Logical;}
-
 
   private:
     void ConstructMaterials();
@@ -83,6 +81,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 
     G4LogicalVolume* pWorldLogic;
     G4LogicalVolume* pDetectLogical;
+    G4LogicalVolume* pTargetLogical;
     G4LogicalVolume* pS1Logical;
     G4LogicalVolume* pS2Logical;
 

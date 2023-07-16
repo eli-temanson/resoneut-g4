@@ -27,7 +27,6 @@
 //===================================================================
 
 #include "DetectorConstruction.hh"
-// #include "ScintSD.hh"
 
 DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction() {}
 DetectorConstruction::~DetectorConstruction() {}
@@ -137,29 +136,28 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     1,                  // copy number
     checkOverlaps);     // overlaps checking
 
-  // //===============================================================================
-  // // C2D4 Target
-  // // 6.60 um for 0.7 mg/cm2
-  // // 3.77 um for 0.4 mg/cm2
-  // G4Material* C2D4 = new G4Material("C2D4", 1.06*g/cm3, 2);
-  // G4Element* C  = new G4Element("Carbon",   "C",  6.0,  12.011*g/mole);
-  // G4Isotope* D  = new G4Isotope("Deuteron", 1, 2, 2.0141018*g/mole);
-  // G4Element* elD = new G4Element("Deuterium", "elD", 1);
-  // elD->AddIsotope(D, 100.*perCent);
-  // C2D4->AddElement(C, 2);
-  // C2D4->AddElement(elD, 4);
+  //===============================================================================
+  // C2D4 Target
+  G4Material* C2D4 = new G4Material("C2D4", 1.06*g/cm3, 2);
+  G4Element* C  = new G4Element("Carbon",   "C",  6.0,  12.011*g/mole);
+  G4Isotope* D  = new G4Isotope("Deuteron", 1, 2, 2.0141018*g/mole);
+  G4Element* elD = new G4Element("Deuterium", "elD", 1);
+  elD->AddIsotope(D, 100.*perCent);
+  C2D4->AddElement(C, 2);
+  C2D4->AddElement(elD, 4);
 
-  // G4double targetThickness = 6.60*um;
-  // G4VSolid* pTargetSolid = new G4Tubs("TargetSolid", 0.0, 20.0*mm, targetThickness/2.0, 0.0, 360.0*deg);
-  // TargetLogical =  new G4LogicalVolume(pTargetSolid, C2D4, "targetLogical");
-  // new G4PVPlacement(0, 
-  //                   G4ThreeVector(0.0, 0.0, 0.0), 
-  //                   pTargetLogical, 
-  //                   "targetPhysical", 
-  //                   pWorldLogic, 
-  //                   false, 
-  //                   0, 
-  //                   checkOverlaps);
+  G4double targetThickness = 500.0*um; // 7.5
+  G4VSolid* pTargetSolid = new G4Tubs("TargetSolid", 0.0, 20.0*mm, targetThickness/2.0, 0.0, 360.0*deg);
+  pTargetLogical =  new G4LogicalVolume(pTargetSolid, C2D4, "targetLogical");
+  new G4PVPlacement(
+    0, 
+    G4ThreeVector(0.0, 0.0, 0.0), 
+    pTargetLogical, 
+    "targetPhysical", 
+    pWorldLogic, 
+    false, 
+    0, 
+    checkOverlaps);
 
   // pStepLimit = new G4UserLimits(0.02*targetThickness);
   // TargetLogical->SetUserLimits(pStepLimit);

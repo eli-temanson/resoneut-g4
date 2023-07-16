@@ -80,8 +80,14 @@ RunAction::RunAction() {
   // analysisManager->SetNtupleFileName(0, "data/Ntuple-hits");
 
   analysisManager->CreateNtuple("events", "events");
-  analysisManager->CreateNtupleDColumn("s1_e"); 
+  analysisManager->CreateNtupleDColumn("s1_e");
+  analysisManager->CreateNtupleDColumn("s1_x"); 
+  analysisManager->CreateNtupleDColumn("s1_y"); 
+
   analysisManager->CreateNtupleDColumn("s2_e");
+  analysisManager->CreateNtupleDColumn("s2_x"); 
+  analysisManager->CreateNtupleDColumn("s2_y"); 
+
   // analysisManager->CreateNtupleDColumn("edep_event");
   analysisManager->FinishNtuple();
   // analysisManager->SetNtupleFileName(1, "data/Ntuple-events");
@@ -151,8 +157,14 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   auto s1HC = GetHitsCollection(s1HCID, event);
   // auto s1Hit = (*s1HC)[0]; // Get hit with total values
   G4double s1Etot = 0.0;
-  for(G4int i = 1; i < s1HC->entries(); ++i) {
-    s1Etot += (*s1HC)[i]->GetEnergy() / MeV;
+  G4double s1X = 0.0;
+  G4double s1Y = 0.0;
+  if(s1HC) {
+    for(G4int i = 1; i < s1HC->entries(); ++i) {
+      s1Etot += (*s1HC)[i]->GetEnergy() / MeV;
+    }
+    s1X = (*s1HC)[0]->GetPosition().X();
+    s1Y = (*s1HC)[0]->GetPosition().Y();
   }
   // G4cout << "s1Etot: " << s1Etot << G4endl;
 
@@ -165,17 +177,27 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   // s2HC = static_cast<GenericHitsCollection*>(hce->GetHC(s2HCID));
   auto s2HC = GetHitsCollection(s2HCID, event);
   G4double s2Etot = 0.0;
+  G4double s2X = 0.0;
+  G4double s2Y = 0.0;
   if(s2HC) {
     for(G4int i = 1; i < s2HC->entries(); ++i) {
       s2Etot += (*s2HC)[i]->GetEnergy() / MeV;
     }
+    s2X = (*s2HC)[0]->GetPosition().X();
+    s2Y = (*s2HC)[0]->GetPosition().Y();
   }
   // G4cout << "s2Etot: " << s2Etot << G4endl;
   // G4cout << "Etot: " << s1Etot+s2Etot << G4endl;
 
   auto analysisManager = G4AnalysisManager::Instance();
-  analysisManager->FillNtupleDColumn(0, 0, s1Etot); 
-  analysisManager->FillNtupleDColumn(0, 1, s2Etot); 
+  analysisManager->FillNtupleDColumn(0, 0, s1Etot);
+  analysisManager->FillNtupleDColumn(0, 1, s1X); 
+  analysisManager->FillNtupleDColumn(0, 2, s1Y); 
+
+  analysisManager->FillNtupleDColumn(0, 3, s2Etot); 
+  analysisManager->FillNtupleDColumn(0, 4, s2X); 
+  analysisManager->FillNtupleDColumn(0, 5, s2Y); 
+
   analysisManager->AddNtupleRow();
 }
 
@@ -229,21 +251,19 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track) {
   // These need to be defined in the event action class (Action.hh)
   //
   pEventAction->AddEnergy(info->GetEnergy());
-  // fEventAction->SetCMEnergy(info->GetCMEnergy());
-  // fEventAction->SetVertexZ(info->GetVertex().z());
-  // fEventAction->SetQValue(info->GetQValue());
-  // fEventAction->SetExcitedEnergy(info->GetExcitedEnergy());
-
-  // fEventAction->SetLightAngleCM(info->GetCMLightTheta());
-  // fEventAction->SetLightAngleLab(info->GetLabLightTheta());
-  // fEventAction->SetLightEnergy(info->GetLightEnergy());
-  // fEventAction->SetLightRecoilCharge(info->GetLightRecoil()->GetAtomicNumber());
-  // fEventAction->SetLightRecoilMass(info->GetLightRecoil()->GetAtomicMass());
-
-  // fEventAction->SetHeavyAngleCM(info->GetCMHeavyTheta());
-  // fEventAction->SetHeavyAngleLab(info->GetLabHeavyTheta());
-  // fEventAction->SetHeavyEnergy(info->GetHeavyEnergy());
-  // fEventAction->SetHeavyRecoilCharge(info->GetHeavyRecoil()->GetAtomicNumber());
-  // fEventAction->SetHeavyRecoilMass(info->GetHeavyRecoil()->GetAtomicMass());
+  pEventAction->SetCMEnergy(info->GetCMEnergy());
+  pEventAction->SetVertexZ(info->GetVertex().z());
+  pEventAction->SetQValue(info->GetQValue());
+  pEventAction->SetExcitedEnergy(info->GetExcitedEnergy());
+  pEventAction->SetLightAngleCM(info->GetCMLightTheta());
+  pEventAction->SetLightAngleLab(info->GetLabLightTheta());
+  pEventAction->SetLightEnergy(info->GetLightEnergy());
+  pEventAction->SetLightRecoilCharge(info->GetLightRecoil()->GetAtomicNumber());
+  pEventAction->SetLightRecoilMass(info->GetLightRecoil()->GetAtomicMass());
+  pEventAction->SetHeavyAngleCM(info->GetCMHeavyTheta());
+  pEventAction->SetHeavyAngleLab(info->GetLabHeavyTheta());
+  pEventAction->SetHeavyEnergy(info->GetHeavyEnergy());
+  pEventAction->SetHeavyRecoilCharge(info->GetHeavyRecoil()->GetAtomicNumber());
+  pEventAction->SetHeavyRecoilMass(info->GetHeavyRecoil()->GetAtomicMass());
 
 }

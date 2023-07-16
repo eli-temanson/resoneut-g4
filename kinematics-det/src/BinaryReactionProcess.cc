@@ -6,8 +6,7 @@
 
 BinaryReactionProcess::BinaryReactionProcess(const G4String& processName)
   : G4VDiscreteProcess(processName, fHadronic), fScatteringEnergy(1e6) {
-  
-  SetProcessSubType(111);
+    SetProcessSubType(111);
 }
 
 BinaryReactionProcess::~BinaryReactionProcess() {}
@@ -86,8 +85,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4String incomingParticleNameEnergy = "";
   if(pos > 100) {
     measuredExcitedEnergy = 0.;
-  }
-  else {
+  } else {
     incomingParticleNameEnergy = incomingParticleName.substr(pos + 1, std::string::npos);
     incomingParticleNameEnergy.pop_back();
     measuredExcitedEnergy = std::atof(incomingParticleNameEnergy.c_str())/1000.;
@@ -289,13 +287,13 @@ void BinaryReactionProcess::StartTracking(G4Track* track) {
 
 
 
-G4VParticleChange* BinaryReactionProcess::Decay(const G4Track& aTrack, G4int lightCharge, G4int lightMass,
-  G4int heavyCharge, G4int heavyMass) {
+G4VParticleChange* BinaryReactionProcess::Decay(const G4Track& aTrack, G4int lightCharge, G4int lightMass, G4int heavyCharge, G4int heavyMass) {
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 
   // Setup Particle 1
   G4DynamicParticle* particle1 = new G4DynamicParticle;
   G4ParticleDefinition* particle1Def;
+
   if(lightCharge == 0 && lightMass == 1) {
     G4String particleName;
     particle1Def = particleTable->FindParticle(particleName="neutron");
@@ -306,6 +304,7 @@ G4VParticleChange* BinaryReactionProcess::Decay(const G4Track& aTrack, G4int lig
     }
     else particle1Def = particleTable->GetIonTable()->GetIon(lightCharge, lightMass, 0.);
   }
+  
   particle1->SetDefinition(particle1Def);
   G4double particle1Mass = particle1Def->GetPDGMass()/CLHEP::amu_c2;
 
@@ -315,8 +314,7 @@ G4VParticleChange* BinaryReactionProcess::Decay(const G4Track& aTrack, G4int lig
   particle2->SetDefinition(particle2Def);
   G4double particle2Mass = particle2Def->GetPDGMass()/CLHEP::amu_c2;
 
-  G4double qValue = aTrack.GetDynamicParticle()->GetDefinition()->GetPDGMass() -
-    (particle1Def->GetPDGMass() + particle2Def->GetPDGMass());
+  G4double qValue = aTrack.GetDynamicParticle()->GetDefinition()->GetPDGMass() - (particle1Def->GetPDGMass() + particle2Def->GetPDGMass());
   G4double cmEnergy = qValue;
 
   if(cmEnergy < 0.0) return &aParticleChange; // Below the threshold

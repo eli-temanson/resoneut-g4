@@ -15,7 +15,8 @@
 // User Defined Classes
 #include "DetectorConstruction.hh"
 #include "Action.hh"
-// #include "BinaryReactionPhysics.hh"
+#include "BinaryReactionPhysics.hh"
+#include "NucleonStates.hh"
 
 // Run Manager
 #include "G4RunManagerFactory.hh"
@@ -52,6 +53,8 @@ int main(int argc,char** argv)
   //
   DetectorConstruction* pDetector = new DetectorConstruction();
   runManager->SetUserInitialization(pDetector);
+
+  NucleonStates* states = NucleonStates::Instance();
 
   // Physics list
   //
