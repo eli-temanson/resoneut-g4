@@ -5,19 +5,19 @@
 /run/verbose 0
 /event/verbose 0
 /tracking/verbose 1
-/tracking/storeTrajectory 1
+/tracking/storeTrajectory 
 
 /analysis/setFileName analysis/test
 /gps/particle proton
-/gps/energy 1 MeV
-# /gps/ene/type Lin
-# /gps/ene/min 0.2 MeV
-# /gps/ene/max 0.5 MeV
 /gps/ang/type iso
+/gps/ene/type Lin
+/gps/ene/min 1 MeV
+/gps/ene/max 5 MeV
+/gps/ene/gradient 1
+/gps/ene/intercept 1
 /gps/ang/mintheta 160 deg
 /gps/ang/maxtheta 170 deg
-# /gun/particle proton
-# /gun/energy 2. MeV
+
 
 # /vis/open VRML2FILE
 # /vis/drawVolume

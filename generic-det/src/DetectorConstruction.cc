@@ -88,7 +88,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     "S1Geo",
     24.0*mm,
     48.0*mm,
-    2.0*cm, // thickness
+    1000.0*um, // thickness
     0.0,
     2*CLHEP::pi);
 

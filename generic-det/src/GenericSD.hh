@@ -35,30 +35,36 @@
 class GenericHit : public G4VHit
 {
 public:
-    GenericHit();
-    GenericHit(G4int, G4int, G4double, G4double, G4ThreeVector, G4ParticleDefinition*);
-    ~GenericHit();
-    
-    void AddEdep(const G4double e) {edep += e;}
-    G4double GetEdep() const {return edep;}
-    G4int GetID() const {return ID;}
-    G4int GetTrackID() const {return TrackID;}
-    G4double GetTime() const {return Time;}
-    G4double GetEnergy() const {return Energy;}
-    G4ThreeVector GetPosition() const {return Position;}
-    G4ParticleDefinition* GetParticle() const {return Particle;}
+  GenericHit();
+  // GenericHit(G4int, G4int, G4double, G4double, G4ThreeVector, G4ParticleDefinition*);
+  ~GenericHit();
 
-    // inline void* operator new(size_t);
-    // inline void operator delete(void*);
+  void SetHit(G4int copyNo, G4int trackID, G4double time, G4double energy, G4ThreeVector pos, G4ParticleDefinition* particle) {
+    ID = copyNo;
+    TrackID = trackID;
+    Time = time;
+    Energy = energy;
+    Position = pos;
+    Particle = particle;
+  }
+
+  G4int GetID() const {return ID;}
+  G4int GetTrackID() const {return TrackID;}
+  G4double GetTime() const {return Time;}
+  G4double GetEnergy() const {return Energy;}
+  G4ThreeVector GetPosition() const {return Position;}
+  G4ParticleDefinition* GetParticle() const {return Particle;}
+
+  // inline void* operator new(size_t);
+  // inline void operator delete(void*);
 
 private:
-    G4double edep;
-    G4int ID;
-    G4int TrackID;
-    G4double Time;
-    G4double Energy;
-    G4ThreeVector Position;
-    G4ParticleDefinition* Particle;
+  G4int ID;
+  G4int TrackID;
+  G4double Time;
+  G4double Energy;
+  G4ThreeVector Position;
+  G4ParticleDefinition* Particle;
 };
 
 //===================================================================
@@ -92,14 +98,12 @@ class GenericSD : public G4VSensitiveDetector
 public:
   GenericSD(G4String);
   ~GenericSD();
-  // G4String GetName() const { return name; }
 
 private:
   virtual void Initialize(G4HCofThisEvent *);
   virtual G4bool ProcessHits(G4Step*, G4TouchableHistory*);
   virtual void EndOfEvent(G4HCofThisEvent *);
   
-  // G4String name;
   GenericHitsCollection* hitCollection;
   // G4int HCID;
 };

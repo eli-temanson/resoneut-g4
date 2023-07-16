@@ -31,8 +31,6 @@ GenericSD::GenericSD(G4String n) :
   // HCID(-1) 
   {
   collectionName.insert("hitCollection");
-  // name = n;
-
 }
 
 GenericSD::~GenericSD() {}
@@ -65,27 +63,22 @@ G4bool GenericSD::ProcessHits(G4Step *step, G4TouchableHistory *ROhist) {
   auto hit = (*hitCollection)[0];
 
   G4double edep = step->GetTotalEnergyDeposit();
-  G4cout << "Step edep: " <<  step->GetTotalEnergyDeposit() << G4endl;
-  // if(edep/eV < .1) return true;
+  if(edep / eV < .1) return true;
 
   G4String type = step->GetTrack()->GetDefinition()->GetParticleType();
   // if(type != "nucleus" && type != "baryon") return true;
-
   G4StepPoint* preStepPoint = step->GetPreStepPoint();
   G4StepPoint* postStepPoint = step->GetPostStepPoint();
-
   G4TouchableHistory* touchable = (G4TouchableHistory*)(preStepPoint->GetTouchable());
   G4int copyNo = touchable->GetVolume()->GetCopyNo();
   G4double hitTime = preStepPoint->GetGlobalTime();
   G4int trackID = step->GetTrack()->GetTrackID();
-
   G4ThreeVector position = preStepPoint->GetPosition();
-
   G4ParticleDefinition* particle = step->GetTrack()->GetDefinition();
 
-  // GenericHit* hit = new GenericHit();
-  // GenericHit* hit = new GenericHit(copyNo, trackID, hitTime/ns, edep/MeV, position/mm, particle);
-  hitCollection->insert(hit);
+  GenericHit* pHit = new GenericHit();
+  pHit->SetHit(copyNo, trackID, hitTime/ns, edep/MeV, position/mm, particle);
+  hitCollection->insert(pHit);
 
   return true;
 }
@@ -98,24 +91,23 @@ void GenericSD::EndOfEvent(G4HCofThisEvent*) {}
 // GenericHit class.
 //
 
-G4ThreadLocal G4Allocator<GenericHit>* GenericHitAllocator;
+// G4ThreadLocal G4Allocator<GenericHit>* GenericHitAllocator;
 
-GenericHit::GenericHit() : 
-  G4VHit(), 
-  edep(0.0) {}
+GenericHit::GenericHit() : G4VHit() {}
 
-GenericHit::GenericHit(G4int id, 
-  G4int trackID, 
-  G4double time, 
-  G4double energy, 
-  G4ThreeVector pos, 
-  G4ParticleDefinition* particle) : 
-    G4VHit(), 
-    ID(id), 
-    TrackID(trackID), 
-    Time(time), 
-    Energy(energy), 
-    Position(pos), 
-    Particle(particle) {}
+// GenericHit::GenericHit(
+//   G4int id, 
+//   G4int trackID, 
+//   G4double time, 
+//   G4double energy, 
+//   G4ThreeVector pos, 
+//   G4ParticleDefinition* particle) : 
+//     G4VHit(), 
+//     ID(id), 
+//     TrackID(trackID), 
+//     Time(time), 
+//     Energy(energy), 
+//     Position(pos), 
+//     Particle(particle) {}
 
 GenericHit::~GenericHit() {}
