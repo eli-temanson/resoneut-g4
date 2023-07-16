@@ -61,6 +61,11 @@ void GenericSD::Initialize(G4HCofThisEvent* hce) {
 G4bool GenericSD::ProcessHits(G4Step *step, G4TouchableHistory *ROhist) {
   
   auto hit = (*hitCollection)[0];
+  if (step->GetPreStepPoint()->GetProcessDefinedStep()) {
+    G4cout << "ProcName: " << step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName() << G4endl;
+  }
+
+  // "Transportation"
 
   G4double edep = step->GetTotalEnergyDeposit();
   if(edep / eV < .1) return true;

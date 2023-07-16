@@ -80,7 +80,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
   // Material
   //
-  G4Material* pS1Mat = nist->FindOrBuildMaterial("G4_Si");
+  G4Material* pSiMat = nist->FindOrBuildMaterial("G4_Si");
 
   // Geometry
   //  
@@ -96,7 +96,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   pDetectLogical = new G4LogicalVolume(
     pS1Geo, // the geometry/solid 
-    pS1Mat,   // the material
+    pSiMat,   // the material
     "DetectLogic");	   // the name
 
   new G4PVPlacement(0,	//no rotation
@@ -107,6 +107,32 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     false,              // no boolean operation
     1,                  // copy number
     checkOverlaps);     // overlaps checking
+
+  // // Geometry
+  // //  
+  // G4Tubs* pS2Geo = new G4Tubs(
+  //   "S2Geo",
+  //   24.0*mm,
+  //   48.0*mm,
+  //   1000.0*um, // thickness
+  //   0.0,
+  //   2*CLHEP::pi);
+
+  // // logic definition
+  // //
+  // pDetectLogical = new G4LogicalVolume(
+  //   pS2Geo, // the geometry/solid 
+  //   pSiMat,   // the material
+  //   "DetectLogic");	   // the name
+
+  // new G4PVPlacement(0,	//no rotation
+  //   G4ThreeVector(0,0,120.0*mm),	  // the center at (0,0,0)
+  //   pDetectLogical,        // the logical volume
+  //   "DetectLogic",  // the name
+  //   pWorldLogic,        // the mother (logical) volume
+  //   false,              // no boolean operation
+  //   1,                  // copy number
+  //   checkOverlaps);     // overlaps checking
 
   // //===============================================================================
   // // C2D4 Target

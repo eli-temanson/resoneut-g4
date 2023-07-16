@@ -150,7 +150,6 @@ void EventAction::EndOfEventAction(const G4Event* event) {
 
   // GenericHitsCollection* pHitCol;
   // pHitCol = static_cast<GenericHitsCollection*>(hce->GetHC(s1HCID));
-
   auto s1HC = GetHitsCollection(s1HCID, event);
   // Get hit with total values
   auto s1Hit = (*s1HC)[0];
