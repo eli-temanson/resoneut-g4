@@ -76,7 +76,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 
   //===============================================================================
-  // S2 detector
+  // S1 detector
   
   // Material
   //
@@ -94,45 +94,48 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   // logic definition
   //
-  pDetectLogical = new G4LogicalVolume(
+  pS1Logical = new G4LogicalVolume(
     pS1Geo, // the geometry/solid 
     pSiMat,   // the material
-    "DetectLogic");	   // the name
+    "S1Logic");	   // the name
 
   new G4PVPlacement(0,	//no rotation
-    G4ThreeVector(0,0,120.0*mm),	  // the center at (0,0,0)
-    pDetectLogical,        // the logical volume
-    "DetectLogic",  // the name
+    G4ThreeVector(0,0,125.0*mm),	  // the center at (0,0,0)
+    pS1Logical,        // the logical volume
+    "S1Logic",  // the name
     pWorldLogic,        // the mother (logical) volume
     false,              // no boolean operation
     1,                  // copy number
     checkOverlaps);     // overlaps checking
 
-  // // Geometry
-  // //  
-  // G4Tubs* pS2Geo = new G4Tubs(
-  //   "S2Geo",
-  //   24.0*mm,
-  //   48.0*mm,
-  //   1000.0*um, // thickness
-  //   0.0,
-  //   2*CLHEP::pi);
+  //===============================================================================
+  // S2 detector
 
-  // // logic definition
-  // //
-  // pDetectLogical = new G4LogicalVolume(
-  //   pS2Geo, // the geometry/solid 
-  //   pSiMat,   // the material
-  //   "DetectLogic");	   // the name
+  // Geometry
+  //  
+  G4Tubs* pS2Geo = new G4Tubs(
+    "S2Geo",
+    11.53*mm,
+    35.0*mm,
+    64.0*um, // thickness
+    0.0,
+    2*CLHEP::pi);
 
-  // new G4PVPlacement(0,	//no rotation
-  //   G4ThreeVector(0,0,120.0*mm),	  // the center at (0,0,0)
-  //   pDetectLogical,        // the logical volume
-  //   "DetectLogic",  // the name
-  //   pWorldLogic,        // the mother (logical) volume
-  //   false,              // no boolean operation
-  //   1,                  // copy number
-  //   checkOverlaps);     // overlaps checking
+  // logic definition
+  //
+  pS2Logical = new G4LogicalVolume(
+    pS2Geo, // the geometry/solid 
+    pSiMat,   // the material
+    "S2Logic");	   // the name
+
+  new G4PVPlacement(0,	//no rotation
+    G4ThreeVector(0,0,71.0*mm),	  // the center at (0,0,0)
+    pS2Logical,        // the logical volume
+    "S2Logic",  // the name
+    pWorldLogic,        // the mother (logical) volume
+    false,              // no boolean operation
+    1,                  // copy number
+    checkOverlaps);     // overlaps checking
 
   // //===============================================================================
   // // C2D4 Target
@@ -305,7 +308,9 @@ void DetectorConstruction::ConstructSDandField(){
   // G4VSensitiveDetector* pS1 = new GenericSD("S1");
   auto pS1 = new GenericSD("S1");
   G4SDManager::GetSDMpointer()->AddNewDetector(pS1);
-  // pSDmanager->AddNewDetector(pS1);
-  pDetectLogical->SetSensitiveDetector(pS1);
+  pS1Logical->SetSensitiveDetector(pS1);
 
+  auto pS2 = new GenericSD("S2");
+  G4SDManager::GetSDMpointer()->AddNewDetector(pS2);
+  pS2Logical->SetSensitiveDetector(pS2);
 }

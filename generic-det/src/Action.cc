@@ -80,8 +80,9 @@ RunAction::RunAction() {
   // analysisManager->SetNtupleFileName(0, "data/Ntuple-hits");
 
   analysisManager->CreateNtuple("events", "events");
-  analysisManager->CreateNtupleDColumn("edep_SD");
-  analysisManager->CreateNtupleDColumn("edep_event");
+  analysisManager->CreateNtupleDColumn("s1_e"); 
+  analysisManager->CreateNtupleDColumn("s2_e");
+  // analysisManager->CreateNtupleDColumn("edep_event");
   analysisManager->FinishNtuple();
   // analysisManager->SetNtupleFileName(1, "data/Ntuple-events");
 
@@ -111,7 +112,6 @@ void RunAction::EndOfRunAction(const G4Run* /*run*/) {
   auto analysisManager = G4AnalysisManager::Instance();
   analysisManager->Write();
   analysisManager->CloseFile();
-  // analysisManager->CloseFile(false);
 }
 //===================================================================
 
@@ -145,25 +145,38 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   // Get hits collections IDs (only once)
   if( s1HCID == -1 ) {
     s1HCID = G4SDManager::GetSDMpointer()->GetCollectionID("S1/hitCollection");
-    G4cout << "s1HCID Set: " << s1HCID << G4endl;
+    // G4cout << "s1HCID: " << s1HCID << G4endl;
   }
-
-  // GenericHitsCollection* pHitCol;
   // pHitCol = static_cast<GenericHitsCollection*>(hce->GetHC(s1HCID));
   auto s1HC = GetHitsCollection(s1HCID, event);
-  // Get hit with total values
-  auto s1Hit = (*s1HC)[0];
-
-  for(G4int i = 0; i < (s1HC->entries()); ++i) {
-    G4cout << "Hit Coll Edep: " << (*s1HC)[i]->GetEnergy() / keV << G4endl;
+  // auto s1Hit = (*s1HC)[0]; // Get hit with total values
+  G4double s1Etot = 0.0;
+  for(G4int i = 0; i < s1HC->entries(); ++i) {
+    s1Etot += (*s1HC)[i]->GetEnergy() / MeV;
   }
+  // G4cout << "s1Etot: " << s1Etot << G4endl;
 
 
-  // auto analysisManager = G4AnalysisManager::Instance();
-  // analysisManager->FillNtupleDColumn(0, 0, (*pHitCol)[0]->GetEdep() / keV); 
-  // analysisManager->FillNtupleDColumn(0, 1, Energy / keV);
-  // analysisManager->AddNtupleRow();
+  if( s2HCID == -1 ) {
+    s2HCID = G4SDManager::GetSDMpointer()->GetCollectionID("S2/hitCollection");
+    // G4cout << "s2HCID: " << s2HCID << G4endl;
+  }
+  // GenericHitsCollection* s2HC;
+  // s2HC = static_cast<GenericHitsCollection*>(hce->GetHC(s2HCID));
+  auto s2HC = GetHitsCollection(s2HCID, event);
+  G4double s2Etot = 0.0;
+  if(s2HC) {
+    for(G4int i = 0; i < s2HC->entries(); ++i) {
+      s2Etot += (*s2HC)[i]->GetEnergy() / MeV;
+    }
+  }
+  // G4cout << "s2Etot: " << s2Etot << G4endl;
 
+
+  auto analysisManager = G4AnalysisManager::Instance();
+  analysisManager->FillNtupleDColumn(0, 0, s1Etot); 
+  analysisManager->FillNtupleDColumn(0, 1, s2Etot); 
+  analysisManager->AddNtupleRow();
 }
 
 
@@ -208,8 +221,8 @@ TrackingAction::~TrackingAction() {}
 void TrackingAction::PreUserTrackingAction(const G4Track* track) {
   const G4VProcess* creatorProcess = track->GetCreatorProcess();
   if(!creatorProcess) return;
-  // if(creatorProcess->GetProcessName() != Name) return;
-  // if(track->GetTrackID() != 2) return;
+  if(creatorProcess->GetProcessName() != Name) return;
+  if(track->GetTrackID() != 2) return;
 
   TrackingInformation* info = (TrackingInformation*) track->GetUserInformation();
 

@@ -93,6 +93,7 @@ class EventAction : public G4UserEventAction
   private:
     GenericHitsCollection* GetHitsCollection(G4int, const G4Event*) const;
     G4int s1HCID = -1;
+    G4int s2HCID = -1;
 
     // Define Values here.
     G4double Energy;

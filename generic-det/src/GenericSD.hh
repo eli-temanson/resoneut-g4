@@ -74,12 +74,10 @@ private:
 typedef G4THitsCollection<GenericHit> GenericHitsCollection;
 
 // extern G4ThreadLocal G4Allocator<GenericHit>* GenericHitAllocator;
-
 // inline void* GenericHit::operator new(size_t) {
 //   if (!GenericHitAllocator) GenericHitAllocator = new G4Allocator<GenericHit>;
 //   return (void*)GenericHitAllocator->MallocSingle();
 // }
-
 // inline void GenericHit::operator delete(void* aHit) {
 //   GenericHitAllocator->FreeSingle((GenericHit*) aHit);
 // }
@@ -105,7 +103,7 @@ private:
   virtual void EndOfEvent(G4HCofThisEvent *);
   
   GenericHitsCollection* hitCollection;
-  // G4int HCID;
+  G4int hcid;
 };
 
 #endif
