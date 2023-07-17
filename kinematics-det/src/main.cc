@@ -15,26 +15,19 @@
 // User Defined Classes
 #include "DetectorConstruction.hh"
 #include "Action.hh"
-#include "BinaryReactionPhysics.hh"
+#include "PhysicsList.hh"
 #include "NucleonStates.hh"
 
 // Run Manager
 #include "G4RunManagerFactory.hh"
 
-// Physics list
-#include "G4VModularPhysicsList.hh"
-#include "QGSP_BERT_HP.hh"
-#include "G4EmStandardPhysics_option4.hh"
-#include "G4OpticalPhysics.hh"
-//#include "G4OpticalParameters.hh"
-#include "G4RadioactiveDecayPhysics.hh"
-#include "G4DecayPhysics.hh"
-#include "G4StepLimiterPhysics.hh"
-
 // Gui Support 
 #include "G4UImanager.hh"
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
+
+// Main physics
+#include "QGSP_BERT_HP.hh"
 
 // Allows user to choose the random engine
 #include "Randomize.hh"
@@ -49,25 +42,16 @@ int main(int argc,char** argv)
   //
   auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
 
+  NucleonStates* states = NucleonStates::Instance();
+  
   // Detector construction
   //
-  DetectorConstruction* pDetector = new DetectorConstruction();
-  runManager->SetUserInitialization(pDetector);
-
-  NucleonStates* states = NucleonStates::Instance();
+  runManager->SetUserInitialization(new DetectorConstruction());
 
   // Physics list
   //
-  G4VModularPhysicsList* physicsList = new QGSP_BERT_HP;
-  // physicsList->SetVerboseLevel(0);
-  physicsList->ReplacePhysics(new G4EmStandardPhysics_option4());
-  // G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
-  // physicsList->RegisterPhysics(opticalPhysics);
-  // BinaryReactionPhysics* reactionPhysics = new BinaryReactionPhysics();
-  // physicsList->RegisterPhysics(new G4StepLimiterPhysics());
-  // physicsList->RegisterPhysics(reactionPhysics);
-
-  runManager->SetUserInitialization(physicsList); 
+  runManager->SetUserInitialization(new QGSP_BERT_HP());
+  runManager->SetUserInitialization(new PhysicsList());
 
   // User action initialization
   //

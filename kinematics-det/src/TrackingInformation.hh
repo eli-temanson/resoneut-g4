@@ -8,9 +8,10 @@
 class TrackingInformation : public G4VUserTrackInformation {
 
 public:
-  TrackingInformation(G4double, G4double, G4double, G4double, G4double,
-                        G4double, G4double, G4double, G4double, G4ThreeVector,
-                        G4double, G4double, G4ParticleDefinition*, G4ParticleDefinition*);
+  TrackingInformation(
+    G4double, G4double, G4double, G4double, G4double,
+    G4double, G4double, G4double, G4double, G4ThreeVector,
+    G4double, G4double, G4ParticleDefinition*, G4ParticleDefinition*);
   ~TrackingInformation();
 
   void Print() const;

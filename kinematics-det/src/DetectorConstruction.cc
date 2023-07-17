@@ -27,6 +27,7 @@
 //===================================================================
 
 #include "DetectorConstruction.hh"
+#include "G4UserLimits.hh"
 
 DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction() {}
 DetectorConstruction::~DetectorConstruction() {}
@@ -146,9 +147,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   C2D4->AddElement(C, 2);
   C2D4->AddElement(elD, 4);
 
-  G4double targetThickness = 500.0*um; // 7.5
+  G4double targetThickness = 7.5*um; // 7.5
   G4VSolid* pTargetSolid = new G4Tubs("TargetSolid", 0.0, 20.0*mm, targetThickness/2.0, 0.0, 360.0*deg);
   pTargetLogical =  new G4LogicalVolume(pTargetSolid, C2D4, "targetLogical");
+  pTargetLogical->SetUserLimits(new G4UserLimits(0.02*targetThickness));
   new G4PVPlacement(
     0, 
     G4ThreeVector(0.0, 0.0, 0.0), 
@@ -301,6 +303,11 @@ void DetectorConstruction::ConstructSDandField(){
   // if(scint_logic != NULL) scint_logic->SetSensitiveDetector(scint_sensitive);
 
   G4SDManager* pSDmanager = G4SDManager::GetSDMpointer();
+  
+  // Target
+  auto pTarget = new GenericSD("Target");
+  G4SDManager::GetSDMpointer()->AddNewDetector(pTarget);
+  pTargetLogical->SetSensitiveDetector(pTarget);
 
   // Silicon
   // G4VSensitiveDetector* pS1 = new GenericSD("S1");

@@ -1,11 +1,11 @@
 
-
 #include "BinaryReactionProcess.hh"
 #include "NucleonStates.hh"
 #include "TypeDef.hh"
 
-BinaryReactionProcess::BinaryReactionProcess(const G4String& processName)
-  : G4VDiscreteProcess(processName, fHadronic), fScatteringEnergy(1e6) {
+BinaryReactionProcess::BinaryReactionProcess(const G4String& processName) : 
+  G4VDiscreteProcess(processName, fHadronic), 
+  fScatteringEnergy(1e6) {
     SetProcessSubType(111);
 }
 
@@ -18,30 +18,39 @@ G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double,
   G4int particleMass = aTrack.GetDefinition()->GetAtomicMass();
   G4int particleCharge = aTrack.GetDefinition()->GetAtomicNumber();
 
-  // Why is there a detector construction here??
+  // Grab Detector construction to get access to the target volume
   const DetectorConstruction* detectorConstruction = static_cast<const DetectorConstruction*>
       (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
-  G4LogicalVolume* fWorldLogical = detectorConstruction->GetWorldVolume();
-  // G4LogicalVolume* fTargetLogical = detectorConstruction->GetTargetVolume();
+  G4LogicalVolume* pWorldLogical = detectorConstruction->GetWorldVolume();
+  G4LogicalVolume* pTargetLogical = detectorConstruction->GetTargetVolume();
   G4LogicalVolume* currentVolume = aTrack.GetStep()->GetPostStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
 
   G4String excitedname = aTrack.GetDynamicParticle()->GetDefinition()->GetParticleName();
+  G4cout << "------> Value: " << excitedname << G4endl;
 
   G4double position = aTrack.GetPosition().z();
 
   // Mean Free Path
-  // G4double mfp = (energy <= fScatteringEnergy &&
-  //                 aTrack.GetTrackID() == 1 &&
-  //                 (currentVolume == fTargetLogical ||
-  //                 (currentVolume == fWorldLogical && position > -0.0066 && position < 0.1))) ? 0. : DBL_MAX;
+  // G4double mfp = (
+  //   energy <= fScatteringEnergy &&
+  //   aTrack.GetTrackID() == 1 &&
+  //   (currentVolume == pTargetLogical ||
+  //   (currentVolume == pWorldLogical && position > -0.0066 && position < 0.1))) ? 0. : DBL_MAX;
 
-  G4double mfp = (energy <= fScatteringEnergy &&
-                  aTrack.GetTrackID() == 1 &&
-                  (currentVolume == fWorldLogical && position > -0.0066 && position < 0.1)) ? 0. : DBL_MAX;
+  // G4double mfp = (
+  //   energy <= fScatteringEnergy &&
+  //   aTrack.GetTrackID() == 1 && 
+  //   currentVolume == pTargetLogical
+  //   ) ? 0.0 : DBL_MAX;
+  
 
-  // if(mfp < 1) G4cout << fScatteringEnergy << '\t' << energy << '\t' << aTrack.GetTrackID() << '\t' << currentVolume->GetName() << '\t' << mfp << '\t' << aTrack.GetPosition().z() << G4endl;
-  // G4cout << fScatteringEnergy << '\t' << energy << '\t' << aTrack.GetTrackID() << '\t' << currentVolume->GetName() << '\t' << mfp << '\t' << aTrack.GetPosition().z() << G4endl;
+  G4double mfp = DBL_MAX;
+  if(currentVolume == pTargetLogical && aTrack.GetTrackID() == 1) {
+    mfp = 0.0;
+  } else if (excitedname.find("11C[") && aTrack.GetTrackID() == 3) {
+    mfp = 0.0;
+  }
 
   // Look at excited name and see if it's in an excited state
   size_t pos = excitedname.find('[');
@@ -53,7 +62,7 @@ G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double,
   } else {
     beamNameEnergy = excitedname.substr(pos + 1, std::string::npos);
     beamNameEnergy.pop_back();
-    measuredExcitedEnergy = std::atof(beamNameEnergy.c_str())/1000.;
+    measuredExcitedEnergy = std::atof(beamNameEnergy.c_str())/1000.0;
   }
 
   // Check if above threshold and needs to decay
@@ -64,13 +73,14 @@ G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double,
     if(measuredExcitedEnergy > thresholds[0].energy) {
       mfp = 0.;
     }
-  }
+  } 
 
   if(excitedname == "Be8") {
     mfp = 0.;
   }
 
   *condition = NotForced;
+
   return mfp;
 }
 
@@ -80,9 +90,12 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
   // Determine if particle needs to decay due to excited state
   G4String incomingParticleName = aTrack.GetDynamicParticle()->GetDefinition()->GetParticleName();
+
   size_t pos = incomingParticleName.find('[');
-  G4double measuredExcitedEnergy = 0.;
+  G4double measuredExcitedEnergy = 0.0;
   G4String incomingParticleNameEnergy = "";
+
+  // No idea...
   if(pos > 100) {
     measuredExcitedEnergy = 0.;
   } else {
@@ -94,8 +107,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   NucleonStates* states = NucleonStates::Instance();
 
   // Get thresholds
-  auto thresholds = states->GetThresholds(aTrack.GetParticleDefinition()->GetAtomicNumber(),
-  aTrack.GetParticleDefinition()->GetAtomicMass());
+  auto thresholds = states->GetThresholds(aTrack.GetParticleDefinition()->GetAtomicNumber(), aTrack.GetParticleDefinition()->GetAtomicMass());
 
   if(!thresholds.empty()) {
     auto threshold = thresholds[0];
@@ -116,7 +128,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   const DetectorConstruction* detectorConstruction = static_cast<const DetectorConstruction*>
       (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
-  G4LogicalVolume* fWorldLogical = detectorConstruction->GetWorldVolume();
+  G4LogicalVolume* pWorldLogical = detectorConstruction->GetWorldVolume();
 
   aParticleChange.Initialize(aTrack);
 
@@ -139,7 +151,8 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
   // Determine if (d, d), (d, n) or (c, c)
   // 90% of the time choose the deutron as the target
-  G4ParticleDefinition* targetDef = G4UniformRand() > 0.9 ? carbon : deutron;
+  // G4ParticleDefinition* targetDef = G4UniformRand() > 0.9 ? carbon : deutron;
+  G4ParticleDefinition* targetDef = deutron;
 
   targetCharge = targetDef->GetAtomicNumber();
   targetMass = targetDef->GetAtomicMass();
@@ -149,12 +162,12 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4double cmEnergy = energy*targetMassPDG/(beamMassPDG + targetMassPDG);
 
   G4ParticleDefinition* lightRecoilDef;
+
   // 80% of the time choose neutron for (d, n) instead of (d, d)
   if(targetDef == deutron) {
-    lightRecoilDef = G4UniformRand() > 0.8 ? deutron : neutron;
-  }
-  // Only (c, c)
-  else {
+    // lightRecoilDef = G4UniformRand() > 0.8 ? deutron : neutron;
+    lightRecoilDef = neutron;
+  } else { // Only (c, c)
     lightRecoilDef = carbon;
   }
 
@@ -168,7 +181,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
   // Sample on excited states
   G4double exProbability = G4UniformRand();
-  G4double excitedEnergy = states->GetExcitedLevel(heavyRecoilCharge, heavyRecoilMass, exProbability);
+  G4double excitedEnergy = 8.7;//states->GetExcitedLevel(heavyRecoilCharge, heavyRecoilMass, exProbability);
 
   // Get Heavy Ion Particle Definition
   G4ParticleDefinition* heavyRecoilDef = particleTable->GetIonTable()->GetIon(heavyRecoilCharge, heavyRecoilMass, excitedEnergy);
@@ -186,11 +199,8 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
   // Check if reaction is possible
   if(cmEnergy + qValue < 0) {
-    G4cout << "Not enough energy: " << incomingParticleName << '\t' 
-          << "; Energy: " << energy << "; CM Energy: " << cmEnergy << G4endl;
-    
+    G4cout << "Not enough energy: " << incomingParticleName << "; Energy: " << energy << "; CM Energy: " << cmEnergy << G4endl;
     G4cout << "\t Q Value: " << qValue << "; Vertex Location: " << aTrack.GetPosition().z() << G4endl;
-    
     return G4VDiscreteProcess::PostStepDoIt(aTrack, aStep);
   }
 
@@ -248,16 +258,33 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 			 cos(pAngleHeavyLab));
   heavyLab = heavyLab.rotate(v, rotAngle);
 
-  G4Track* sec1 = new G4Track(new G4DynamicParticle(lightRecoilDef,lightLab.unit(), lightEnergyLab*MeV),
-                  aTrack.GetGlobalTime(), aTrack.GetPosition());
-                  
-  sec1->SetUserInformation(new TrackingInformation(energy, cmEnergy, pAngleLightCM,
-                                                  pAngleLightLab, aAngleLightCM, pAngleHeavyCM, pAngleHeavyLab,
-                                                  lightEnergyLab, heavyEnergyLab, aTrack.GetPosition(), qValue, excitedEnergy,
-                                                  lightRecoilDef, heavyRecoilDef));
+  G4Track* sec1 = new G4Track(
+    new G4DynamicParticle(lightRecoilDef,lightLab.unit(), lightEnergyLab*MeV),
+    aTrack.GetGlobalTime(), 
+    aTrack.GetPosition());
+                    
+  sec1->SetUserInformation(new TrackingInformation(
+    energy, 
+    cmEnergy, 
+    pAngleLightCM,
+    pAngleLightLab, 
+    aAngleLightCM, 
+    pAngleHeavyCM,
+    pAngleHeavyLab,
+    lightEnergyLab,
+    heavyEnergyLab, 
+    aTrack.GetPosition(), 
+    qValue, 
+    excitedEnergy,
+    lightRecoilDef, 
+    heavyRecoilDef));
 
-  G4Track* sec2 = new G4Track(new G4DynamicParticle(heavyRecoilDef, heavyLab.unit(), heavyEnergyLab*MeV),
-                  aTrack.GetGlobalTime(), aTrack.GetPosition());
+  G4Track* sec2 = new G4Track(new G4DynamicParticle(
+    heavyRecoilDef, 
+    heavyLab.unit(), 
+    heavyEnergyLab*MeV),
+    aTrack.GetGlobalTime(), 
+    aTrack.GetPosition());
 
   aParticleChange.SetNumberOfSecondaries(2);
   aParticleChange.AddSecondary(sec1);
@@ -288,6 +315,7 @@ void BinaryReactionProcess::StartTracking(G4Track* track) {
 
 
 G4VParticleChange* BinaryReactionProcess::Decay(const G4Track& aTrack, G4int lightCharge, G4int lightMass, G4int heavyCharge, G4int heavyMass) {
+  
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 
   // Setup Particle 1
@@ -297,12 +325,13 @@ G4VParticleChange* BinaryReactionProcess::Decay(const G4Track& aTrack, G4int lig
   if(lightCharge == 0 && lightMass == 1) {
     G4String particleName;
     particle1Def = particleTable->FindParticle(particleName="neutron");
-  }
-  else {
+  } else {
+    
     if(particleTable->GetIonTable()->FindIon(lightCharge, lightMass, 0.)) {
       particle1Def = particleTable->GetIonTable()->FindIon(lightCharge, lightMass, 0.);
+    } else {
+      particle1Def = particleTable->GetIonTable()->GetIon(lightCharge, lightMass, 0.);
     }
-    else particle1Def = particleTable->GetIonTable()->GetIon(lightCharge, lightMass, 0.);
   }
   
   particle1->SetDefinition(particle1Def);

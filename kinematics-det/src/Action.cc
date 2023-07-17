@@ -163,8 +163,8 @@ void EventAction::EndOfEventAction(const G4Event* event) {
     for(G4int i = 1; i < s1HC->entries(); ++i) {
       s1Etot += (*s1HC)[i]->GetEnergy() / MeV;
     }
-    s1X = (*s1HC)[0]->GetPosition().X();
-    s1Y = (*s1HC)[0]->GetPosition().Y();
+    s1X = (*s1HC)[0]->GetPosition().x();
+    s1Y = (*s1HC)[0]->GetPosition().y();
   }
   // G4cout << "s1Etot: " << s1Etot << G4endl;
 
@@ -183,8 +183,8 @@ void EventAction::EndOfEventAction(const G4Event* event) {
     for(G4int i = 1; i < s2HC->entries(); ++i) {
       s2Etot += (*s2HC)[i]->GetEnergy() / MeV;
     }
-    s2X = (*s2HC)[0]->GetPosition().X();
-    s2Y = (*s2HC)[0]->GetPosition().Y();
+    s2X = (*s2HC)[0]->GetPosition().x();
+    s2Y = (*s2HC)[0]->GetPosition().y();
   }
   // G4cout << "s2Etot: " << s2Etot << G4endl;
   // G4cout << "Etot: " << s1Etot+s2Etot << G4endl;

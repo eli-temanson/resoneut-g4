@@ -1,6 +1,6 @@
 
-#ifndef BinaryReactionPhysics_h
-#define BinaryReactionPhysics_h
+#ifndef BinaryReactionPhysics_hh
+#define BinaryReactionPhysics_hh
 
 #include "G4GenericIon.hh"
 #include "G4PhysicsListHelper.hh"
@@ -14,18 +14,15 @@
 #include <map>
 
 class BinaryReactionPhysics : public G4VPhysicsConstructor {
-public:
-  BinaryReactionPhysics(G4int verbose = 1);
-  BinaryReactionPhysics(const G4String& name);
-  virtual ~BinaryReactionPhysics();
+  public:
+    BinaryReactionPhysics(G4int verbose = 0);
+    BinaryReactionPhysics(const G4String& name);
+    virtual ~BinaryReactionPhysics();
 
-  virtual void ConstructParticle();
-  virtual void ConstructProcess();
+    virtual void ConstructParticle();
+    virtual void ConstructProcess();
 
-  // void SetNumGrids(G4int numGrids) {fNumGrids = numGrids;}
-
-private:
-  // G4int fNumGrids;
+  private:
 };
 
 #endif
