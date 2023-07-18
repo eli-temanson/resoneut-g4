@@ -61,7 +61,7 @@ void NucleonStates::ReadJSON() {
         spin = 0;
       }
       
-      double probability = 1.;
+      double probability = 1.0;
       if(config_nuclear_states["Isotopes"][i]["States"][j]["Probability"].type() == json::value_t::number_float) {
         probability = config_nuclear_states["Isotopes"][i]["States"][j]["Probability"].get<double>();
       }
@@ -69,7 +69,7 @@ void NucleonStates::ReadJSON() {
       states.push_back(state);
     }
 
-    double totalProbability = 0.;
+    double totalProbability = 0.0;
     for(auto state: states) {
       totalProbability += state.probability;
     }
@@ -78,13 +78,22 @@ void NucleonStates::ReadJSON() {
       if(i > 0) states[i].probability = states[i - 1].probability + states[i].probability;
     }
 
+    double probability = 1.0;
+    totalProbability = 0.0;
     std::vector<theshold_struct> thresholds;
     for(int j = 0; j < config_nuclear_states["Isotopes"][i]["Thresholds"].size(); j++) {
       double energy = config_nuclear_states["Isotopes"][i]["Thresholds"][j]["Energy"].get<double>();
       uint threshold_charge = config_nuclear_states["Isotopes"][i]["Thresholds"][j]["Decay"][0].get<uint>();
       uint threshold_mass = config_nuclear_states["Isotopes"][i]["Thresholds"][j]["Decay"][1].get<uint>();
-      theshold_struct threshold = {energy, threshold_charge, threshold_mass};
+      theshold_struct threshold = {energy, threshold_charge, threshold_mass, probability};
       thresholds.push_back(threshold);
+    }
+    for(auto thresh: thresholds) {
+      totalProbability += thresh.probability;
+    }
+    for(size_t i = 0; i < thresholds.size(); i++) {
+      thresholds[i].probability /= totalProbability;
+      if(i > 0) thresholds[i].probability = thresholds[i - 1].probability + thresholds[i].probability;
     }
 
     isotope_struct isotope = {name, charge, mass, states, thresholds};
@@ -104,7 +113,7 @@ void NucleonStates::ReadJSON() {
       printf("\t Thresholds:\n");
       
       for(auto threshold: isotope.thresholds) {
-          printf("\t\tEnergy: %8.3f; Decay Product [%3d, %3d]\n", threshold.energy, threshold.decay_charge, threshold.decay_mass);
+          printf("\t\tEnergy: %8.3f; Decay Product [%3d, %3d, %8.3f]\n", threshold.energy, threshold.decay_charge, threshold.decay_mass, threshold.probability);
       }
       
       nucleons_[isotope.charge][isotope.mass] = isotope;
@@ -114,14 +123,6 @@ void NucleonStates::ReadJSON() {
 G4double NucleonStates::GetExcitedLevel(uint charge, uint mass, G4double probability) {
   
   std::vector<state_struct> states = nucleons_[charge][mass].states;
-  
-  // G4cout << "charge: " << charge << G4endl;
-  // G4cout << "mass: " << mass << G4endl;
-  // G4cout << "probability: " << probability << G4endl;
-  // G4cout << "#states: " << states.size() << G4endl;
-  // for(size_t i = 0; i < states.size(); i++) {
-  //   G4cout << "states ex: " << states[i].energy << G4endl;
-  // }
 
   if(states.empty()) {
     return 0.;
@@ -142,6 +143,20 @@ G4double NucleonStates::GetExcitedLevel(uint charge, uint mass, G4double probabi
 }
 
 
+theshold_struct NucleonStates::GetThresholds(G4int charge, G4int mass, G4double probability) {
+
+  std::vector<theshold_struct> thresh = nucleons_[charge][mass].thresholds;
+
+  if(probability < thresh[0].probability) { 
+    return thresh[0];
+  } else {
+    for(size_t i = 1; i < thresh.size(); i++) {
+      if(probability > thresh[i - 1].probability && probability < thresh[i].probability) {
+        return thresh[i];
+      }
+    }
+  }
+}
 
 std::vector<theshold_struct> NucleonStates::GetThresholds(G4int charge, G4int mass) {
   return nucleons_[charge][mass].thresholds;

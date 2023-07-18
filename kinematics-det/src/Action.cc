@@ -83,10 +83,14 @@ RunAction::RunAction() {
   analysisManager->CreateNtupleDColumn("s1_e");
   analysisManager->CreateNtupleDColumn("s1_x"); 
   analysisManager->CreateNtupleDColumn("s1_y"); 
+  analysisManager->CreateNtupleDColumn("s1_theta"); 
+  analysisManager->CreateNtupleDColumn("s1_phi"); 
 
   analysisManager->CreateNtupleDColumn("s2_e");
   analysisManager->CreateNtupleDColumn("s2_x"); 
   analysisManager->CreateNtupleDColumn("s2_y"); 
+  analysisManager->CreateNtupleDColumn("s2_theta"); 
+  analysisManager->CreateNtupleDColumn("s2_phi"); 
 
   // analysisManager->CreateNtupleDColumn("edep_event");
   analysisManager->FinishNtuple();
@@ -125,18 +129,10 @@ void RunAction::EndOfRunAction(const G4Run* /*run*/) {
 //===================================================================
 // Event Action Class
 //
-EventAction::EventAction() : G4UserEventAction() {
-  // s1HCID = -1;
-}
+EventAction::EventAction() : G4UserEventAction() {}
 EventAction::~EventAction() {}
 
-void EventAction::BeginOfEventAction(const G4Event* event) {
-  // G4SDManager* pSDmanager = G4SDManager::GetSDMpointer();
-  // s1HCID = G4SDManager::GetSDMpointer()->GetCollectionID("S1/genCollection");
-
-  Energy = 0.0;
-
-}
+void EventAction::BeginOfEventAction(const G4Event* event) {}
 
 void EventAction::EndOfEventAction(const G4Event* event) {
 
@@ -151,59 +147,57 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   // Get hits collections IDs (only once)
   if( s1HCID == -1 ) {
     s1HCID = G4SDManager::GetSDMpointer()->GetCollectionID("S1/hitCollection");
-    // G4cout << "s1HCID: " << s1HCID << G4endl;
   }
-  // pHitCol = static_cast<GenericHitsCollection*>(hce->GetHC(s1HCID));
   auto s1HC = GetHitsCollection(s1HCID, event);
-  // auto s1Hit = (*s1HC)[0]; // Get hit with total values
-  G4double s1Etot = 0.0;
-  G4double s1X = 0.0;
-  G4double s1Y = 0.0;
+  G4double s1Etot = 0.0, s1X = 0.0, s1Y = 0.0, s1Theta = 0.0, s1Phi = 0.0;
+
   if(s1HC) {
     for(G4int i = 1; i < s1HC->entries(); ++i) {
       s1Etot += (*s1HC)[i]->GetEnergy() / MeV;
+      s1X = (*s1HC)[i]->GetPosition().x() / mm;
+      s1Y = (*s1HC)[i]->GetPosition().y() / mm;
+      s1Theta = (*s1HC)[i]->GetPosition().theta() / deg;
+      s1Phi = (*s1HC)[i]->GetPosition().phi() / deg;
     }
-    s1X = (*s1HC)[0]->GetPosition().x();
-    s1Y = (*s1HC)[0]->GetPosition().y();
   }
-  // G4cout << "s1Etot: " << s1Etot << G4endl;
 
 
   if( s2HCID == -1 ) {
     s2HCID = G4SDManager::GetSDMpointer()->GetCollectionID("S2/hitCollection");
-    // G4cout << "s2HCID: " << s2HCID << G4endl;
   }
-  // GenericHitsCollection* s2HC;
-  // s2HC = static_cast<GenericHitsCollection*>(hce->GetHC(s2HCID));
   auto s2HC = GetHitsCollection(s2HCID, event);
-  G4double s2Etot = 0.0;
-  G4double s2X = 0.0;
-  G4double s2Y = 0.0;
+  G4double s2Etot = 0.0, s2X = 0.0, s2Y = 0.0, s2Theta = 0.0, s2Phi = 0.0;
+
   if(s2HC) {
     for(G4int i = 1; i < s2HC->entries(); ++i) {
       s2Etot += (*s2HC)[i]->GetEnergy() / MeV;
+      s2X = (*s2HC)[i]->GetPosition().x() / mm;
+      s2Y = (*s2HC)[i]->GetPosition().y() / mm;
+      s2Theta = (*s2HC)[i]->GetPosition().theta() / deg;
+      s2Phi = (*s2HC)[i]->GetPosition().phi() / deg;
     }
-    s2X = (*s2HC)[0]->GetPosition().x();
-    s2Y = (*s2HC)[0]->GetPosition().y();
   }
-  // G4cout << "s2Etot: " << s2Etot << G4endl;
-  // G4cout << "Etot: " << s1Etot+s2Etot << G4endl;
+
 
   auto analysisManager = G4AnalysisManager::Instance();
   analysisManager->FillNtupleDColumn(0, 0, s1Etot);
   analysisManager->FillNtupleDColumn(0, 1, s1X); 
-  analysisManager->FillNtupleDColumn(0, 2, s1Y); 
+  analysisManager->FillNtupleDColumn(0, 2, s1Y);
+  analysisManager->FillNtupleDColumn(0, 3, s1Theta);
+  analysisManager->FillNtupleDColumn(0, 4, s1Phi);
 
-  analysisManager->FillNtupleDColumn(0, 3, s2Etot); 
-  analysisManager->FillNtupleDColumn(0, 4, s2X); 
-  analysisManager->FillNtupleDColumn(0, 5, s2Y); 
+  analysisManager->FillNtupleDColumn(0, 5, s2Etot); 
+  analysisManager->FillNtupleDColumn(0, 6, s2X); 
+  analysisManager->FillNtupleDColumn(0, 7, s2Y); 
+  analysisManager->FillNtupleDColumn(0, 8, s2Theta);
+  analysisManager->FillNtupleDColumn(0, 9, s2Phi);
+
 
   analysisManager->AddNtupleRow();
 }
 
 
-GenericHitsCollection* EventAction::GetHitsCollection(G4int hcid, const G4Event* event) const
-{
+GenericHitsCollection* EventAction::GetHitsCollection(G4int hcid, const G4Event* event) const {
   auto hitsCollection = static_cast<GenericHitsCollection*>(event->GetHCofThisEvent()->GetHC(hcid));
 
   if ( ! hitsCollection ) {
@@ -223,13 +217,7 @@ GenericHitsCollection* EventAction::GetHitsCollection(G4int hcid, const G4Event*
 SteppingAction::SteppingAction(EventAction* event) : pEventAction(event) {}
 SteppingAction::~SteppingAction(){}
 
-void SteppingAction::UserSteppingAction(const G4Step *step) {
-
-  // G4cout << "Stepping Action" << G4endl;
-  // G4cout << "Step edep: " << step->GetTotalEnergyDeposit() << G4endl;
-  // pEventAction->AddEnergy(step->GetTotalEnergyDeposit());
-
-}
+void SteppingAction::UserSteppingAction(const G4Step *step) {}
 
 
 //===================================================================

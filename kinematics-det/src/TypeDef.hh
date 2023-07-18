@@ -13,6 +13,7 @@ typedef struct theshold_struct {
   double energy;
   uint decay_charge;
   uint decay_mass;
+  double probability;
 } threshold_struct;
 
 typedef struct state_struct {

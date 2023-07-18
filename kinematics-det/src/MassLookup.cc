@@ -5,7 +5,7 @@ adopted from G. McCann's code in the MASK repository
 but it's now using a json file
 */
 
-#include "mass_lookup.hh"
+#include "MassLookup.hh"
 
 #include <fstream>
 #include <iostream>

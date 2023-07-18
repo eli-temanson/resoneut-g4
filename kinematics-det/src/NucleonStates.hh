@@ -26,6 +26,7 @@ public:
   void ReadJSON();
   G4double GetExcitedLevel(uint, uint, G4double);
   std::vector<theshold_struct> GetThresholds(G4int, G4int);
+  theshold_struct GetThresholds(G4int, G4int, G4double);
 
 private:
   static NucleonStates* fInstance;

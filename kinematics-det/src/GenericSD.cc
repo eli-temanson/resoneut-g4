@@ -63,25 +63,14 @@ void GenericSD::Initialize(G4HCofThisEvent* hce) {
 
 G4bool GenericSD::ProcessHits(G4Step *step, G4TouchableHistory *ROhist) {
 
-  // auto hit = (*hitCollection)[0];
-  // if (step->GetPreStepPoint()->GetProcessDefinedStep()) {
-  //   // G4cout << "ProcName: " << step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName() << G4endl;
-  //   // if (step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName() == "Transportation") return true;
-  //   // if (step->GetPreStepPoint()->GetProcessDefinedStep()->GetProcessName() == "initStep") return true;
-  // } else {
-  //   return true;
-  // }
-
   G4double edep = step->GetTotalEnergyDeposit();
   // if(edep / eV < 1) return true;
-
-  // G4cout << SensitiveDetectorName <<" Hit edep: " << edep << G4endl;
 
   G4String type = step->GetTrack()->GetDefinition()->GetParticleType();
   // if(type != "nucleus" && type != "baryon") return true;
 
   G4StepPoint* preStepPoint = step->GetPreStepPoint();
-  // if(step->GetPostStepPoint()) { 
+  if(step->GetPostStepPoint()) { 
     G4StepPoint* postStepPoint = step->GetPostStepPoint();
     G4TouchableHistory* touchable = (G4TouchableHistory*)(preStepPoint->GetTouchable());
     G4int copyNo = touchable->GetVolume()->GetCopyNo();
@@ -93,7 +82,7 @@ G4bool GenericSD::ProcessHits(G4Step *step, G4TouchableHistory *ROhist) {
     GenericHit* pHit = new GenericHit();
     pHit->SetHit(copyNo, trackID, hitTime/ns, edep/MeV, position/mm, particle);
     hitCollection->insert(pHit);
-  // }
+  }
   return true;
 }
 
