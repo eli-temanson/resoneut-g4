@@ -111,15 +111,24 @@ void NucleonStates::ReadJSON() {
   }
 }
 
-
-
-
 G4double NucleonStates::GetExcitedLevel(uint charge, uint mass, G4double probability) {
+  
   std::vector<state_struct> states = nucleons_[charge][mass].states;
+  
+  // G4cout << "charge: " << charge << G4endl;
+  // G4cout << "mass: " << mass << G4endl;
+  // G4cout << "probability: " << probability << G4endl;
+  // G4cout << "#states: " << states.size() << G4endl;
+  // for(size_t i = 0; i < states.size(); i++) {
+  //   G4cout << "states ex: " << states[i].energy << G4endl;
+  // }
+
   if(states.empty()) {
     return 0.;
   }
+
   G4double exEnergy = 0.;
+  
   if(probability < states[0].probability) { 
     exEnergy = states[0].energy;
   } else {

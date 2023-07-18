@@ -8,6 +8,7 @@
 
 #include "DetectorConstruction.hh"
 #include "TrackingInformation.hh"
+#include "TypeDef.hh"
 
 #include <cmath>
 
@@ -23,9 +24,10 @@ public:
 
   void StartTracking(G4Track*);
 
-
 private:
   G4double fScatteringEnergy;
+  kinematics_struct Beam, Target, Ejectile, Fragment, Decay_Heavy, Decay_Light;
+
 };
 
 #endif

@@ -2,10 +2,11 @@
     "Isotopes": [
         {
             "Name": "11C",
-            "ZA": [6, 5],
+            "ZA": [6, 11],
             "States": [
                 {"Energy": 8.699, "Spin-parity": "2.5+"},
-                {"Energy": 8.9, "Spin-parity": "4.5+"}
+                {"Energy": 8.9, "Spin-parity": "4.5+"},
+                {"Energy": 10.0, "Spin-parity": "4.5+"}
             ],
             "Thresholds": [
                 {"Energy": 8.60, "Decay": [1, 1]},
