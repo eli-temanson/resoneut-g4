@@ -49,7 +49,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   // World geometry
   //  
-  G4Box* pSolidWorld = new G4Box("World",1*m,1*m,1*m);
+  G4Box* pSolidWorld = new G4Box("World",0.5*m,0.5*m,1.5*m);
 
   // World logic definition
   //
@@ -137,8 +137,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     1,                  // copy number
     checkOverlaps);     // overlaps checking
 
+
   //===============================================================================
   // C2D4 Target
+
   G4Material* C2D4 = new G4Material("C2D4", 1.06*g/cm3, 2);
   G4Element* C  = new G4Element("Carbon",   "C",  6.0,  12.011*g/mole);
   G4Isotope* D  = new G4Isotope("Deuteron", 1, 2, 2.0141018*g/mole);
@@ -148,7 +150,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   C2D4->AddElement(elD, 4);
 
   G4double targetThickness = 7.5*um; // 7.5
-  G4VSolid* pTargetSolid = new G4Tubs("TargetSolid", 0.0, 20.0*mm, targetThickness/2.0, 0.0, 360.0*deg);
+  G4VSolid* pTargetSolid = new G4Tubs("TargetSolid", 0.0, 10.0*mm, targetThickness/2.0, 0.0, 360.0*deg);
   pTargetLogical =  new G4LogicalVolume(pTargetSolid, C2D4, "targetLogical");
   pTargetLogical->SetUserLimits(new G4UserLimits(0.02*targetThickness));
   new G4PVPlacement(
@@ -163,6 +165,114 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   // pStepLimit = new G4UserLimits(0.02*targetThickness);
   // TargetLogical->SetUserLimits(pStepLimit);
+
+
+  //===============================================================================
+  // IC detector
+  
+  // Material
+  //
+  // G4Material* pICMat = nist->FindOrBuildMaterial("G4_BUTANE");
+  double R = 62364.0; // cm3*Torr/(K mol)
+  double molar_mass = 58.12; // g/mol
+  double pressure = 124.0; // Torr
+  double ic_rho = molar_mass * pressure / (R * 293.15);  // g/cm3
+  G4Material* pICMat = nist->BuildMaterialWithNewDensity("butane","G4_BUTANE",ic_rho*g/cm/cm/cm);
+
+  // Geometry inner gas
+  //  
+  G4Tubs* pICGeo = new G4Tubs(
+    "ICGeo",
+    0.0,
+    10.95*cm,
+    23.35*cm, // thickness
+    0.0,
+    2*CLHEP::pi);
+
+  // logic definition
+  //
+  pICLogical = new G4LogicalVolume(
+    pICGeo, // the geometry/solid 
+    pICMat,   // the material
+    "ICLogic");	   // the name
+
+  new G4PVPlacement(0,	//no rotation
+    G4ThreeVector(0,0,(30.0+23.35)*cm), // the center
+    pICLogical,        // the logical volume
+    "ICLogic",  // the name
+    pWorldLogic,        // the mother (logical) volume
+    false,              // no boolean operation
+    1,                  // copy number
+    checkOverlaps);     // overlaps checking
+
+  // 
+  G4VisAttributes* pICvis = new G4VisAttributes(
+    G4Colour(
+      0.0,   // red
+      0.0,   // green
+      1.0,   // blue
+      0.5)); // alpha trans.
+  pICLogical->SetVisAttributes(pICvis);
+
+
+  // -----> Outer shell
+  G4Material* pStainlessMat = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
+  G4VisAttributes* pStainlessVis = new G4VisAttributes(
+    G4Colour(
+      0.75,   // red
+      0.75,   // green
+      0.75,   // blue
+      0.9)); // alpha trans.
+
+  G4Tubs* pICGeoOuter = new G4Tubs(
+    "ICGeoOuter",
+    11.43*cm,
+    11.93*cm,
+    23.35*cm, // thickness
+    0.0,
+    2*CLHEP::pi);
+
+  auto pICOuterLogical = new G4LogicalVolume(
+    pICGeoOuter, // the geometry/solid 
+    pStainlessMat,   // the material
+    "ICOuterLogical");	   // the name
+
+  new G4PVPlacement(0,	//no rotation
+    G4ThreeVector(0,0,(30.0+23.35)*cm), // the center
+    pICOuterLogical,  // the logical volume
+    "ICOuterLogical",   // the name
+    pWorldLogic, // the mother (logical) volume
+    false,       // no boolean operation
+    1,      // copy number
+    checkOverlaps); // overlaps checking
+
+  pICOuterLogical->SetVisAttributes(pStainlessVis);
+
+  // -----> Front shell
+  G4Tubs* pICGeoFront = new G4Tubs(
+    "ICGeoFront",
+    4.45*cm, //6.35
+    11.93*cm,
+    0.25*cm, // thickness
+    0.0,
+    2*CLHEP::pi);
+
+  auto pICFrontLogical = new G4LogicalVolume(
+    pICGeoFront, // the geometry/solid 
+    pStainlessMat,   // the material
+    "ICFrontLogical");	   // the name
+
+  new G4PVPlacement(0,	//no rotation
+    G4ThreeVector(0,0,(30.0)*cm), // the center
+    pICFrontLogical,  // the logical volume
+    "ICFrontLogical",   // the name
+    pWorldLogic, // the mother (logical) volume
+    false,       // no boolean operation
+    1,      // copy number
+    checkOverlaps); // overlaps checking
+
+  pICFrontLogical->SetVisAttributes(pStainlessVis);
+
 
   // //===============================================================================
   // // p-Terphenyl material from NIST
@@ -251,36 +361,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //   checkOverlaps);     // overlaps checking
 
 
-  // //=================================================================================                   
-  // //
-  // // Tantalum
-  // //
-  // nist->FindOrBuildMaterial("G4_Ta");
-  // auto Tantalum = G4Material::GetMaterial("G4_Ta");
-
-  // G4Box* small_plate = new G4Box("small_plate",2.5*cm,2.5*cm,0.25*mm);
-
-  // new G4LogicalVolume(
-  //   small_plate,  // the geometry/solid
-  //   Tantalum,        // the material
-  //   "Ta_shield"); // the name
-
-  // auto TaLV = new G4LogicalVolume(
-  //   small_plate,        // its solid
-  //   Tantalum, // its material
-  //   "TaLV");        // its name
-
-  // // comment this out to remove the tantalum
-  // new G4PVPlacement(
-  //   0,                // no rotation
-  //   G4ThreeVector(0.0, 0.0, -9.0*cm), // its position
-  //   TaLV,       // its logical volume
-  //   "Ta",           // its name
-  //   pWorldLogic,          // its mother  volume
-  //   false,            // no boolean operation
-  //   0,                // copy number
-  //   checkOverlaps);  // checking overlaps
-
 
 
   //=================================================================================                   
@@ -298,10 +378,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 void DetectorConstruction::ConstructSDandField(){
 
-  // auto scint_sensitive = new ScintSD("scint");
-  // G4SDManager::GetSDMpointer()->AddNewDetector(scint_sensitive);
-  // if(scint_logic != NULL) scint_logic->SetSensitiveDetector(scint_sensitive);
-
   G4SDManager* pSDmanager = G4SDManager::GetSDMpointer();
   
   // Target
@@ -309,13 +385,18 @@ void DetectorConstruction::ConstructSDandField(){
   G4SDManager::GetSDMpointer()->AddNewDetector(pTarget);
   pTargetLogical->SetSensitiveDetector(pTarget);
 
-  // Silicon
-  // G4VSensitiveDetector* pS1 = new GenericSD("S1");
+  // S1-Detector
   auto pS1 = new GenericSD("S1");
   G4SDManager::GetSDMpointer()->AddNewDetector(pS1);
   pS1Logical->SetSensitiveDetector(pS1);
-
+  
+  // S2-Detector
   auto pS2 = new GenericSD("S2");
   G4SDManager::GetSDMpointer()->AddNewDetector(pS2);
   pS2Logical->SetSensitiveDetector(pS2);
+
+  // IC-Detector
+  auto pIC = new GenericSD("IC");
+  G4SDManager::GetSDMpointer()->AddNewDetector(pIC);
+  pICLogical->SetSensitiveDetector(pIC);
 }

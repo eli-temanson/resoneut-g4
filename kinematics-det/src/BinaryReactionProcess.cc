@@ -14,8 +14,8 @@ BinaryReactionProcess::~BinaryReactionProcess() {}
 G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double, G4ForceCondition* condition) {
 
   // Grab Detector construction to get access to the target volume
-  const DetectorConstruction* detectorConstruction = static_cast<const DetectorConstruction*>
-      (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+  const DetectorConstruction* detectorConstruction 
+    = static_cast<const DetectorConstruction*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
   // G4LogicalVolume* pWorldLogical = detectorConstruction->GetWorldVolume();
   G4LogicalVolume* pTargetLogical = detectorConstruction->GetTargetVolume();
@@ -87,8 +87,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
   // Define the neutron or other light recoil particles
   G4ParticleDefinition* pEjectileDef;
-  G4String particleName;
-  G4ParticleDefinition* neutron = particleTable->FindParticle(particleName="neutron");
+  G4ParticleDefinition* neutron = particleTable->FindParticle("neutron");
 
   // 80% of the time choose neutron for (d, n) instead of (d, d)
   if(pTargetDef == deutron) {
@@ -168,22 +167,22 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   //   lightRecoilDef, 
   //   heavyRecoilDef));
 
-  sec1->SetUserInformation(
-    new TrackingInformation(
-    energy, 
-    cmEnergy, 
-    0.0,
-    Ejectile.Theta, 
-    0.0, 
-    0.0,
-    Fragment.Theta,
-    Ejectile.KE,
-    Fragment.KE, 
-    aTrack.GetPosition(), 
-    QValue, 
-    Fragment.Ex,
-    pEjectileDef, 
-    pFragmentDef));
+  // sec1->SetUserInformation(
+  //   new TrackingInformation(
+  //   energy, 
+  //   cmEnergy, 
+  //   0.0,
+  //   Ejectile.Theta, 
+  //   0.0, 
+  //   0.0,
+  //   Fragment.Theta,
+  //   Ejectile.KE,
+  //   Fragment.KE, 
+  //   aTrack.GetPosition(), 
+  //   QValue, 
+  //   Fragment.Ex,
+  //   pEjectileDef, 
+  //   pFragmentDef));
 
   // below threshold keep it!
   G4Track* sec2 = new G4Track(
@@ -260,9 +259,11 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
     }
   } else { // No Thresholds!
+
     aParticleChange.SetNumberOfSecondaries(2);
     aParticleChange.AddSecondary(sec1);
     aParticleChange.AddSecondary(sec2);
+  
   }
 
   aParticleChange.ProposeEnergy(0.);

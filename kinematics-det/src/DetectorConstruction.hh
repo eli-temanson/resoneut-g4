@@ -71,19 +71,20 @@ class DetectorConstruction : public G4VUserDetectorConstruction
  
     G4LogicalVolume* GetWorldVolume() const {return pWorldLogic;}
     G4LogicalVolume* GetTargetVolume() const {return pTargetLogical;}
-    G4LogicalVolume* GetDetectVolume() const {return pDetectLogical;}
-    G4LogicalVolume* GetS1Volume() const {return pS1Logical;}
-    G4LogicalVolume* GetS2Volume() const {return pS2Logical;}
+    // G4LogicalVolume* GetDetectVolume() const {return pDetectLogical;}
+    // G4LogicalVolume* GetS1Volume() const {return pS1Logical;}
+    // G4LogicalVolume* GetS2Volume() const {return pS2Logical;}
 
   private:
     void ConstructMaterials();
     void SetAttributes();
 
-    G4LogicalVolume* pWorldLogic;
-    G4LogicalVolume* pDetectLogical;
-    G4LogicalVolume* pTargetLogical;
-    G4LogicalVolume* pS1Logical;
-    G4LogicalVolume* pS2Logical;
+    G4LogicalVolume* pWorldLogic = nullptr;
+    G4LogicalVolume* pDetectLogical = nullptr;
+    G4LogicalVolume* pTargetLogical = nullptr;
+    G4LogicalVolume* pS1Logical = nullptr;
+    G4LogicalVolume* pS2Logical = nullptr;
+    G4LogicalVolume* pICLogical = nullptr;
 
     G4UserLimits* pStepLimit;
 };

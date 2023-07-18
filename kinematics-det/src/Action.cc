@@ -62,11 +62,7 @@ RunAction::RunAction() {
   analysisManager->SetDefaultFileType("root");
   analysisManager->SetNtupleMerging(true);
   analysisManager->SetFileName("analysis/ouput");
-  analysisManager->SetNtupleDirectoryName("tuples");
-
-  // Creating histograms
-  //
-  // analysisManager->CreateH1("Edep", "Edep", 300, 0.0, 600 * keV); // h2 Id = 0
+  // analysisManager->SetNtupleDirectoryName("tuples");
 
   // Creating ntuple
   //
@@ -92,10 +88,14 @@ RunAction::RunAction() {
   analysisManager->CreateNtupleDColumn("s2_theta"); 
   analysisManager->CreateNtupleDColumn("s2_phi"); 
 
-  // analysisManager->CreateNtupleDColumn("edep_event");
+  analysisManager->CreateNtupleDColumn("ic_e");
+  analysisManager->CreateNtupleDColumn("ic_x"); 
+  analysisManager->CreateNtupleDColumn("ic_y"); 
+  analysisManager->CreateNtupleDColumn("ic_theta"); 
+  analysisManager->CreateNtupleDColumn("ic_phi"); 
+
   analysisManager->FinishNtuple();
   // analysisManager->SetNtupleFileName(1, "data/Ntuple-events");
-
 }
 
 RunAction::~RunAction() {
@@ -144,6 +144,8 @@ void EventAction::EndOfEventAction(const G4Event* event) {
     return;
   }
 
+  // Retrieve S1 Related Data
+  // 
   // Get hits collections IDs (only once)
   if( s1HCID == -1 ) {
     s1HCID = G4SDManager::GetSDMpointer()->GetCollectionID("S1/hitCollection");
@@ -161,7 +163,8 @@ void EventAction::EndOfEventAction(const G4Event* event) {
     }
   }
 
-
+  // Retrieve S2 Related Data
+  // 
   if( s2HCID == -1 ) {
     s2HCID = G4SDManager::GetSDMpointer()->GetCollectionID("S2/hitCollection");
   }
@@ -178,20 +181,49 @@ void EventAction::EndOfEventAction(const G4Event* event) {
     }
   }
 
+  // Retrieve ic Related Data
+  // 
+  if( icHCID == -1 ) {
+    icHCID = G4SDManager::GetSDMpointer()->GetCollectionID("IC/hitCollection");
+  }
+  auto icHC = GetHitsCollection(icHCID, event);
+  G4double icEtot = 0.0, icX = 0.0, icY = 0.0, icTheta = 0.0, icPhi = 0.0;
+
+  if(icHC) {
+    for(G4int i = 1; i < icHC->entries(); ++i) {
+      icEtot += (*icHC)[i]->GetEnergy() / MeV;
+      icX = (*icHC)[i]->GetPosition().x() / mm;
+      icY = (*icHC)[i]->GetPosition().y() / mm;
+      icTheta = (*icHC)[i]->GetPosition().theta() / deg;
+      icPhi = (*icHC)[i]->GetPosition().phi() / deg;
+    }
+  }
 
   auto analysisManager = G4AnalysisManager::Instance();
+  
+  // Fill S1 Related Data
+  // 
   analysisManager->FillNtupleDColumn(0, 0, s1Etot);
   analysisManager->FillNtupleDColumn(0, 1, s1X); 
   analysisManager->FillNtupleDColumn(0, 2, s1Y);
   analysisManager->FillNtupleDColumn(0, 3, s1Theta);
   analysisManager->FillNtupleDColumn(0, 4, s1Phi);
 
+  // Fill S2 Related Data
+  // 
   analysisManager->FillNtupleDColumn(0, 5, s2Etot); 
   analysisManager->FillNtupleDColumn(0, 6, s2X); 
   analysisManager->FillNtupleDColumn(0, 7, s2Y); 
   analysisManager->FillNtupleDColumn(0, 8, s2Theta);
   analysisManager->FillNtupleDColumn(0, 9, s2Phi);
 
+  // Fill ic Related Data
+  // 
+  analysisManager->FillNtupleDColumn(0, 10, icEtot); 
+  analysisManager->FillNtupleDColumn(0, 11, icX); 
+  analysisManager->FillNtupleDColumn(0, 12, icY); 
+  analysisManager->FillNtupleDColumn(0, 13, icTheta);
+  analysisManager->FillNtupleDColumn(0, 14, icPhi);
 
   analysisManager->AddNtupleRow();
 }
@@ -216,7 +248,6 @@ GenericHitsCollection* EventAction::GetHitsCollection(G4int hcid, const G4Event*
 //
 SteppingAction::SteppingAction(EventAction* event) : pEventAction(event) {}
 SteppingAction::~SteppingAction(){}
-
 void SteppingAction::UserSteppingAction(const G4Step *step) {}
 
 
@@ -229,29 +260,29 @@ TrackingAction::TrackingAction(EventAction* event) : pEventAction(event) {
 TrackingAction::~TrackingAction() {}
 
 void TrackingAction::PreUserTrackingAction(const G4Track* track) {
-  const G4VProcess* creatorProcess = track->GetCreatorProcess();
-  if(!creatorProcess) return;
-  if(creatorProcess->GetProcessName() != Name) return;
-  if(track->GetTrackID() != 2) return;
+  // const G4VProcess* creatorProcess = track->GetCreatorProcess();
+  // if(!creatorProcess) return;
+  // if(creatorProcess->GetProcessName() != Name) return;
+  // if(track->GetTrackID() != 2) return;
 
-  TrackingInformation* info = (TrackingInformation*) track->GetUserInformation();
+  // TrackingInformation* info = (TrackingInformation*) track->GetUserInformation();
 
-  // These need to be defined in the event action class (Action.hh)
-  //
-  pEventAction->AddEnergy(info->GetEnergy());
-  pEventAction->SetCMEnergy(info->GetCMEnergy());
-  pEventAction->SetVertexZ(info->GetVertex().z());
-  pEventAction->SetQValue(info->GetQValue());
-  pEventAction->SetExcitedEnergy(info->GetExcitedEnergy());
-  pEventAction->SetLightAngleCM(info->GetCMLightTheta());
-  pEventAction->SetLightAngleLab(info->GetLabLightTheta());
-  pEventAction->SetLightEnergy(info->GetLightEnergy());
-  pEventAction->SetLightRecoilCharge(info->GetLightRecoil()->GetAtomicNumber());
-  pEventAction->SetLightRecoilMass(info->GetLightRecoil()->GetAtomicMass());
-  pEventAction->SetHeavyAngleCM(info->GetCMHeavyTheta());
-  pEventAction->SetHeavyAngleLab(info->GetLabHeavyTheta());
-  pEventAction->SetHeavyEnergy(info->GetHeavyEnergy());
-  pEventAction->SetHeavyRecoilCharge(info->GetHeavyRecoil()->GetAtomicNumber());
-  pEventAction->SetHeavyRecoilMass(info->GetHeavyRecoil()->GetAtomicMass());
+  // // These need to be defined in the event action class (Action.hh)
+  // //
+  // pEventAction->AddEnergy(info->GetEnergy());
+  // pEventAction->SetCMEnergy(info->GetCMEnergy());
+  // pEventAction->SetVertexZ(info->GetVertex().z());
+  // pEventAction->SetQValue(info->GetQValue());
+  // pEventAction->SetExcitedEnergy(info->GetExcitedEnergy());
+  // pEventAction->SetLightAngleCM(info->GetCMLightTheta());
+  // pEventAction->SetLightAngleLab(info->GetLabLightTheta());
+  // pEventAction->SetLightEnergy(info->GetLightEnergy());
+  // pEventAction->SetLightRecoilCharge(info->GetLightRecoil()->GetAtomicNumber());
+  // pEventAction->SetLightRecoilMass(info->GetLightRecoil()->GetAtomicMass());
+  // pEventAction->SetHeavyAngleCM(info->GetCMHeavyTheta());
+  // pEventAction->SetHeavyAngleLab(info->GetLabHeavyTheta());
+  // pEventAction->SetHeavyEnergy(info->GetHeavyEnergy());
+  // pEventAction->SetHeavyRecoilCharge(info->GetHeavyRecoil()->GetAtomicNumber());
+  // pEventAction->SetHeavyRecoilMass(info->GetHeavyRecoil()->GetAtomicMass());
 
 }
