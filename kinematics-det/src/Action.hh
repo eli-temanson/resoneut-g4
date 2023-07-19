@@ -87,7 +87,7 @@ class EventAction : public G4UserEventAction
     virtual void EndOfEventAction(const G4Event*);
     
     // Set Values functions here.
-    void AddEnergy(G4double e) {Energy += e;}
+    // void AddEnergy(G4double e) {Energy += e;}
     void SetEnergy(G4double energy) {Energy = energy;}
     void SetCMEnergy(G4double cmEnergy) {CMEnergy = cmEnergy;}
     void SetVertexZ(G4double vertexZ) {VertexZ = vertexZ;}

@@ -1,6 +1,6 @@
 # Files Necessary for batch mode
 #
-/run/numberOfThreads 8
+/run/numberOfThreads 10
 /run/initialize
 /run/verbose 0
 /event/verbose 0

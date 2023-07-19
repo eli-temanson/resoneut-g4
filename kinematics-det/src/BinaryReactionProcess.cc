@@ -6,13 +6,20 @@
 BinaryReactionProcess::BinaryReactionProcess(const G4String& processName) : 
   G4VDiscreteProcess(processName, fHadronic), 
   fScatteringEnergy(1e6) {
+    
     SetProcessSubType(111);
+    SetAngDis("assets/dwba_l0.dat");
 }
 
 BinaryReactionProcess::~BinaryReactionProcess() {}
 
 G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double, G4ForceCondition* condition) {
 
+ //  if(angDis == nullptr) {
+ //    SetAngDis("assets/dwba_l0.dat");
+ //  } else {
+ //    G4cout << "angDis: " << angDis->shoot() << G4endl;
+ //  }
   // Grab Detector construction to get access to the target volume
   const DetectorConstruction* detectorConstruction 
     = static_cast<const DetectorConstruction*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
@@ -96,6 +103,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   } else { // Only (c, c)
     pEjectileDef = carbon;
   }
+
   Ejectile.Z = pEjectileDef->GetAtomicNumber();
   Ejectile.A = pEjectileDef->GetAtomicMass();
   Ejectile.InvMass = MassLookup::GetInstance().FindMass(Ejectile.Z, Ejectile.A);
@@ -116,7 +124,9 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4double gamma = std::sqrt(term1/(term2+term3));
   
   // Lab Frame Ejectile Theta, Iliadis(C.38)
-  G4double ThetaCM = std::acos(G4UniformRand()*2.0 - 1.0);
+  // G4cout << "ThetaCM: " << GetInvKinTheta() << G4endl;
+  G4double ThetaCM = GetInvKinTheta();
+  // G4double ThetaCM = std::acos(G4UniformRand()*2.0 - 1.0);
   Ejectile.Theta = std::acos((gamma + std::cos(ThetaCM))/std::sqrt(1 + gamma*gamma + 2*gamma*std::cos(ThetaCM)));
   G4double r = std::sqrt(Beam.KE*Beam.M*Ejectile.M)*std::cos(Ejectile.Theta)/(Ejectile.M+Fragment.M); 
   G4double s = (Beam.KE*(Fragment.M-Beam.M)+Fragment.M*QValue)/(Ejectile.M+Fragment.M);
@@ -167,22 +177,22 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   //   lightRecoilDef, 
   //   heavyRecoilDef));
 
-  // sec1->SetUserInformation(
-  //   new TrackingInformation(
-  //   energy, 
-  //   cmEnergy, 
-  //   0.0,
-  //   Ejectile.Theta, 
-  //   0.0, 
-  //   0.0,
-  //   Fragment.Theta,
-  //   Ejectile.KE,
-  //   Fragment.KE, 
-  //   aTrack.GetPosition(), 
-  //   QValue, 
-  //   Fragment.Ex,
-  //   pEjectileDef, 
-  //   pFragmentDef));
+  sec1->SetUserInformation(
+    new TrackingInformation(
+    energy, 
+    ThetaCM, 
+    0.0,
+    Ejectile.Theta, 
+    0.0, 
+    0.0,
+    Fragment.Theta,
+    Ejectile.KE,
+    Fragment.KE, 
+    aTrack.GetPosition(), 
+    QValue, 
+    Fragment.Ex,
+    pEjectileDef, 
+    pFragmentDef));
 
   // below threshold keep it!
   G4Track* sec2 = new G4Track(

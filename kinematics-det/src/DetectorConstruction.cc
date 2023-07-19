@@ -168,7 +168,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 
   //===============================================================================
-  // IC detector
+  // Ion chamber detector
   
   // Material
   //
@@ -263,7 +263,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     "ICFrontLogical");	   // the name
 
   new G4PVPlacement(0,	//no rotation
-    G4ThreeVector(0,0,(30.0)*cm), // the center
+    G4ThreeVector(0,0,(30.0-0.25)*cm), // the center
     pICFrontLogical,  // the logical volume
     "ICFrontLogical",   // the name
     pWorldLogic, // the mother (logical) volume
@@ -272,6 +272,34 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     checkOverlaps); // overlaps checking
 
   pICFrontLogical->SetVisAttributes(pStainlessVis);
+
+  // -----> Kapton Window
+  
+  // -----> beam stopper
+  G4Tubs* p_ic_stopper_geo = new G4Tubs(
+    "ic_stopper_geo",
+    0,
+    1.0*cm,
+    0.5*cm, // thickness
+    0.0,
+    2*CLHEP::pi);
+
+  auto p_ic_stopper_logical = new G4LogicalVolume(
+    p_ic_stopper_geo, // the geometry/solid 
+    pStainlessMat,   // the material
+    "ic_stopper_logical");	   // the name
+
+  new G4PVPlacement(0,	//no rotation
+    G4ThreeVector(0,0,(30.0-0.25)*cm), // the center
+    p_ic_stopper_logical,  // the logical volume
+    "ic_stopper_logical",   // the name
+    pWorldLogic, // the mother (logical) volume
+    false,       // no boolean operation
+    1,      // copy number
+    checkOverlaps); // overlaps checking
+
+  pICFrontLogical->SetVisAttributes(pStainlessVis);
+
 
 
   // //===============================================================================

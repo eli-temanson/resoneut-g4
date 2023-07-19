@@ -28,20 +28,12 @@
 GenericSD::GenericSD(G4String n) :
   G4VSensitiveDetector(n), 
   hitCollection(nullptr), 
-  hcid(-1) 
-  {
-  // hcid = -1;
-  collectionName.insert("hitCollection");
+  hcid(-1) {
+    collectionName.insert("hitCollection");
 }
 
 GenericSD::~GenericSD() {}
 
-// void GenericSD::Initialize(G4HCofThisEvent* hce) {
-//   hitCollection = new GenericHitsCollection(GetName(), collectionName[0]);
-//   static G4int hcid = GetCollectionID(0);  
-//   hce->AddHitsCollection(hcid, hitCollection);
-//   hitCollection->insert(new GenericHit());
-// }
 
 void GenericSD::Initialize(G4HCofThisEvent* hce) {
 
@@ -53,35 +45,35 @@ void GenericSD::Initialize(G4HCofThisEvent* hce) {
   hce->AddHitsCollection(hcid, hitCollection);
   hitCollection->insert(new GenericHit());
 
-  // static G4int hcid = GetCollectionID(0);  
-  // hce->AddHitsCollection(hcid, hitCollection);
-  // hitCollection->insert(new GenericHit());
-  // hce->AddHitsCollection(HCID, hitCollection);
-
 }
 
 
 G4bool GenericSD::ProcessHits(G4Step *step, G4TouchableHistory *ROhist) {
 
   G4double edep = step->GetTotalEnergyDeposit();
-  // if(edep / eV < 1) return true;
+  if(edep / eV < 1) return true;
 
   G4String type = step->GetTrack()->GetDefinition()->GetParticleType();
-  // if(type != "nucleus" && type != "baryon") return true;
+  if(type != "nucleus" && type != "baryon") return true;
 
   G4StepPoint* preStepPoint = step->GetPreStepPoint();
+
   if(step->GetPostStepPoint()) { 
+    
     G4StepPoint* postStepPoint = step->GetPostStepPoint();
+    
     G4TouchableHistory* touchable = (G4TouchableHistory*)(preStepPoint->GetTouchable());
     G4int copyNo = touchable->GetVolume()->GetCopyNo();
     G4double hitTime = preStepPoint->GetGlobalTime();
     G4int trackID = step->GetTrack()->GetTrackID();
     G4ThreeVector position = preStepPoint->GetPosition();
+    
     G4ParticleDefinition* particle = step->GetTrack()->GetDefinition();
 
     GenericHit* pHit = new GenericHit();
     pHit->SetHit(copyNo, trackID, hitTime/ns, edep/MeV, position/mm, particle);
     hitCollection->insert(pHit);
+  
   }
   return true;
 }
@@ -114,3 +106,5 @@ GenericHit::GenericHit() : G4VHit() {}
 //     Particle(particle) {}
 
 GenericHit::~GenericHit() {}
+
+
