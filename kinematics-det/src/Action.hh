@@ -87,22 +87,19 @@ class EventAction : public G4UserEventAction
     virtual void EndOfEventAction(const G4Event*);
     
     // Set Values functions here.
-    // void AddEnergy(G4double e) {Energy += e;}
-    void SetEnergy(G4double energy) {Energy = energy;}
-    void SetCMEnergy(G4double cmEnergy) {CMEnergy = cmEnergy;}
-    void SetVertexZ(G4double vertexZ) {VertexZ = vertexZ;}
-    void SetQValue(G4double qValue) {QValue = qValue;}
-    void SetExcitedEnergy(G4double excitedEnergy) {ExcitedEnergy = excitedEnergy;}
-    void SetLightAngleCM(G4double angle) {LightAngleCM = angle;}
-    void SetLightAngleLab(G4double angle) {LightAngleLab = angle;}
-    void SetLightEnergy(G4double energy) {LightEnergy = energy;}
-    void SetHeavyAngleCM(G4double angle) {HeavyAngleCM = angle;}
-    void SetHeavyAngleLab(G4double angle) {HeavyAngleLab = angle;}
-    void SetHeavyEnergy(G4double energy) {HeavyEnergy = energy;}
-    void SetLightRecoilCharge(G4int charge) {LightRecoilCharge = charge;}
-    void SetLightRecoilMass(G4int mass) {LightRecoilMass = mass;}
-    void SetHeavyRecoilCharge(G4int charge) {HeavyRecoilCharge = charge;}
-    void SetHeavyRecoilMass(G4int mass) {HeavyRecoilMass = mass;}
+    // void SetHeavyRecoilCharge(G4int charge) {HeavyRecoilCharge = charge;}
+    // void SetHeavyRecoilMass(G4int mass) {HeavyRecoilMass = mass;}
+    void SetThetaCM(G4double theta_cm) {ThetaCM = theta_cm;} 
+    void SetThetaEjectile(G4double theta_ejectile) {ThetaEjectile = theta_ejectile;}       
+    void SetThetaFragment(G4double theta_fragment) {ThetaFragment = theta_fragment;}      
+    void SetThetaDecayLight(G4double theta_decay_light) {ThetaDecayLight = theta_decay_light;}  
+    void SetThetaDecayHeavy(G4double theta_deacy_heavy) {ThetaDecayHeavy = theta_deacy_heavy;} 
+    void SetEjectileKE(G4double ke_ejectile) {EjectileKE = ke_ejectile;} 
+    void SetFragmentKE(G4double ke_fragment) {FragmentKE = ke_fragment;}            
+    void SetDecayLightKE(G4double ke_decay_light) {DecayLightKE = ke_decay_light;}
+    void SetDecayHeavyKE(G4double ke_decay_heavy) {DecayHeavyKE = ke_decay_heavy;}       
+    void SetQValue(G4double qValue) {QValue = qValue;}       
+    void SetFragmentEx(G4double frag_ex) {FragmentEx = frag_ex;}                 
 
   private:
     GenericHitsCollection* GetHitsCollection(G4int, const G4Event*) const;
@@ -111,21 +108,21 @@ class EventAction : public G4UserEventAction
     G4int icHCID = -1;
 
     // Define Values here.
-    G4double Energy;
-    G4double CMEnergy;
-    G4double VertexZ;
+    // G4int HeavyRecoilCharge;
+    // G4int HeavyRecoilMass;
+  
+    G4double ThetaCM; 
+    G4double ThetaEjectile;
+    G4double ThetaFragment;
+    G4double ThetaDecayLight; 
+    G4double ThetaDecayHeavy;
+    G4double EjectileKE; 
+    G4double FragmentKE;
+    G4double DecayLightKE;
+    G4double DecayHeavyKE;
     G4double QValue;
-    G4double ExcitedEnergy;
-    G4double LightAngleCM;
-    G4double LightAngleLab;
-    G4double LightEnergy;
-    G4double HeavyAngleCM;
-    G4double HeavyAngleLab;
-    G4double HeavyEnergy;
-    G4int LightRecoilCharge;
-    G4int LightRecoilMass;
-    G4int HeavyRecoilCharge;
-    G4int HeavyRecoilMass;
+    G4double FragmentEx;
+
 };
 
 

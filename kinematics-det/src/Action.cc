@@ -102,6 +102,18 @@ RunAction::RunAction() {
 
   analysisManager->CreateNtupleDColumn("cm_angle"); 
   
+  analysisManager->CreateNtupleDColumn("ThetaCM");         
+  analysisManager->CreateNtupleDColumn("ThetaEjectile");   
+  analysisManager->CreateNtupleDColumn("ThetaFragment");   
+  analysisManager->CreateNtupleDColumn("ThetaDecayLight"); 
+  analysisManager->CreateNtupleDColumn("ThetaDecayHeavy"); 
+  analysisManager->CreateNtupleDColumn("EjectileKE");      
+  analysisManager->CreateNtupleDColumn("FragmentKE");      
+  analysisManager->CreateNtupleDColumn("DecayLightKE");    
+  analysisManager->CreateNtupleDColumn("DecayHeavyKE");    
+  analysisManager->CreateNtupleDColumn("QValue");          
+  analysisManager->CreateNtupleDColumn("FragmentEx");      
+ 
   analysisManager->FinishNtuple();
   // analysisManager->SetNtupleFileName(1, "data/Ntuple-events");
 }
@@ -264,8 +276,19 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   analysisManager->FillNtupleDColumn(0, 20, icAtomicNum);
  
   // Fill rxn stuff 
-  analysisManager->FillNtupleDColumn(0, 21, CMEnergy);
-  
+  analysisManager->FillNtupleDColumn(0, 21, ThetaCM);         
+  analysisManager->FillNtupleDColumn(0, 22, ThetaEjectile);   
+  analysisManager->FillNtupleDColumn(0, 23, ThetaFragment);   
+  analysisManager->FillNtupleDColumn(0, 24, ThetaDecayLight); 
+  analysisManager->FillNtupleDColumn(0, 25, ThetaDecayHeavy); 
+  analysisManager->FillNtupleDColumn(0, 26, EjectileKE);      
+  analysisManager->FillNtupleDColumn(0, 27, FragmentKE);      
+  analysisManager->FillNtupleDColumn(0, 28, DecayLightKE);    
+  analysisManager->FillNtupleDColumn(0, 29, DecayHeavyKE);    
+  analysisManager->FillNtupleDColumn(0, 30, QValue);          
+  analysisManager->FillNtupleDColumn(0, 31, FragmentEx);      
+ 
+
   analysisManager->AddNtupleRow();
 }
 
@@ -310,20 +333,19 @@ void TrackingAction::PreUserTrackingAction(const G4Track* track) {
 
   // These need to be defined in the event action class (Action.hh)
   //
-  // pEventAction->AddEnergy(info->GetEnergy());
-  pEventAction->SetCMEnergy(info->GetCMEnergy());
-  pEventAction->SetVertexZ(info->GetVertex().z());
+  pEventAction->SetThetaCM(info->GetThetaCM()); 
+  pEventAction->SetThetaEjectile(info->GetThetaEjectile());
+  pEventAction->SetThetaFragment(info->GetThetaFragment());
+  pEventAction->SetThetaDecayLight(info->GetThetaDecayLight()); 
+  pEventAction->SetThetaDecayHeavy(info->GetThetaDecayHeavy());
+  pEventAction->SetEjectileKE(info->GetEjectileKE()); 
+  pEventAction->SetFragmentKE(info->GetFragmentKE());
+  pEventAction->SetDecayLightKE(info->GetDecayLightKE());
+  pEventAction->SetDecayHeavyKE(info->GetDecayHeavyKE());
   pEventAction->SetQValue(info->GetQValue());
-  pEventAction->SetExcitedEnergy(info->GetExcitedEnergy());
-  pEventAction->SetLightAngleCM(info->GetCMLightTheta());
-  pEventAction->SetLightAngleLab(info->GetLabLightTheta());
-  pEventAction->SetLightEnergy(info->GetLightEnergy());
-  pEventAction->SetLightRecoilCharge(info->GetLightRecoil()->GetAtomicNumber());
-  pEventAction->SetLightRecoilMass(info->GetLightRecoil()->GetAtomicMass());
-  pEventAction->SetHeavyAngleCM(info->GetCMHeavyTheta());
-  pEventAction->SetHeavyAngleLab(info->GetLabHeavyTheta());
-  pEventAction->SetHeavyEnergy(info->GetHeavyEnergy());
-  pEventAction->SetHeavyRecoilCharge(info->GetHeavyRecoil()->GetAtomicNumber());
-  pEventAction->SetHeavyRecoilMass(info->GetHeavyRecoil()->GetAtomicMass());
+  pEventAction->SetFragmentEx(info->GetFragmentEx());
+
+  // pEventAction->SetHeavyRecoilCharge(info->GetHeavyRecoil()->GetAtomicNumber());
+  // pEventAction->SetHeavyRecoilMass(info->GetHeavyRecoil()->GetAtomicMass());
 
 }

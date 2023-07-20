@@ -15,11 +15,6 @@ BinaryReactionProcess::~BinaryReactionProcess() {}
 
 G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double, G4ForceCondition* condition) {
 
- //  if(angDis == nullptr) {
- //    SetAngDis("assets/dwba_l0.dat");
- //  } else {
- //    G4cout << "angDis: " << angDis->shoot() << G4endl;
- //  }
   // Grab Detector construction to get access to the target volume
   const DetectorConstruction* detectorConstruction 
     = static_cast<const DetectorConstruction*> (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
@@ -89,8 +84,8 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   Target.LV.setPz(0.0);
   Target.LV.setE(Target.M);
 
-  G4double energy = aTrack.GetKineticEnergy() / MeV;
-  G4double cmEnergy = energy*Target.M/(Beam.M + Target.M);
+  // G4double energy = aTrack.GetKineticEnergy() / MeV;
+  // G4double cmEnergy = energy*Target.M/(Beam.M + Target.M);
 
   // Define the neutron or other light recoil particles
   G4ParticleDefinition* pEjectileDef;
@@ -125,8 +120,9 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   
   // Lab Frame Ejectile Theta, Iliadis(C.38)
   // G4cout << "ThetaCM: " << GetInvKinTheta() << G4endl;
-  G4double ThetaCM = GetInvKinTheta();
-  // G4double ThetaCM = std::acos(G4UniformRand()*2.0 - 1.0);
+  // G4double ThetaCM = GetInvKinTheta();
+  // G4double ThetaCM = std::acos((G4UniformRand()*2.0) - 1.0);
+  G4double ThetaCM = (G4UniformRand()*160 / degree);
   Ejectile.Theta = std::acos((gamma + std::cos(ThetaCM))/std::sqrt(1 + gamma*gamma + 2*gamma*std::cos(ThetaCM)));
   G4double r = std::sqrt(Beam.KE*Beam.M*Ejectile.M)*std::cos(Ejectile.Theta)/(Ejectile.M+Fragment.M); 
   G4double s = (Beam.KE*(Fragment.M-Beam.M)+Fragment.M*QValue)/(Ejectile.M+Fragment.M);
@@ -160,39 +156,6 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
     aTrack.GetGlobalTime(), 
     aTrack.GetPosition());
                     
-  // sec1->SetUserInformation(
-  //   new TrackingInformation(
-  //   energy, 
-  //   cmEnergy, 
-  //   pAngleLightCM,
-  //   pAngleLightLab, 
-  //   aAngleLightCM, 
-  //   pAngleHeavyCM,
-  //   pAngleHeavyLab,
-  //   lightEnergyLab,
-  //   heavyEnergyLab, 
-  //   aTrack.GetPosition(), 
-  //   qValue, 
-  //   excitedEnergy,
-  //   lightRecoilDef, 
-  //   heavyRecoilDef));
-
-  sec1->SetUserInformation(
-    new TrackingInformation(
-    energy, 
-    ThetaCM, 
-    0.0,
-    Ejectile.Theta, 
-    0.0, 
-    0.0,
-    Fragment.Theta,
-    Ejectile.KE,
-    Fragment.KE, 
-    aTrack.GetPosition(), 
-    QValue, 
-    Fragment.Ex,
-    pEjectileDef, 
-    pFragmentDef));
 
   // below threshold keep it!
   G4Track* sec2 = new G4Track(
@@ -227,7 +190,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
       G4double Pcm = std::sqrt(Ecm*Ecm - Decay_Light.M*Decay_Light.M);
 
-      Decay_Light.Theta = std::acos(G4UniformRand()*2.0 - 1.0); //in CM frame
+      Decay_Light.Theta = std::acos((G4UniformRand()*2.0) - 1.0); //in CM frame
       Decay_Light.Phi = G4UniformRand()*2*M_PI;
       Decay_Light.LV.setPx(Pcm*std::cos(Decay_Light.Phi)*std::sin(Decay_Light.Theta));
       Decay_Light.LV.setPy(Pcm*std::sin(Decay_Light.Phi)*std::sin(Decay_Light.Theta));
@@ -267,6 +230,20 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
       aParticleChange.AddSecondary(pDecayTrackHeavy);
       aParticleChange.AddSecondary(pDecayTrackLight);
 
+      sec1->SetUserInformation(
+        new TrackingInformation(
+        ThetaCM, 
+        Ejectile.Theta, 
+        Fragment.Theta,
+        Decay_Light.Theta,
+        Decay_Heavy.Theta,
+        Ejectile.KE,
+        Fragment.KE, 
+        Decay_Light.KE,
+        Decay_Heavy.KE,
+        QValue, 
+        Fragment.Ex));
+
     }
   } else { // No Thresholds!
 
@@ -274,6 +251,19 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
     aParticleChange.AddSecondary(sec1);
     aParticleChange.AddSecondary(sec2);
   
+    sec1->SetUserInformation(
+      new TrackingInformation(
+      ThetaCM, 
+      Ejectile.Theta, 
+      Fragment.Theta,
+      0.0, 
+      0.0,
+      Ejectile.KE,
+      Fragment.KE, 
+      0.0,
+      0.0,
+      QValue, 
+      Fragment.Ex));
   }
 
   aParticleChange.ProposeEnergy(0.);
