@@ -1,3 +1,4 @@
+
 #ifndef TrackingInformation_h
 #define TrackingInformation_h
 
@@ -24,17 +25,17 @@ public:
 
   void Print() const;
 
-  G4double GetThetaCM() {return ThetaCM;} 
-  G4double GetThetaEjectile() {return ThetaEjectile;}       
-  G4double GetThetaFragment() {return ThetaFragment;}      
-  G4double GetThetaDecayLight() {return ThetaDecayLight;}  
-  G4double GetThetaDecayHeavy() {return ThetaDecayHeavy;} 
-  G4double GetEjectileKE() {return EjectileKE;} 
-  G4double GetFragmentKE() {return FragmentKE;}            
-  G4double GetDecayLightKE() {return DecayLightKE;}
-  G4double GetDecayHeavyKE() {return DecayHeavyKE;}       
-  G4double GetQValue() {return QValue;}       
-  G4double GetFragmentEx() {return FragmentEx;}                 
+  G4double GetThetaCM() const {return ThetaCM;} 
+  G4double GetThetaEjectile() const {return ThetaEjectile;}       
+  G4double GetThetaFragment() const {return ThetaFragment;}      
+  G4double GetThetaDecayLight() const {return ThetaDecayLight;}  
+  G4double GetThetaDecayHeavy() const {return ThetaDecayHeavy;} 
+  G4double GetEjectileKE() const {return EjectileKE;} 
+  G4double GetFragmentKE() const {return FragmentKE;}            
+  G4double GetDecayLightKE() const {return DecayLightKE;}
+  G4double GetDecayHeavyKE() const {return DecayHeavyKE;}       
+  G4double GetQValue() const {return QValue;}       
+  G4double GetFragmentEx() const {return FragmentEx;}                 
 
   void SetThetaCM(G4double theta_cm) {ThetaCM = theta_cm;} 
   void SetThetaEjectile(G4double theta_ejectile) {ThetaEjectile = theta_ejectile;}       

@@ -30,11 +30,21 @@ G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double,
     return DBL_MAX;
   }
 
+  *condition = NotForced;
+  return mfp;
+}
+
+
+
+G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep) {
+
   Beam.Z = aTrack.GetDefinition()->GetAtomicNumber();
   Beam.A = aTrack.GetDefinition()->GetAtomicMass();
   Beam.InvMass = MassLookup::GetInstance().FindMass(Beam.Z, Beam.A);
   Beam.M = Beam.InvMass;
   Beam.KE =  aTrack.GetKineticEnergy() / MeV;
+  // Beam.KE = Beam.KE - 2.0*G4UniformRand();
+  // Beam.KE = G4RandGauss::shoot(Beam.KE, 0.5*MeV);
   Beam.name = aTrack.GetDynamicParticle()->GetDefinition()->GetParticleName();
   Beam.Pos = aTrack.GetPosition();
   Beam.x = aTrack.GetPosition().x();
@@ -44,15 +54,6 @@ G4double BinaryReactionProcess::GetMeanFreePath(const G4Track& aTrack, G4double,
   Beam.LV.setPy(aTrack.GetMomentum().y());
   Beam.LV.setPz(aTrack.GetMomentum().z());
   Beam.LV.setE(Beam.KE + Beam.M);
-
-  // *condition = NotForced;
-
-  return mfp;
-}
-
-
-
-G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep) {
 
   G4StepPoint* preStepPoint = aStep.GetPreStepPoint();
   G4StepPoint* postStepPoint = aStep.GetPostStepPoint();
@@ -119,10 +120,9 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4double gamma = std::sqrt(term1/(term2+term3));
   
   // Lab Frame Ejectile Theta, Iliadis(C.38)
-  // G4cout << "ThetaCM: " << GetInvKinTheta() << G4endl;
-  // G4double ThetaCM = GetInvKinTheta();
-  // G4double ThetaCM = std::acos((G4UniformRand()*2.0) - 1.0);
-  G4double ThetaCM = (G4UniformRand()*160 / degree);
+  G4double ThetaCM = GetInvKinTheta();
+  // G4double ThetaCM = G4UniformRand();
+  // G4double ThetaCM = std::acos(1.0 - (G4UniformRand()*2.0));
   Ejectile.Theta = std::acos((gamma + std::cos(ThetaCM))/std::sqrt(1 + gamma*gamma + 2*gamma*std::cos(ThetaCM)));
   G4double r = std::sqrt(Beam.KE*Beam.M*Ejectile.M)*std::cos(Ejectile.Theta)/(Ejectile.M+Fragment.M); 
   G4double s = (Beam.KE*(Fragment.M-Beam.M)+Fragment.M*QValue)/(Ejectile.M+Fragment.M);
@@ -135,7 +135,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
   Ejectile.E = Ejectile.KE + Ejectile.M;
   Ejectile.P = std::sqrt(Ejectile.E*Ejectile.E - Ejectile.M*Ejectile.M);
-  Ejectile.Phi = G4UniformRand()*2.0*M_PI;
+  Ejectile.Phi = G4UniformRand()*2.0*CLHEP::pi;
   Ejectile.LV.setPx(Ejectile.P*std::cos(Ejectile.Phi)*std::sin(Ejectile.Theta));
   Ejectile.LV.setPy(Ejectile.P*std::sin(Ejectile.Phi)*std::sin(Ejectile.Theta));
   Ejectile.LV.setPz(Ejectile.P*std::cos(Ejectile.Theta));
@@ -191,7 +191,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
       G4double Pcm = std::sqrt(Ecm*Ecm - Decay_Light.M*Decay_Light.M);
 
       Decay_Light.Theta = std::acos((G4UniformRand()*2.0) - 1.0); //in CM frame
-      Decay_Light.Phi = G4UniformRand()*2*M_PI;
+      Decay_Light.Phi = G4UniformRand()*2*CLHEP::pi;
       Decay_Light.LV.setPx(Pcm*std::cos(Decay_Light.Phi)*std::sin(Decay_Light.Theta));
       Decay_Light.LV.setPy(Pcm*std::sin(Decay_Light.Phi)*std::sin(Decay_Light.Theta));
       Decay_Light.LV.setPz(Pcm*std::cos(Decay_Light.Theta));
@@ -199,9 +199,10 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
       Decay_Heavy.LV = Fragment.LV - Decay_Light.LV;
 
-      Fragment.LV.boost(boost); // Boost back to the lab frame
-      Decay_Light.LV.boost(boost); // Boost back to the lab frame
-      Decay_Heavy.LV.boost(boost); // Boost back to the lab frame
+      // Boost back to the lab frame
+      Fragment.LV.boost(boost);
+      Decay_Light.LV.boost(boost);
+      Decay_Heavy.LV.boost(boost); 
 
       Decay_Light.E = Decay_Light.LV.e();
       Decay_Light.KE = Decay_Light.E - Decay_Light.M;
@@ -243,7 +244,6 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
         Decay_Heavy.KE,
         QValue, 
         Fragment.Ex));
-
     }
   } else { // No Thresholds!
 
@@ -327,8 +327,8 @@ G4VParticleChange* BinaryReactionProcess::Decay(const G4Track& aTrack, G4int lig
   if(cmEnergy < 0.0) return &aParticleChange; // Below the threshold
 
   // Generate random CM Angles
-  G4double cmTheta = M_PI*G4UniformRand();; // 0 to pi
-  G4double cmPhi = 2.0*M_PI*G4UniformRand(); // 0 to 2pi
+  G4double cmTheta = CLHEP::pi*G4UniformRand();; // 0 to pi
+  G4double cmPhi = 2.0*CLHEP::pi*G4UniformRand(); // 0 to 2pi
 
   G4double p1 = sqrt(2.0*particle1->GetMass()*cmEnergy*particle2Mass/(particle1Mass + particle2Mass));
   G4double p2 = sqrt(2.0*particle2->GetMass()*cmEnergy*particle1Mass/(particle1Mass + particle2Mass));

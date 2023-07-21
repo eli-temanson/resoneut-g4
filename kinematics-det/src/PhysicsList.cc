@@ -2,6 +2,7 @@
 
 #include "PhysicsList.hh"
 #include "G4EmStandardPhysics_option4.hh"
+#include "G4StoppingPhysics.hh"
 
 #include "BinaryReactionPhysics.hh"
 
@@ -15,4 +16,9 @@ PhysicsList::PhysicsList() {
 
 PhysicsList::~PhysicsList() {}
 
+void PhysicsList::SetCuts() {
+  SetCutValue(10*km, "e-");
+  SetCutValue(10*km, "e+");
+  SetCutValue(10*km, "gamma");
 
+}

@@ -12,7 +12,7 @@ class PhysicsList: public G4VModularPhysicsList {
     ~PhysicsList();
 
   public:
-    // void SetCuts() override;
+    void SetCuts() override;
 
   private:
 

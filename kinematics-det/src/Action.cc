@@ -27,7 +27,7 @@
 
 #include "Action.hh"
 
-#include "G4OpticalPhoton.hh"
+// #include "G4OpticalPhoton.hh"
 
 //===================================================================
 // Action Initalizaiton Class.
@@ -99,8 +99,6 @@ RunAction::RunAction() {
   analysisManager->CreateNtupleDColumn("ic_phi"); 
   analysisManager->CreateNtupleDColumn("ic_atomic_mass"); 
   analysisManager->CreateNtupleDColumn("ic_atomic_num"); 
-
-  analysisManager->CreateNtupleDColumn("cm_angle"); 
   
   analysisManager->CreateNtupleDColumn("ThetaCM");         
   analysisManager->CreateNtupleDColumn("ThetaEjectile");   
@@ -265,8 +263,8 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   // 
   analysisManager->FillNtupleDColumn(0, 10, icEx); 
   analysisManager->FillNtupleDColumn(0, 11, icEy); 
-  analysisManager->FillNtupleDColumn(0, 12, icdE); 
-  analysisManager->FillNtupleDColumn(0, 13, icE); 
+  analysisManager->FillNtupleDColumn(0, 12, G4RandGauss::shoot(icdE, 0.35*MeV)); 
+  analysisManager->FillNtupleDColumn(0, 13, G4RandGauss::shoot(icE, 0.45*MeV));
   analysisManager->FillNtupleDColumn(0, 14, icEtot); 
   analysisManager->FillNtupleDColumn(0, 15, icX); 
   analysisManager->FillNtupleDColumn(0, 16, icY); 
@@ -276,11 +274,11 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   analysisManager->FillNtupleDColumn(0, 20, icAtomicNum);
  
   // Fill rxn stuff 
-  analysisManager->FillNtupleDColumn(0, 21, ThetaCM);         
-  analysisManager->FillNtupleDColumn(0, 22, ThetaEjectile);   
-  analysisManager->FillNtupleDColumn(0, 23, ThetaFragment);   
-  analysisManager->FillNtupleDColumn(0, 24, ThetaDecayLight); 
-  analysisManager->FillNtupleDColumn(0, 25, ThetaDecayHeavy); 
+  analysisManager->FillNtupleDColumn(0, 21, ThetaCM / degree);         
+  analysisManager->FillNtupleDColumn(0, 22, ThetaEjectile / degree);   
+  analysisManager->FillNtupleDColumn(0, 23, ThetaFragment / degree);   
+  analysisManager->FillNtupleDColumn(0, 24, ThetaDecayLight / degree); 
+  analysisManager->FillNtupleDColumn(0, 25, ThetaDecayHeavy / degree); 
   analysisManager->FillNtupleDColumn(0, 26, EjectileKE);      
   analysisManager->FillNtupleDColumn(0, 27, FragmentKE);      
   analysisManager->FillNtupleDColumn(0, 28, DecayLightKE);    
@@ -288,7 +286,6 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   analysisManager->FillNtupleDColumn(0, 30, QValue);          
   analysisManager->FillNtupleDColumn(0, 31, FragmentEx);      
  
-
   analysisManager->AddNtupleRow();
 }
 

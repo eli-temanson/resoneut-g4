@@ -1,3 +1,4 @@
+
 #ifndef BinaryReactionProcess_h
 #define BinaryReactionProcess_h
 
@@ -37,6 +38,7 @@ private:
   std::vector<double> X;
   std::vector<double> Y; 
   tk::spline angDis;
+  // TRandom3 *Rndm = new TRandom3();
 
   void SetAngDis(const std::string &filename){
     
@@ -49,7 +51,7 @@ private:
       std::cout<<"Loaded Angular Distribution from: "<< filename << "\n";
     }
     
-    double tempX = 0.0,tempY = 0.0, max_value = 0.0;
+    double tempX = 0.0, tempY = 0.0, max_value = 0.0;
     double sumY = 0.0;
 
     while(input >> tempX >> tempY){
@@ -69,9 +71,12 @@ private:
   
   double GetInvKinTheta(){
     double thetaCM = 0.0;
-    do{ //from dwba, randomize neutron events going from regular to inverse kin (180-theta)
-      thetaCM = std::acos(G4UniformRand()*2.0 - 1.0); // create a uniform distribution in radians 
-    } while (G4UniformRand() > angDis(180.0 - (thetaCM / degree))); // Weight that distribution by the Normalized Ang Dis. 
+    // from dwba, randomize neutron events going from regular to inverse kin (180-theta)
+    do{ 
+      // create a uniform distribution in radians 
+      thetaCM = std::acos(1.0 - (2.0*G4UniformRand())); 
+    // Weight that distribution by the Normalized Ang Dis. 
+    } while (G4UniformRand() > angDis(180.0 - (thetaCM / degree))); 
      
     return thetaCM;
   }

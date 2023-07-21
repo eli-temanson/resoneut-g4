@@ -25,7 +25,7 @@
 //  Date of Last Modified: 12/15/2021
 //  Author: Eli Temanson
 //===================================================================
-
+#include "G4SubtractionSolid.hh"
 #include "DetectorConstruction.hh"
 #include "G4UserLimits.hh"
 
@@ -149,10 +149,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   C2D4->AddElement(C, 2);
   C2D4->AddElement(elD, 4);
 
-  G4double targetThickness = 7.5*um; // 7.5
+  G4double targetThickness = 0.1*um; // 7.5
   G4VSolid* pTargetSolid = new G4Tubs("TargetSolid", 0.0, 10.0*mm, targetThickness/2.0, 0.0, 360.0*deg);
   pTargetLogical =  new G4LogicalVolume(pTargetSolid, C2D4, "targetLogical");
-  pTargetLogical->SetUserLimits(new G4UserLimits(0.02*targetThickness));
   new G4PVPlacement(
     0, 
     G4ThreeVector(0.0, 0.0, 0.0), 
@@ -163,8 +162,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     0, 
     checkOverlaps);
 
-  // pStepLimit = new G4UserLimits(0.02*targetThickness);
-  // TargetLogical->SetUserLimits(pStepLimit);
+  // pTargetLogical->SetUserLimits(new G4UserLimits(0.02*targetThickness));
+  // pStepLimit = new G4UserLimits(0.01*targetThickness);
+  // pTargetLogical->SetUserLimits(pStepLimit);
 
 
   //===============================================================================
@@ -177,12 +177,12 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   double molar_mass = 58.12; // g/mol
   double pressure = 124.0; // Torr
   double ic_rho = molar_mass * pressure / (R * 293.15);  // g/cm3
-  G4Material* pICMat = nist->BuildMaterialWithNewDensity("butane","G4_BUTANE",ic_rho*g/cm/cm/cm);
+  G4Material* p_ic_gas_mat = nist->BuildMaterialWithNewDensity("butane","G4_BUTANE",ic_rho*g/cm/cm/cm);
 
   // Geometry inner gas
   //  
-  G4Tubs* pICGeo = new G4Tubs(
-    "ICGeo",
+  G4Tubs* p_ic_gas_geo = new G4Tubs(
+    "ic_gas_geo",
     0.0,
     10.95*cm,
     23.35*cm, // thickness
@@ -192,8 +192,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // logic definition
   //
   pICLogical = new G4LogicalVolume(
-    pICGeo, // the geometry/solid 
-    pICMat,   // the material
+    p_ic_gas_geo, // the geometry/solid 
+    p_ic_gas_mat,   // the material
     "ICLogic");	   // the name
 
   new G4PVPlacement(0,	//no rotation
@@ -222,18 +222,29 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
       0.75,   // red
       0.75,   // green
       0.75,   // blue
-      0.9)); // alpha trans.
+      0.5)); // alpha trans.
 
-  G4Tubs* pICGeoOuter = new G4Tubs(
-    "ICGeoOuter",
-    11.43*cm,
+  G4Tubs* p_ic_cycl_geo = new G4Tubs(
+    "ic_cycl_geo",
+    0.0,
     11.93*cm,
-    23.35*cm, // thickness
+    24.35*cm, // thickness
+    0.0,
+    2*CLHEP::pi);
+  
+  G4Tubs* p_ic_front_hole = new G4Tubs(
+    "ic_front_hole",
+    0.0, //6.35
+    4.45*cm,
+    1.1*cm, // thickness
     0.0,
     2*CLHEP::pi);
 
+  G4VSolid* p_ic_shell = new G4SubtractionSolid("ic_shell", p_ic_cycl_geo, p_ic_gas_geo);
+  G4VSolid* p_ic_geo = new G4SubtractionSolid("ic_geo", p_ic_shell, p_ic_front_hole, new G4RotationMatrix(), G4ThreeVector(0,0,-24.35*cm) );
+
   auto pICOuterLogical = new G4LogicalVolume(
-    pICGeoOuter, // the geometry/solid 
+    p_ic_geo, // the geometry/solid 
     pStainlessMat,   // the material
     "ICOuterLogical");	   // the name
 
@@ -247,31 +258,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     checkOverlaps); // overlaps checking
 
   pICOuterLogical->SetVisAttributes(pStainlessVis);
-
-  // -----> Front shell
-  G4Tubs* pICGeoFront = new G4Tubs(
-    "ICGeoFront",
-    4.45*cm, //6.35
-    11.93*cm,
-    0.25*cm, // thickness
-    0.0,
-    2*CLHEP::pi);
-
-  auto pICFrontLogical = new G4LogicalVolume(
-    pICGeoFront, // the geometry/solid 
-    pStainlessMat,   // the material
-    "ICFrontLogical");	   // the name
-
-  new G4PVPlacement(0,	//no rotation
-    G4ThreeVector(0,0,(30.0-0.25)*cm), // the center
-    pICFrontLogical,  // the logical volume
-    "ICFrontLogical",   // the name
-    pWorldLogic, // the mother (logical) volume
-    false,       // no boolean operation
-    1,      // copy number
-    checkOverlaps); // overlaps checking
-
-  pICFrontLogical->SetVisAttributes(pStainlessVis);
 
   // -----> Kapton Window
   
@@ -290,15 +276,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     "ic_stopper_logical");	   // the name
 
   new G4PVPlacement(0,	//no rotation
-    G4ThreeVector(0,0,(30.0-0.25)*cm), // the center
+    G4ThreeVector(0,0,(30.0-2.0)*cm), // the center
     p_ic_stopper_logical,  // the logical volume
     "ic_stopper_logical",   // the name
     pWorldLogic, // the mother (logical) volume
     false,       // no boolean operation
     1,      // copy number
     checkOverlaps); // overlaps checking
-
-  pICFrontLogical->SetVisAttributes(pStainlessVis);
 
 
 

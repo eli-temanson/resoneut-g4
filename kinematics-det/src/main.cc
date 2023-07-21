@@ -57,6 +57,12 @@ int main(int argc,char** argv)
   //
   runManager->SetUserInitialization(new ActionInitialization());
 
+ //choose the Random engine
+  CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
+  //set random seed with system time
+  G4long seed = time(NULL);
+  // if(argc>2) seed += 473879*atoi(argv[2]);
+  CLHEP::HepRandom::setTheSeed(seed);
 
   //===================================================================
   // Initialize visualization
