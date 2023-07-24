@@ -7,6 +7,9 @@
 /tracking/verbose 0
 /tracking/storeTrajectory 0
 
+/run/setCutForAGivenParticle e+ 10.0 km
+/run/setCutForAGivenParticle e- 10.0 km
+
 /analysis/setFileName analysis/run
 
 /gps/particle ion
@@ -18,15 +21,15 @@
 /gps/pos/radius 0.5 mm
 /gps/direction 0 0 1
 
-# /gps/ene/type Gauss
-# /gps/ene/mono 50. MeV
-# /gps/ene/sigma 0. MeV
+/gps/ene/type Gauss
+/gps/ene/mono 50. MeV
+/gps/ene/sigma 0.5 MeV
 
-/gps/ene/type Lin
-/gps/ene/gradient 1
-# /gps/ene/intercept 0
-/gps/ene/min 48 MeV
-/gps/ene/max 50 MeV
+#/gps/ene/type Lin
+#/gps/ene/gradient 1
+## /gps/ene/intercept 0
+#/gps/ene/min 48 MeV
+#/gps/ene/max 50 MeV
 
 # /vis/open VRML2FILE
 # /vis/drawVolume

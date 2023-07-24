@@ -54,7 +54,7 @@ public:
   G4double GetEnergy() const {return Energy;}
   G4ThreeVector GetPosition() const {return Position;}
   G4ParticleDefinition* GetParticle() const {return Particle;}
-
+  void Print();
   // inline void* operator new(size_t);
   // inline void operator delete(void*);
 

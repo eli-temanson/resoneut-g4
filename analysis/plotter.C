@@ -4,15 +4,17 @@
   gStyle->SetPalette(53);
 
   ROOT::EnableImplicitMT(15); 
-  ROOT::RDataFrame df_raw("events", "analysis/run.root");
+  // ROOT::RDataFrame df_raw("events", "analysis/run.root");
+  // ROOT::RDataFrame df_raw("events", "analysis/C12dn.root");
+  ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
 
-  auto df = df_raw.Filter("s1_e > 0")
+  auto df = df_raw.Filter("s1_e > 0 && s2_e > 0")
                   .Filter("ic_atomic_num == 4");
   // auto df = df_raw;
 
   auto theta_cm = df.Histo1D(
     {"theta_cm","theta_cm", 360, 0, 180}, "ThetaCM");
-
+  
   auto kin_ejectile = df.Histo2D(
     {"kin_ejectile","kin_ejectile",2000, 0, 200, 200, 0, 20}, "ThetaEjectile", "EjectileKE");
 
@@ -28,9 +30,12 @@
   auto si_ede = df.Histo2D(
     {"si_ede","si_ede",200, 0, 20, 200, 0, 20},"s1_e", "s2_e");
 
-  auto ic_ede = df.Define("ic_ede","ic_e+ic_de").Histo2D(
-    {"ic_ede","ic_ede",500, 0, 50, 200, 0, 20},"ic_ede", "ic_de");
+  //auto ic_ede = df.Define("ic_ede","ic_e+ic_de").Histo2D(
+  //  {"ic_ede","ic_ede",500, 0, 50, 200, 0, 20},"ic_ede", "ic_de");
 
+  auto ic_ede = df.Histo2D(
+    {"ic_ede","ic_ede",500, 0, 50, 200, 0, 20},"ic_e", "ic_de");
+  
   auto si_theta_corr = df.Histo2D(
     {"si_theta_corr","si_theta_corr",350, 0, 35, 350, 0, 35},"s1_theta", "s2_theta");
 

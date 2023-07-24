@@ -111,7 +111,10 @@ RunAction::RunAction() {
   analysisManager->CreateNtupleDColumn("DecayHeavyKE");    
   analysisManager->CreateNtupleDColumn("QValue");          
   analysisManager->CreateNtupleDColumn("FragmentEx");      
- 
+
+  analysisManager->CreateNtupleDColumn("ic_atomic_mass_1"); 
+  analysisManager->CreateNtupleDColumn("ic_atomic_num_1"); 
+
   analysisManager->FinishNtuple();
   // analysisManager->SetNtupleFileName(1, "data/Ntuple-events");
 }
@@ -171,8 +174,8 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   auto s1HC = GetHitsCollection(s1HCID, event);
   G4double s1Etot = 0.0, s1X = 0.0, s1Y = 0.0, s1Theta = 0.0, s1Phi = 0.0;
 
-  if(s1HC) {
-    for(G4int i = 1; i < s1HC->entries(); ++i) {
+  if(s1HC->entries() > 0) {
+    for(G4int i = 1; i < s1HC->entries(); i++) {
       s1Etot += (*s1HC)[i]->GetEnergy() / MeV;
       s1X = (*s1HC)[i]->GetPosition().x() / mm;
       s1Y = (*s1HC)[i]->GetPosition().y() / mm;
@@ -189,8 +192,8 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   auto s2HC = GetHitsCollection(s2HCID, event);
   G4double s2Etot = 0.0, s2X = 0.0, s2Y = 0.0, s2Theta = 0.0, s2Phi = 0.0;
 
-  if(s2HC) {
-    for(G4int i = 1; i < s2HC->entries(); ++i) {
+  if(s2HC->entries() > 0) {
+    for(G4int i = 1; i < s2HC->entries(); i++) {
       s2Etot += (*s2HC)[i]->GetEnergy() / MeV;
       s2X = (*s2HC)[i]->GetPosition().x() / mm;
       s2Y = (*s2HC)[i]->GetPosition().y() / mm;
@@ -207,37 +210,48 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   auto icHC = GetHitsCollection(icHCID, event);
   G4double icX = 0.0, icY = 0.0, icTheta = 0.0, icPhi = 0.0;
   G4double icEx = 0.0, icEy = 0.0, icdE = 0.0, icE = 0.0, icEtot = 0.0;
-  G4int icAtomicNum = 0.0, icAtomicMass = 0.0;
+  G4int icAtomicNum = -1.0, icAtomicMass = -1.0;
+  G4int icAtomicNum_1 = -1.0, icAtomicMass_1 = -1.0;
   
-  if(icHC) {
+  if(icHC->entries() > 0) {
     
     if(icHC->entries() > 1) {
       icAtomicNum = (*icHC)[1]->GetParticle()->GetAtomicNumber();
       icAtomicMass = (*icHC)[1]->GetParticle()->GetAtomicMass();
     }
 
-    for(G4int i = 1; i < icHC->entries(); ++i) {
+    // G4cout << "ID, TrackID, Time, Energy, Position.Z, Particle" << G4endl;
+    for(G4int i = 1; i < icHC->entries(); i++) {
       auto icHit = (*icHC)[i];
       
-      if(icHit->GetPosition().z() / cm > 33.6 && icHit->GetPosition().z() / cm <= 37.6) { // check if the hit was in the "X-region"
+      // icHit->Print();
+
+      if(icHit->GetParticle()->GetAtomicNumber() != icAtomicNum) {
+        icAtomicNum_1 = icHit->GetParticle()->GetAtomicNumber();
+        icAtomicMass_1 = icHit->GetParticle()->GetAtomicMass();
+      }
+      
+      G4double icHit_z = icHit->GetPosition().z() / cm;
+      
+      if(icHit_z >= 30.0 && icHit_z <= 34.0) { // check if the hit was in the "X-region"
         icX = icHit->GetPosition().x() / mm;
         icTheta = icHit->GetPosition().theta() / deg;
         icPhi = icHit->GetPosition().phi() / deg;
-        icEx += icHit->GetEnergy() / MeV;
-      }
-      if(icHit->GetPosition().z() / cm > 37.6 && icHit->GetPosition().z() / cm <= 41.6) { // check if the hit was in the "Y-region"
+        icEx += icHit->GetEnergy();
+      } 
+      if(icHit_z > 34.0 && icHit_z <= 38.0) { // check if the hit was in the "Y-region"
         icY = icHit->GetPosition().y() / mm;
-        icEy += icHit->GetEnergy() / MeV;
+        icEy += icHit->GetEnergy();
       }
-      if(icHit->GetPosition().z() / cm > 41.6 && icHit->GetPosition().z() / cm <= 49.6) { // check if the hit was in the "Y-region"
-        icY = icHit->GetPosition().y() / mm;
-        icdE += icHit->GetEnergy() / MeV;
-      }
-      if(icHit->GetPosition().z() / cm > 49.6 && icHit->GetPosition().z() / cm <= 69.6) { // check if the hit was in the "Y-region"
-        icE += icHit->GetEnergy() / MeV;
+
+      if(icHit_z > 38.0 && icHit_z <= 46.0) { // check if the hit was in the "dE-region"
+        icdE += icHit->GetEnergy();
+      }  
+      if(icHit_z > 46.0 && icHit_z <= 66.0) { // check if the hit was in the "E-region"
+        icE += icHit->GetEnergy();
       }
     
-      icEtot += icHit->GetEnergy() / MeV;
+      icEtot += icHit->GetEnergy();
     }
   }
 
@@ -286,6 +300,9 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   analysisManager->FillNtupleDColumn(0, 30, QValue);          
   analysisManager->FillNtupleDColumn(0, 31, FragmentEx);      
  
+  analysisManager->FillNtupleDColumn(0, 32, icAtomicMass_1);
+  analysisManager->FillNtupleDColumn(0, 33, icAtomicNum_1);
+  
   analysisManager->AddNtupleRow();
 }
 

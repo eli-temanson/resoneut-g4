@@ -27,7 +27,12 @@
 #include "G4UIExecutive.hh"
 
 // Main physics
-#include "QGSP_BERT_HP.hh"
+#include "G4VModularPhysicsList.hh"
+// #include "QGSP_BERT_HP.hh"
+#include "FTFP_BERT_HP.hh"
+#include "BinaryReactionPhysics.hh"
+#include "G4EmStandardPhysics_option3.hh"
+#include "G4StepLimiterPhysics.hh"
 
 // Allows user to choose the random engine
 #include "Randomize.hh"
@@ -50,14 +55,25 @@ int main(int argc,char** argv)
 
   // Physics list
   //
-  runManager->SetUserInitialization(new QGSP_BERT_HP());
-  runManager->SetUserInitialization(new PhysicsList());
+  //runManager->SetUserInitialization(new FTFP_BERT_HP());
+  //runManager->SetUserInitialization(new PhysicsList());
+
+  G4VModularPhysicsList* physicsList = new FTFP_BERT_HP();
+  physicsList->ReplacePhysics(new G4EmStandardPhysics_option3());
+  physicsList->RegisterPhysics(new BinaryReactionPhysics());
+  physicsList->RegisterPhysics(new G4StepLimiterPhysics());
+  // stepLimitPhys->SetApplyToAll(true); // activates step limit for ALL particles
+
+  // physicsList->SetCutValue(10.*km,"e+");
+  // physicsList->SetCutValue(10.*km,"e-");
+  // physicsList->SetCutValue(10.*km,"gamma");
+  runManager->SetUserInitialization(physicsList);
 
   // User action initialization
   //
   runManager->SetUserInitialization(new ActionInitialization());
 
- //choose the Random engine
+  //choose the Random engine
   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
   //set random seed with system time
   G4long seed = time(NULL);

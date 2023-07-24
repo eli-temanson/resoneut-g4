@@ -7,30 +7,33 @@
 /tracking/verbose 0
 /tracking/storeTrajectory 0
 
-/analysis/setFileName analysis/test
-# /gps/particle proton
+/run/setCutForAGivenParticle e+ 10.0 km
+/run/setCutForAGivenParticle e- 10.0 km
+
+/analysis/setFileName analysis/B10dn
+
 /gps/particle ion
 /gps/ion 5 10 0 0.
+
 /gps/pos/type Beam
 /gps/pos/shape Circle
 /gps/pos/centre 0. 0. -2. cm
 /gps/pos/radius 0.5 mm
 /gps/direction 0 0 1
-/gps/ene/mono 50 MeV
-# /gps/ang/type focused
 
-# /gps/ang/type iso
-# /gps/ene/type Lin
-# /gps/ene/min 1 MeV
-# /gps/ene/max 50 MeV
-# /gps/ene/gradient 1
-# /gps/ene/intercept 1
-# /gps/ang/mintheta 160 deg
-# /gps/ang/maxtheta 170 deg
+/gps/ene/type Gauss
+/gps/ene/mono 50. MeV
+/gps/ene/sigma 0.5 MeV
+
+#/gps/ene/type Lin
+#/gps/ene/gradient 1
+## /gps/ene/intercept 0
+#/gps/ene/min 48 MeV
+#/gps/ene/max 50 MeV
 
 # /vis/open VRML2FILE
 # /vis/drawVolume
 # /vis/scene/add/trajectories
 # /vis/scene/endOfEventAction accumulate
 
-/run/beamOn 1000
+/run/beamOn 100000

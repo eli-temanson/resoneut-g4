@@ -185,7 +185,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     "ic_gas_geo",
     0.0,
     10.95*cm,
-    23.35*cm, // thickness
+    20.0*cm, // half z thickness
     0.0,
     2*CLHEP::pi);
 
@@ -197,13 +197,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     "ICLogic");	   // the name
 
   new G4PVPlacement(0,	//no rotation
-    G4ThreeVector(0,0,(30.0+23.35)*cm), // the center
+    G4ThreeVector(0,0,(30.0+20.0)*cm), // the center
     pICLogical,        // the logical volume
     "ICLogic",  // the name
     pWorldLogic,        // the mother (logical) volume
     false,              // no boolean operation
     1,                  // copy number
     checkOverlaps);     // overlaps checking
+
+  // DON'T STEP TOO LARGE
+  pICLogical->SetUserLimits(new G4UserLimits(2.0*mm));
 
   // 
   G4VisAttributes* pICvis = new G4VisAttributes(
@@ -228,20 +231,20 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     "ic_cycl_geo",
     0.0,
     11.93*cm,
-    24.35*cm, // thickness
+    22*cm, // half z-thickness
     0.0,
     2*CLHEP::pi);
   
   G4Tubs* p_ic_front_hole = new G4Tubs(
     "ic_front_hole",
-    0.0, //6.35
-    4.45*cm,
-    1.1*cm, // thickness
+    0.0, 
+    4.45*cm,// 6.35
+    1.0*cm, // half z-thickness
     0.0,
     2*CLHEP::pi);
 
   G4VSolid* p_ic_shell = new G4SubtractionSolid("ic_shell", p_ic_cycl_geo, p_ic_gas_geo);
-  G4VSolid* p_ic_geo = new G4SubtractionSolid("ic_geo", p_ic_shell, p_ic_front_hole, new G4RotationMatrix(), G4ThreeVector(0,0,-24.35*cm) );
+  G4VSolid* p_ic_geo = new G4SubtractionSolid("ic_geo", p_ic_shell, p_ic_front_hole, new G4RotationMatrix(), G4ThreeVector(0,0,-21.0*cm) );
 
   auto pICOuterLogical = new G4LogicalVolume(
     p_ic_geo, // the geometry/solid 
@@ -249,7 +252,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     "ICOuterLogical");	   // the name
 
   new G4PVPlacement(0,	//no rotation
-    G4ThreeVector(0,0,(30.0+23.35)*cm), // the center
+    G4ThreeVector(0,0,(30.0+20.0)*cm), // the center
     pICOuterLogical,  // the logical volume
     "ICOuterLogical",   // the name
     pWorldLogic, // the mother (logical) volume

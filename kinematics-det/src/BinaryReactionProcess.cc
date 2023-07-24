@@ -43,8 +43,6 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   Beam.InvMass = MassLookup::GetInstance().FindMass(Beam.Z, Beam.A);
   Beam.M = Beam.InvMass;
   Beam.KE =  aTrack.GetKineticEnergy() / MeV;
-  // Beam.KE = Beam.KE - 2.0*G4UniformRand();
-  // Beam.KE = G4RandGauss::shoot(Beam.KE, 0.5*MeV);
   Beam.name = aTrack.GetDynamicParticle()->GetDefinition()->GetParticleName();
   Beam.Pos = aTrack.GetPosition();
   Beam.x = aTrack.GetPosition().x();
@@ -120,9 +118,9 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4double gamma = std::sqrt(term1/(term2+term3));
   
   // Lab Frame Ejectile Theta, Iliadis(C.38)
-  G4double ThetaCM = GetInvKinTheta();
+  // G4double ThetaCM = GetInvKinTheta();
   // G4double ThetaCM = G4UniformRand();
-  // G4double ThetaCM = std::acos(1.0 - (G4UniformRand()*2.0));
+  G4double ThetaCM = std::acos(1.0 - (G4UniformRand()*2.0));
   Ejectile.Theta = std::acos((gamma + std::cos(ThetaCM))/std::sqrt(1 + gamma*gamma + 2*gamma*std::cos(ThetaCM)));
   G4double r = std::sqrt(Beam.KE*Beam.M*Ejectile.M)*std::cos(Ejectile.Theta)/(Ejectile.M+Fragment.M); 
   G4double s = (Beam.KE*(Fragment.M-Beam.M)+Fragment.M*QValue)/(Ejectile.M+Fragment.M);

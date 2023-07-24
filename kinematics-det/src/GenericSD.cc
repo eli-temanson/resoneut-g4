@@ -51,30 +51,30 @@ void GenericSD::Initialize(G4HCofThisEvent* hce) {
 G4bool GenericSD::ProcessHits(G4Step *step, G4TouchableHistory *ROhist) {
 
   G4double edep = step->GetTotalEnergyDeposit();
-  if(edep / eV < 1) return true;
-
-  G4String type = step->GetTrack()->GetDefinition()->GetParticleType();
-  if(type != "nucleus" && type != "baryon") return true;
+  // if(edep / eV < 1) return false;
+  // if(step->GetStepLength() < 1.0e-4) return false;
+  // G4String type = step->GetTrack()->GetDefinition()->GetParticleType();
+  // if(type != "nucleus" && type != "baryon") return false;
 
   G4StepPoint* preStepPoint = step->GetPreStepPoint();
 
-  if(step->GetPostStepPoint()) { 
+  //if(step->GetPostStepPoint()) {
     
-    G4StepPoint* postStepPoint = step->GetPostStepPoint();
-    
-    G4TouchableHistory* touchable = (G4TouchableHistory*)(preStepPoint->GetTouchable());
-    G4int copyNo = touchable->GetVolume()->GetCopyNo();
-    G4double hitTime = preStepPoint->GetGlobalTime();
-    G4int trackID = step->GetTrack()->GetTrackID();
-    G4ThreeVector position = preStepPoint->GetPosition();
-    
-    G4ParticleDefinition* particle = step->GetTrack()->GetDefinition();
-
-    GenericHit* pHit = new GenericHit();
-    pHit->SetHit(copyNo, trackID, hitTime/ns, edep/MeV, position/mm, particle);
-    hitCollection->insert(pHit);
+  G4StepPoint* postStepPoint = step->GetPostStepPoint();
   
-  }
+  G4TouchableHistory* touchable = (G4TouchableHistory*)(preStepPoint->GetTouchable());
+  G4int copyNo = touchable->GetVolume()->GetCopyNo();
+  G4double hitTime = preStepPoint->GetGlobalTime();
+  G4int trackID = step->GetTrack()->GetTrackID();
+  G4ThreeVector position = preStepPoint->GetPosition();
+  
+  G4ParticleDefinition* particle = step->GetTrack()->GetDefinition();
+
+  GenericHit* pHit = new GenericHit();
+  pHit->SetHit(copyNo, trackID, hitTime/ns, edep/MeV, position/mm, particle);
+  hitCollection->insert(pHit);
+  
+  //}
   return true;
 }
 
@@ -107,4 +107,16 @@ GenericHit::GenericHit() : G4VHit() {}
 
 GenericHit::~GenericHit() {}
 
+void GenericHit::Print() {
+  
+    // G4cout << "ID, TrackID, Time, Energy, Position.Z, Particle" << G4endl;
 
+    G4cout << ID << ", " 
+    << TrackID  << ", "
+    << Time  << ", "
+    << Energy  << ", "
+    << Position.z()  << ", "
+    << Particle->GetParticleName()
+    << G4endl;
+
+}
