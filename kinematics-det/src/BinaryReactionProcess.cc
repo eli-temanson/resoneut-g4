@@ -118,9 +118,9 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4double gamma = std::sqrt(term1/(term2+term3));
   
   // Lab Frame Ejectile Theta, Iliadis(C.38)
-  // G4double ThetaCM = GetInvKinTheta();
+  G4double ThetaCM = GetInvKinTheta();
   // G4double ThetaCM = G4UniformRand();
-  G4double ThetaCM = std::acos(1.0 - (G4UniformRand()*2.0));
+  // G4double ThetaCM = std::acos(1.0 - (G4UniformRand()*2.0));
   Ejectile.Theta = std::acos((gamma + std::cos(ThetaCM))/std::sqrt(1 + gamma*gamma + 2*gamma*std::cos(ThetaCM)));
   G4double r = std::sqrt(Beam.KE*Beam.M*Ejectile.M)*std::cos(Ejectile.Theta)/(Ejectile.M+Fragment.M); 
   G4double s = (Beam.KE*(Fragment.M-Beam.M)+Fragment.M*QValue)/(Ejectile.M+Fragment.M);

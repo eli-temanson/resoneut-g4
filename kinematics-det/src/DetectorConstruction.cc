@@ -263,7 +263,31 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   pICOuterLogical->SetVisAttributes(pStainlessVis);
 
   // -----> Kapton Window
+  G4Material* pKaptonMat = nist->FindOrBuildMaterial("G4_KAPTON");
+
+  G4Tubs* p_ic_window_geo = new G4Tubs(
+    "ic_window_geo",
+    0,
+    4.45*cm,
+    3.5*um, // half z-thickness
+    0.0,
+    2*CLHEP::pi);
+
+  auto p_ic_window_logical = new G4LogicalVolume(
+    p_ic_window_geo, // the geometry/solid 
+    pKaptonMat,   // the material
+    "ic_window_logical");	   // the name
+
+  new G4PVPlacement(0,	//no rotation
+    G4ThreeVector(0,0,(30.0-3.5E-4)*cm), // the center
+    p_ic_window_logical,  // the logical volume
+    "ic_window_logical",   // the name
+    pWorldLogic, // the mother (logical) volume
+    false,       // no boolean operation
+    1,      // copy number
+    checkOverlaps); // overlaps checking
   
+
   // -----> beam stopper
   G4Tubs* p_ic_stopper_geo = new G4Tubs(
     "ic_stopper_geo",

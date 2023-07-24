@@ -1,6 +1,6 @@
 # Files Necessary for batch mode
 #
-/run/numberOfThreads 20
+/run/numberOfThreads 10
 /run/initialize
 /run/verbose 0
 /event/verbose 0
@@ -31,9 +31,9 @@
 #/gps/ene/min 48 MeV
 #/gps/ene/max 50 MeV
 
-# /vis/open VRML2FILE
-# /vis/drawVolume
-# /vis/scene/add/trajectories
-# /vis/scene/endOfEventAction accumulate
+#/vis/open VRML2FILE
+#/vis/drawVolume
+#/vis/scene/add/trajectories
+#/vis/scene/endOfEventAction accumulate
 
-/run/beamOn 100000
+/run/beamOn 1000

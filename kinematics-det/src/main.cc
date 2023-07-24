@@ -59,7 +59,7 @@ int main(int argc,char** argv)
   //runManager->SetUserInitialization(new PhysicsList());
 
   G4VModularPhysicsList* physicsList = new FTFP_BERT_HP();
-  physicsList->ReplacePhysics(new G4EmStandardPhysics_option3());
+  // physicsList->ReplacePhysics(new G4EmStandardPhysics_option3());
   physicsList->RegisterPhysics(new BinaryReactionPhysics());
   physicsList->RegisterPhysics(new G4StepLimiterPhysics());
   // stepLimitPhys->SetApplyToAll(true); // activates step limit for ALL particles
