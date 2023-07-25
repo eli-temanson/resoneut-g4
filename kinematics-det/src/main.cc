@@ -37,12 +37,30 @@
 // Allows user to choose the random engine
 #include "Randomize.hh"
 
-// using json-c++ reader
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;
+// // using json-c++ reader
+// #include <nlohmann/json.hpp>
+// using json = nlohmann::json;
 
-int main(int argc,char** argv)
-{
+#include "InputReader.hh"
+#include <iostream>
+
+int main(int argc,char** argv) {
+
+  if(argc<2) {
+    std::cerr<<"Incorrect number of arguments!"<<std::endl;
+    std::cout<<"If you need help, add -h or --help for assistance"<<std::endl;
+    return 1;
+  } else if (strcmp(argv[1], "-h")==0 || strcmp(argv[1], "--help")==0) {
+    std::cout<<"Welcome To The RESONEUT Geant4 Simulation!"<<std::endl;
+    std::cout<<"To run this code you need to provide a *.json file as an argument"<<std::endl;
+    std::cout<<"Example: ./path/to/program assets/input.json"<<std::endl;
+    std::cout<<"See the README.md for more details"<<std::endl;
+    return 1;
+  }
+
+  InputReader reader(argv[1]);
+  return 0;
+
   // Construct the default run manager
   //
   auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);

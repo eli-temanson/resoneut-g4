@@ -115,6 +115,12 @@ RunAction::RunAction() {
   analysisManager->CreateNtupleDColumn("ic_atomic_mass_1"); 
   analysisManager->CreateNtupleDColumn("ic_atomic_num_1"); 
 
+  analysisManager->CreateNtupleDColumn("scint_e");
+  analysisManager->CreateNtupleDColumn("scint_t");
+  analysisManager->CreateNtupleDColumn("scint_x");
+  analysisManager->CreateNtupleDColumn("scint_y");
+
+
   analysisManager->FinishNtuple();
   // analysisManager->SetNtupleFileName(1, "data/Ntuple-events");
 }
@@ -176,7 +182,7 @@ void EventAction::EndOfEventAction(const G4Event* event) {
 
   if(s1HC->entries() > 0) {
     for(G4int i = 1; i < s1HC->entries(); i++) {
-      s1Etot += (*s1HC)[i]->GetEnergy() / MeV;
+      s1Etot += (*s1HC)[i]->GetEnergy();
       s1X = (*s1HC)[i]->GetPosition().x() / mm;
       s1Y = (*s1HC)[i]->GetPosition().y() / mm;
       s1Theta = (*s1HC)[i]->GetPosition().theta() / deg;
@@ -194,7 +200,7 @@ void EventAction::EndOfEventAction(const G4Event* event) {
 
   if(s2HC->entries() > 0) {
     for(G4int i = 1; i < s2HC->entries(); i++) {
-      s2Etot += (*s2HC)[i]->GetEnergy() / MeV;
+      s2Etot += (*s2HC)[i]->GetEnergy();
       s2X = (*s2HC)[i]->GetPosition().x() / mm;
       s2Y = (*s2HC)[i]->GetPosition().y() / mm;
       s2Theta = (*s2HC)[i]->GetPosition().theta() / deg;
@@ -253,6 +259,25 @@ void EventAction::EndOfEventAction(const G4Event* event) {
     
       icEtot += icHit->GetEnergy();
     }
+  } // end of ion chamber
+
+  // Retrieve Scint Related Data
+  // 
+  if( scintHCID == -1 ) {
+    scintHCID = G4SDManager::GetSDMpointer()->GetCollectionID("Scint/hitCollection");
+  }
+  auto scintHC = GetHitsCollection(scintHCID, event);
+  G4double scintEtot = 0.0, scintTime = 0.0, scintX = 0.0, scintY = 0.0;
+
+  if(scintHC->entries() > 0) {
+    for(G4int i = 1; i < scintHC->entries(); i++) {
+      scintEtot += (*scintHC)[i]->GetEnergy();
+      if((*scintHC)[i]->GetEnergy() > 0.05){
+        scintTime = (*scintHC)[i]->GetTime();
+      }
+      scintX = (*scintHC)[i]->GetPosition().x() / mm;
+      scintY = (*scintHC)[i]->GetPosition().y() / mm;
+    }
   }
 
   auto analysisManager = G4AnalysisManager::Instance();
@@ -303,6 +328,11 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   analysisManager->FillNtupleDColumn(0, 32, icAtomicMass_1);
   analysisManager->FillNtupleDColumn(0, 33, icAtomicNum_1);
   
+  analysisManager->FillNtupleDColumn(0, 34, scintEtot);
+  analysisManager->FillNtupleDColumn(0, 35, scintTime);
+  analysisManager->FillNtupleDColumn(0, 36, scintX);
+  analysisManager->FillNtupleDColumn(0, 37, scintY);
+
   analysisManager->AddNtupleRow();
 }
 

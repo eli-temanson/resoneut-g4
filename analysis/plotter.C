@@ -38,6 +38,9 @@
   auto si_theta_corr = df.Histo2D(
     {"si_theta_corr","si_theta_corr",350, 0, 35, 350, 0, 35},"s1_theta", "s2_theta");
 
+  auto scint_e = df.Histo2D(
+    {"scint_e","scint_e", 350, 0, 35}, "scint_e");
+
   ROOT::RDF::RunGraphs(
   {
     theta_cm,

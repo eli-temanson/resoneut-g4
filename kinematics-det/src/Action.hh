@@ -106,6 +106,7 @@ class EventAction : public G4UserEventAction
     G4int s1HCID = -1;
     G4int s2HCID = -1;
     G4int icHCID = -1;
+    G4int scintHCID = -1;
 
     // Define Values here.
     // G4int HeavyRecoilCharge;

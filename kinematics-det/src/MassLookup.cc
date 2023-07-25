@@ -27,7 +27,8 @@ MassLookup::MassLookup() {
   }
 
   j_data = json::parse(mass_file);
-
+  mass_file.close();
+  
   for (auto it : j_data.items()) {
     // std::cout << it.value()["A"] << std::endl;
     key.Z = it.value()["z"];

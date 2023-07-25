@@ -44,6 +44,22 @@ Checking overlaps for volume ICLogic:1 (G4Tubs) ... OK!
 Checking overlaps for volume ICOuterLogical:1 (G4SubtractionSolid) ... OK! 
 Checking overlaps for volume ic_window_logical:1 (G4Tubs) ... OK! 
 Checking overlaps for volume ic_stopper_logical:1 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:0 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:1 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:2 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:3 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:4 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:5 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:6 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:7 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:8 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:9 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:10 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:11 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:12 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:13 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:14 (G4Tubs) ... OK! 
+Checking overlaps for volume Scintillator:15 (G4Tubs) ... OK! 
 
  hInelastic FTFP_BERT_HP : threshold between BERT and FTFP is over the interval 
  for pions :   3 to 6 GeV
@@ -918,18 +934,55 @@ Max 2J for sampling of angular correlations         10
 =========================================================================
 
 Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
+Loaded Angular Distribution from: assets/dwba_l0.dat
 Set file name: analysis/B10dn
-/tracking/storeTrajectory 1
 
 ### ===  Deexcitation model UAtomDeexcitation is activated for 1 region:
           DefaultRegionForTheWorld  1  1  0
 ### ===  Auger flag: 1
 ### ===  Ignore cuts flag:   1
+G4WT11 > Set file name: analysis/B10dn
+G4WT13 > Set file name: analysis/B10dn
+G4WT18 > Set file name: analysis/B10dn
+G4WT10 > Set file name: analysis/B10dn
+G4WT19 > Set file name: analysis/B10dn
+G4WT1 > Set file name: analysis/B10dn
+G4WT8 > Set file name: analysis/B10dn
 G4WT0 > Set file name: analysis/B10dn
+G4WT3 > Set file name: analysis/B10dn
+G4WT14 > Set file name: analysis/B10dn
+G4WT12 > Set file name: analysis/B10dn
+G4WT6 > Set file name: analysis/B10dn
+G4WT2 > Set file name: analysis/B10dn
+G4WT17 > Set file name: analysis/B10dn
+G4WT7 > Set file name: analysis/B10dn
+G4WT15 > Set file name: analysis/B10dn
+G4WT5 > Set file name: analysis/B10dn
+G4WT16 > Set file name: analysis/B10dn
+G4WT4 > Set file name: analysis/B10dn
+G4WT9 > Set file name: analysis/B10dn
 
-========================================================================================
---> G4TaskRunManager::CreateAndStartWorkers() --> Creating 2 tasks with 2 events/task...
-========================================================================================
+==============================================================================================
+--> G4TaskRunManager::CreateAndStartWorkers() --> Creating 1000 tasks with 1000 events/task...
+==============================================================================================
 
 WARNING - Attempt to delete the physical volume store while geometry closed !
 WARNING - Attempt to delete the logical volume store while geometry closed !

@@ -313,14 +313,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 
 
-  // //===============================================================================
-  // // p-Terphenyl material from NIST
-  // //
+  //===============================================================================
+  // p-Terphenyl material from NIST
+  //
 
-  // // Material Properties Table
-  // // for scintillation, Properties are expressed as a function of the photon’s momentum
-  // //
-  // G4Material* Terph = nist->FindOrBuildMaterial("G4_TERPHENYL");
+  // Material Properties Table
+  // for scintillation, Properties are expressed as a function of the photon’s momentum
+  //
+  G4Material* Terph = nist->FindOrBuildMaterial("G4_TERPHENYL");
   
   // // // Adding Scintillation property:
   // // std::vector<G4double> energy, scint, fast, slow, rindx, atten;
@@ -361,45 +361,64 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Terph->SetMaterialPropertiesTable(scint_MPT);
   // Terph->GetIonisation()->SetBirksConstant(0.126 * mm / MeV); // Set the Birks Constant for the scintillator
 
-  // // p-Terphenyl geometry
-  // //
 
-  // // G4Box* cube = new G4Box("cube",2.5*cm,2.5*cm,2.5*cm);
-  // G4Tubs* cylinder = new G4Tubs("cylinder",
-  //                             0.0*cm, // inner radius
-  //                             3.5*cm, // outer radius
-  //                             2.5*cm, // z-depth
-  //                             0.0*deg, // start angle
-  //                             360.0*deg); // spanning angle
+  // p-Terphenyl geometry
+  //
+  G4Box* p_neut_cube_geo = new G4Box("cube",2.5*cm,2.5*cm,2.5*cm);
+  G4Tubs* p_neut_cylinder_geo = new G4Tubs(
+    "cylinder",
+    0.0*cm, // inner radius
+    3.55*cm, // outer radius
+    1.25*cm, // z-depth
+    0.0, // start angle
+    2*CLHEP::pi); // spanning angle
 
-  // // p-Terphenyl logic volume definition
-  // // 
-  // scint_logic = new G4LogicalVolume(cylinder,  // the geometry/solid
-  //                                   Terph,        // the material
-  //                                   "Scintillator"); // the name
+  // p-Terphenyl logic volume definition
+  // 
+  pScintLogical = new G4LogicalVolume(
+    p_neut_cylinder_geo,  // the geometry/solid
+    Terph,        // the material
+    "Scintillator"); // the name
 
-  // // p-Terphenyl visual attributes, this can be skipped!
-  // //
-  // G4VisAttributes* scint_vis_att = new G4VisAttributes(
-  //   G4Colour(0.0,   // red
-  //            1.0,   // green
-  //            1.0,   // blue
-  //            0.6)); // alpha trans.
-  // scint_logic->SetVisAttributes(scint_vis_att);
+  // p-Terphenyl visual attributes, this can be skipped!
+  //
+  G4VisAttributes* scint_vis_att = new G4VisAttributes(
+    G4Colour(0.0,   // red
+             1.0,   // green
+             1.0,   // blue
+             0.6)); // alpha trans.
+  pScintLogical->SetVisAttributes(scint_vis_att);
 
-  // // p-Terphenyl placement in the "World"
-  // //
-  // // G4VPhysicalVolume* scint_phys = // not needed with sensitive detector
-  // new G4PVPlacement(0,	//no rotation
-  //   G4ThreeVector(0,0,-5*cm),	  // the center at (0,0,0)
-  //   scint_logic,        // the logical volume
-  //   "Scintillator",     // the name
-  //   pWorldLogic,        // the mother (logical) volume
-  //   false,              // no boolean operation
-  //   1,                  // copy number
-  //   checkOverlaps);     // overlaps checking
+  // p-Terphenyl placement in the "World"
+  //
+  // positions in cm
+  std::vector<double> scint_x = {
+    -3.81, 3.81, 
+    -11.43, -3.81, 3.81, 11.43,
+    -15.06, -7.44, 7.44, 15.06,
+    -11.43, -3.81, 3.81, 11.43,
+    -3.81, 3.81
+  }; // cm
+  std::vector<double> scint_y = {
+    15.24, 15.24,
+    7.62, 7.62, 7.62, 7.62,
+    0.0, 0.0, 0.0, 0.0,
+    -7.62, -7.62, -7.62, -7.62,
+    -15.24, -15.24
+  };
+  // std::vector<double> scint_z = {};
 
+  for(int i = 0; i < scint_x.size(); i++) {
 
+    new G4PVPlacement(0,	//no rotation
+      G4ThreeVector(scint_x[i]*cm, scint_y[i]*cm, -23.0*cm),
+      pScintLogical,        // the logical volume
+      "Scintillator",     // the name
+      pWorldLogic,        // the mother (logical) volume
+      false,              // no boolean operation
+      i,                  // copy number
+      checkOverlaps);     // overlaps checking
+  }
 
 
   //=================================================================================                   
@@ -438,4 +457,9 @@ void DetectorConstruction::ConstructSDandField(){
   auto pIC = new GenericSD("IC");
   G4SDManager::GetSDMpointer()->AddNewDetector(pIC);
   pICLogical->SetSensitiveDetector(pIC);
+
+  // Scint-Detector
+  auto pScint = new GenericSD("Scint");
+  G4SDManager::GetSDMpointer()->AddNewDetector(pScint);
+  pScintLogical->SetSensitiveDetector(pScint);
 }
