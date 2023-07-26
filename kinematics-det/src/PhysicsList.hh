@@ -13,6 +13,7 @@ class PhysicsList: public G4VModularPhysicsList {
 
   public:
     void SetCuts() override;
+    // virtual void SetCuts();
 
   private:
 

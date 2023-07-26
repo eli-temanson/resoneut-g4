@@ -9,31 +9,6 @@
             "Thresholds": [
                 {"Energy": 7.50, "Decay": [2, 4]}
             ]
-        },
-
-
-        
-        {
-            "Name": "--13N",
-            "ZA": [70, 13],
-            "States": [
-                {"Energy": 2.4, "Spin-parity": "0.5+"}
-            ],
-            "Thresholds": [
-                {"Energy": 1.9, "Decay": [1, 1]}
-            ]
-        },
-        {
-            "Name": "--11C",
-            "ZA": [60, 11],
-            "States": [
-                {"Energy": 8.699, "Spin-parity": "2.5+"},
-                {"Energy": 10.0, "Spin-parity": "4.5+"}
-            ],
-            "Thresholds": [
-                {"Energy": 8.60, "Decay": [1, 1]},
-                {"Energy": 7.50, "Decay": [2, 4]}
-            ]
         }
     ]
 }

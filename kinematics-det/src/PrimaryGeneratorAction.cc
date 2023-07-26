@@ -15,14 +15,17 @@
 //===================================================================
 
 #include "PrimaryGeneratorAction.hh"
+#include "InputReader.hh"
+
 #include "G4GeneralParticleSource.hh"
 
-
-PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(), pParticleGun(nullptr)
+PrimaryGeneratorAction::PrimaryGeneratorAction() : 
+  G4VUserPrimaryGeneratorAction(), 
+  pParticleGun(nullptr),
+  pParticleSource(nullptr)
 {
   pParticleSource = new G4GeneralParticleSource();
-
-  // pParticleGun = new G4ParticleGun(1);
+  pParticleGun = new G4ParticleGun(1);
 
   // // default particle kinematic
   // //
@@ -68,7 +71,22 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   // pParticleGun->GeneratePrimaryVertex(anEvent);
 
-  pParticleSource->GeneratePrimaryVertex(anEvent);
+  InputReader* reader = InputReader::Instance();
+  G4IonTable* particleTable = G4IonTable::GetIonTable();
+  G4ParticleDefinition* particle = 
+    particleTable->GetIon(reader->GetBeamZ(),reader->GetBeamA(),0.0);
+
+  pParticleGun->SetParticlePosition(
+    G4ThreeVector(
+      G4RandGauss::shoot(0.0,1.0*mm),
+      G4RandGauss::shoot(0.0,1.0*mm),
+      -1.0*cm));
+
+  pParticleGun->SetParticleMomentumDirection(G4ThreeVector(0, 0, 1));
+  pParticleGun->SetParticleEnergy(
+    G4RandGauss::shoot(reader->GetBeamE()*MeV, reader->GetBeamEsimga()*MeV));
+  pParticleGun->SetParticleDefinition(particle);
+  pParticleGun->GeneratePrimaryVertex(anEvent);
 }
 
 

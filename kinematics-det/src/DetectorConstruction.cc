@@ -25,11 +25,18 @@
 //  Date of Last Modified: 12/15/2021
 //  Author: Eli Temanson
 //===================================================================
-#include "G4SubtractionSolid.hh"
 #include "DetectorConstruction.hh"
+// #include "InputReader.hh"
+
+#include "G4SubtractionSolid.hh"
 #include "G4UserLimits.hh"
 
-DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction() {}
+DetectorConstruction::DetectorConstruction() : 
+  G4VUserDetectorConstruction() 
+{
+  // InputReader* reader = InputReader::Instance();
+  // std::cout << reader->GetFileMacro() << std::endl;
+}
 DetectorConstruction::~DetectorConstruction() {}
 
 G4VPhysicalVolume* DetectorConstruction::Construct()

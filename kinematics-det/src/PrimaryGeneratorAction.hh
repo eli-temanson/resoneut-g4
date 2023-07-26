@@ -29,6 +29,7 @@
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 #include "globals.hh"
+#include "G4IonTable.hh"
 
 class G4GeneralParticleSource;
 class G4Event;

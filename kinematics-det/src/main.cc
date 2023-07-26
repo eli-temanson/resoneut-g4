@@ -28,11 +28,7 @@
 
 // Main physics
 #include "G4VModularPhysicsList.hh"
-// #include "QGSP_BERT_HP.hh"
-#include "FTFP_BERT_HP.hh"
-#include "BinaryReactionPhysics.hh"
-#include "G4EmStandardPhysics_option3.hh"
-#include "G4StepLimiterPhysics.hh"
+// #include "FTFP_BERT_HP.hh"
 
 // Allows user to choose the random engine
 #include "Randomize.hh"
@@ -43,6 +39,7 @@
 
 #include "InputReader.hh"
 #include <iostream>
+#include <string>
 
 int main(int argc,char** argv) {
 
@@ -58,45 +55,49 @@ int main(int argc,char** argv) {
     return 1;
   }
 
-  InputReader reader(argv[1]);
-  return 0;
+  // Initialize the input reader with the file name.
+  // In other classes it can now be called without the filename.
+  InputReader* reader = InputReader::Instance(std::string(argv[1]));
+  std::cout << reader->GetFileOutput() << std::endl;
+  NucleonStates* states = NucleonStates::Instance();
+  // return 0;
 
   // Construct the default run manager
   //
   auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
 
-  NucleonStates* states = NucleonStates::Instance();
-  
   // Detector construction
   //
   runManager->SetUserInitialization(new DetectorConstruction());
 
   // Physics list
   //
-  //runManager->SetUserInitialization(new FTFP_BERT_HP());
-  //runManager->SetUserInitialization(new PhysicsList());
+  // G4VModularPhysicsList* physicsList = new FTFP_BERT_HP();
+  // physicsList->RegisterPhysics(new PhysicsList());
+  // runManager->SetUserInitialization(new FTFP_BERT_HP());
+  runManager->SetUserInitialization(new PhysicsList());
 
-  G4VModularPhysicsList* physicsList = new FTFP_BERT_HP();
-  // physicsList->ReplacePhysics(new G4EmStandardPhysics_option3());
-  physicsList->RegisterPhysics(new BinaryReactionPhysics());
-  physicsList->RegisterPhysics(new G4StepLimiterPhysics());
+  // G4VModularPhysicsList* physicsList = new FTFP_BERT_HP();
+  // // physicsList->ReplacePhysics(new G4EmStandardPhysics_option3());
+  // physicsList->RegisterPhysics(new BinaryReactionPhysics());
+  // physicsList->RegisterPhysics(new G4StepLimiterPhysics());
   // stepLimitPhys->SetApplyToAll(true); // activates step limit for ALL particles
 
   // physicsList->SetCutValue(10.*km,"e+");
   // physicsList->SetCutValue(10.*km,"e-");
   // physicsList->SetCutValue(10.*km,"gamma");
-  runManager->SetUserInitialization(physicsList);
+  // runManager->SetUserInitialization(physicsList);
 
   // User action initialization
   //
   runManager->SetUserInitialization(new ActionInitialization());
 
-  //choose the Random engine
-  CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
-  //set random seed with system time
-  G4long seed = time(NULL);
-  // if(argc>2) seed += 473879*atoi(argv[2]);
-  CLHEP::HepRandom::setTheSeed(seed);
+  // //choose the Random engine
+  // CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine());
+  // //set random seed with system time
+  // G4long seed = time(NULL);
+  // // if(argc>2) seed += 473879*atoi(argv[2]);
+  // CLHEP::HepRandom::setTheSeed(seed);
 
   //===================================================================
   // Initialize visualization
@@ -119,8 +120,9 @@ int main(int argc,char** argv) {
   //
   if( !ui ) { // batch mode
     G4String command = "/control/execute ";
-    G4String fileName = argv[1];
-    UImanager->ApplyCommand(command+fileName);
+    // G4String fileName = argv[1];
+    // UImanager->ApplyCommand(command+fileName);
+    UImanager->ApplyCommand(command+reader->GetFileMacro());
   } else { // interactive mode
     UImanager->ApplyCommand("/control/execute macros/vis.mac");
     ui->SessionStart();

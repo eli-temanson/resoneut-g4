@@ -47,10 +47,10 @@
   gROOT->ForceStyle(); // Make it law.
 
 
-  new TBrowser("b","b",1000,800);
-  gPad->SetCrosshair();
-  gPad->SetLeftMargin(0.17);
-  gPad->SetBottomMargin(0.15);
+  // new TBrowser("b","b",1000,800);
+  // gPad->SetCrosshair();
+  // gPad->SetLeftMargin(0.17);
+  // gPad->SetBottomMargin(0.15);
 
 
 }

@@ -26,7 +26,7 @@
 //===================================================================
 
 #include "Action.hh"
-
+#include "InputReader.hh"
 // #include "G4OpticalPhoton.hh"
 
 //===================================================================
@@ -38,13 +38,13 @@ ActionInitialization::~ActionInitialization() {}
 // Add all Actions
 // 
 void ActionInitialization::BuildForMaster() const {
-  SetUserAction(new RunAction);
+  SetUserAction(new RunAction());
 }
 void ActionInitialization::Build() const {
-  SetUserAction(new PrimaryGeneratorAction);
-  SetUserAction(new RunAction); 
+  SetUserAction(new PrimaryGeneratorAction());
+  SetUserAction(new RunAction()); 
 
-  auto eventAction = new EventAction;
+  auto eventAction = new EventAction();
   SetUserAction(eventAction);
   SetUserAction(new SteppingAction(eventAction));
   SetUserAction(new TrackingAction(eventAction));
@@ -56,12 +56,15 @@ void ActionInitialization::Build() const {
 // Run Action Class.
 //
 RunAction::RunAction() { 
+  InputReader* reader = InputReader::Instance();
+
   // Get analysis manager
   //
   auto analysisManager = G4AnalysisManager::Instance();
   analysisManager->SetDefaultFileType("root");
   analysisManager->SetNtupleMerging(true);
-  analysisManager->SetFileName("analysis/ouput");
+  analysisManager->SetFileName(reader->GetFileOutput());
+  // analysisManager->SetFileName("analysis/ouput");
   // analysisManager->SetNtupleDirectoryName("tuples");
 
   // Creating ntuple

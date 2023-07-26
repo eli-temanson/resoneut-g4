@@ -1,3 +1,16 @@
 {
-    "output_filename" : "test.root"
+    "filename_output" : "analysis/eff.root",
+    "filename_nuclear_states" : "test",
+    "filename_mass_table" : "test",
+    "filename_angular_distribution" : "test",
+    "filename_run_macro" : "assets/run.mac",
+
+    "beam" : [ 
+        { 
+            "energyMeV" : 50.0,
+            "sigmaMeV" : 2.0,
+            "ZA" : [5,10]
+        }
+    ]
+
 }

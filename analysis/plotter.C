@@ -4,9 +4,9 @@
   gStyle->SetPalette(53);
 
   ROOT::EnableImplicitMT(15); 
-  // ROOT::RDataFrame df_raw("events", "analysis/run.root");
+  ROOT::RDataFrame df_raw("events", "analysis/test.root");
   // ROOT::RDataFrame df_raw("events", "analysis/C12dn.root");
-  ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
+  // ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
 
   auto df = df_raw.Filter("s1_e > 0 && s2_e > 0")
                   .Filter("ic_atomic_num == 4");
@@ -38,8 +38,8 @@
   auto si_theta_corr = df.Histo2D(
     {"si_theta_corr","si_theta_corr",350, 0, 35, 350, 0, 35},"s1_theta", "s2_theta");
 
-  auto scint_e = df.Histo2D(
-    {"scint_e","scint_e", 350, 0, 35}, "scint_e");
+  // auto scint_e = df.Histo1D(
+  //   {"scint_e","scint_e", 350, 0, 35}, "scint_e");
 
   ROOT::RDF::RunGraphs(
   {
