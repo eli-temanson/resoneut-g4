@@ -386,6 +386,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     p_neut_cylinder_geo,  // the geometry/solid
     Terph,        // the material
     "Scintillator"); // the name
+  // DON'T STEP TOO LARGE
+  pScintLogical->SetUserLimits(new G4UserLimits(1.0*mm));
 
   // p-Terphenyl visual attributes, this can be skipped!
   //

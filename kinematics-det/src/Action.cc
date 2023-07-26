@@ -117,11 +117,12 @@ RunAction::RunAction() {
 
   analysisManager->CreateNtupleDColumn("ic_atomic_mass_1"); 
   analysisManager->CreateNtupleDColumn("ic_atomic_num_1"); 
-
+  
   analysisManager->CreateNtupleDColumn("scint_e");
   analysisManager->CreateNtupleDColumn("scint_t");
   analysisManager->CreateNtupleDColumn("scint_x");
   analysisManager->CreateNtupleDColumn("scint_y");
+  analysisManager->CreateNtupleDColumn("scint_id");
 
 
   analysisManager->FinishNtuple();
@@ -252,7 +253,6 @@ void EventAction::EndOfEventAction(const G4Event* event) {
         icY = icHit->GetPosition().y() / mm;
         icEy += icHit->GetEnergy();
       }
-
       if(icHit_z > 38.0 && icHit_z <= 46.0) { // check if the hit was in the "dE-region"
         icdE += icHit->GetEnergy();
       }  
@@ -271,15 +271,17 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   }
   auto scintHC = GetHitsCollection(scintHCID, event);
   G4double scintEtot = 0.0, scintTime = 0.0, scintX = 0.0, scintY = 0.0;
+  G4int scint_id = -1;
 
   if(scintHC->entries() > 0) {
     for(G4int i = 1; i < scintHC->entries(); i++) {
-      scintEtot += (*scintHC)[i]->GetEnergy();
-      if((*scintHC)[i]->GetEnergy() > 0.05){
+      if((*scintHC)[i]->GetEnergy() > 0.075){ // 75 keV threshold limit
+        scintEtot += (*scintHC)[i]->GetEnergy();
         scintTime = (*scintHC)[i]->GetTime();
+        scintX = (*scintHC)[i]->GetPosition().x() / mm;
+        scintY = (*scintHC)[i]->GetPosition().y() / mm;
+        scint_id = (*scintHC)[i]->GetID();
       }
-      scintX = (*scintHC)[i]->GetPosition().x() / mm;
-      scintY = (*scintHC)[i]->GetPosition().y() / mm;
     }
   }
 
@@ -335,6 +337,8 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   analysisManager->FillNtupleDColumn(0, 35, scintTime);
   analysisManager->FillNtupleDColumn(0, 36, scintX);
   analysisManager->FillNtupleDColumn(0, 37, scintY);
+  analysisManager->FillNtupleDColumn(0, 38, scint_id);
+
 
   analysisManager->AddNtupleRow();
 }

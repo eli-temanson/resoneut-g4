@@ -33,10 +33,6 @@
 // Allows user to choose the random engine
 #include "Randomize.hh"
 
-// // using json-c++ reader
-// #include <nlohmann/json.hpp>
-// using json = nlohmann::json;
-
 #include "InputReader.hh"
 #include <iostream>
 #include <string>
@@ -60,7 +56,6 @@ int main(int argc,char** argv) {
   InputReader* reader = InputReader::Instance(std::string(argv[1]));
   std::cout << reader->GetFileOutput() << std::endl;
   NucleonStates* states = NucleonStates::Instance();
-  // return 0;
 
   // Construct the default run manager
   //
@@ -72,21 +67,8 @@ int main(int argc,char** argv) {
 
   // Physics list
   //
-  // G4VModularPhysicsList* physicsList = new FTFP_BERT_HP();
-  // physicsList->RegisterPhysics(new PhysicsList());
   // runManager->SetUserInitialization(new FTFP_BERT_HP());
   runManager->SetUserInitialization(new PhysicsList());
-
-  // G4VModularPhysicsList* physicsList = new FTFP_BERT_HP();
-  // // physicsList->ReplacePhysics(new G4EmStandardPhysics_option3());
-  // physicsList->RegisterPhysics(new BinaryReactionPhysics());
-  // physicsList->RegisterPhysics(new G4StepLimiterPhysics());
-  // stepLimitPhys->SetApplyToAll(true); // activates step limit for ALL particles
-
-  // physicsList->SetCutValue(10.*km,"e+");
-  // physicsList->SetCutValue(10.*km,"e-");
-  // physicsList->SetCutValue(10.*km,"gamma");
-  // runManager->SetUserInitialization(physicsList);
 
   // User action initialization
   //

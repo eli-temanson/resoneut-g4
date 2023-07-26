@@ -8,7 +8,7 @@
     "beam" : [ 
         { 
             "energyMeV" : 50.0,
-            "sigmaMeV" : 2.0,
+            "sigmaMeV" : 1.0,
             "ZA" : [5,10]
         }
     ]
