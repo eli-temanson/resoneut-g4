@@ -4,15 +4,15 @@
   gStyle->SetPalette(53);
 
   ROOT::EnableImplicitMT(15); 
-  ROOT::RDataFrame df_raw("events", "analysis/eff.root");
+  // ROOT::RDataFrame df_raw("events", "analysis/eff.root");
   // ROOT::RDataFrame df_raw("events", "analysis/C12dn.root");
-  // ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
+  ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
 
-  auto df = df_raw
-    .Filter("s1_e > 0 && s2_e > 0")
-    .Filter("ic_atomic_num == 4")
-    .Filter("scint_e > 0.001");
-  // auto df = df_raw;
+  // auto df = df_raw
+  //   .Filter("s1_e > 0 && s2_e > 0")
+  //   .Filter("ic_atomic_num == 4");
+  //   .Filter("scint_e > 0.001");
+  auto df = df_raw;
 
   auto theta_cm = df.Histo1D(
     {"theta_cm","theta_cm", 360, 0, 180}, "ThetaCM");
@@ -49,6 +49,9 @@
   auto scint_x_y = df.Histo2D(
     {"scint_x_y","scint_x_y",250, -500, 500, 250, -500, 500},"scint_x", "scint_y");
 
+  auto ic_x_y = df.Histo2D(
+    {"ic_x_y","ic_x_y",100, -30, 30, 100, -30, 30},"ic_x", "ic_y");
+
 
   ROOT::RDF::RunGraphs(
   {
@@ -62,7 +65,8 @@
     si_theta_corr,
     scint_e,
     scint_t,
-    scint_x_y
+    scint_x_y,
+    ic_x_y
   });
 
   new TCanvas(); theta_cm->DrawCopy("");
@@ -76,5 +80,6 @@
   new TCanvas(); scint_e->DrawCopy();
   new TCanvas(); scint_t->DrawCopy();
   new TCanvas(); scint_x_y->DrawCopy("col");
+  new TCanvas(); ic_x_y->DrawCopy("lego2");
 
 }

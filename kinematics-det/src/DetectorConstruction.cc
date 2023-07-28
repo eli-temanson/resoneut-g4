@@ -156,7 +156,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   C2D4->AddElement(C, 2);
   C2D4->AddElement(elD, 4);
 
-  G4double targetThickness = 0.1*um; // 7.5
+  G4double targetThickness = 7.5*um; // 7.5
   G4VSolid* pTargetSolid = new G4Tubs("TargetSolid", 0.0, 10.0*mm, targetThickness/2.0, 0.0, 360.0*deg);
   pTargetLogical =  new G4LogicalVolume(pTargetSolid, C2D4, "targetLogical");
   new G4PVPlacement(
