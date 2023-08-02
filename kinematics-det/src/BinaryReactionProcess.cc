@@ -66,8 +66,10 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
   // Determine if (d, d), (d, n) or (c, c)
   G4ParticleDefinition* pTargetDef;
+  G4ParticleDefinition* hydrogen = particleTable->GetIonTable()->GetIon(1, 1, 0.0);
   G4ParticleDefinition* deuteron = particleTable->GetIonTable()->GetIon(1, 2, 0.0);
   G4ParticleDefinition* carbon = particleTable->GetIonTable()->GetIon(6, 12, 0.0);
+  //pTargetDef = hydrogen;
   pTargetDef = deuteron;
 
   // if(G4UniformRand() > 0.9) {
@@ -94,12 +96,13 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   // 80% of the time choose neutron for (d, n) instead of (d, d)
   if(pTargetDef == deuteron) {
     // lightRecoilDef = G4UniformRand() > 0.8 ? deutron : neutron;
-    pEjectileDef = deuteron;
-    //pEjectileDef = neutron;
+    pEjectileDef = neutron;
   } else { // Only (c, c)
     pEjectileDef = carbon;
   }
 
+  //pEjectileDef = pTargetDef;
+  
   Ejectile.Z = pEjectileDef->GetAtomicNumber();
   Ejectile.A = pEjectileDef->GetAtomicMass();
   Ejectile.InvMass = MassLookup::GetInstance().FindMass(Ejectile.Z, Ejectile.A);
