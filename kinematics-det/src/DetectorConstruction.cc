@@ -182,7 +182,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // G4Material* pICMat = nist->FindOrBuildMaterial("G4_BUTANE");
   double R = 62364.0; // cm3*Torr/(K mol)
   double molar_mass = 58.12; // g/mol
-  double pressure = 100.0; // 124.0 Torr
+  double pressure = 124.0; // 124.0 Torr
   double ic_rho = molar_mass * pressure / (R * 293.15);  // g/cm3
   G4Material* p_ic_gas_mat = nist->BuildMaterialWithNewDensity("butane","G4_BUTANE",ic_rho*g/cm/cm/cm);
 
