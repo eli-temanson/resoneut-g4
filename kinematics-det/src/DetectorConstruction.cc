@@ -156,7 +156,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   C2D4->AddElement(C, 2);
   C2D4->AddElement(elD, 4);
 
-  G4double targetThickness = 7.5*um; // 7.5
+  G4double targetThickness = 1*um; // 7.5
   G4VSolid* pTargetSolid = new G4Tubs("TargetSolid", 0.0, 10.0*mm, targetThickness/2.0, 0.0, 360.0*deg);
   pTargetLogical =  new G4LogicalVolume(pTargetSolid, C2D4, "targetLogical");
   new G4PVPlacement(
@@ -182,7 +182,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // G4Material* pICMat = nist->FindOrBuildMaterial("G4_BUTANE");
   double R = 62364.0; // cm3*Torr/(K mol)
   double molar_mass = 58.12; // g/mol
-  double pressure = 124.0; // Torr
+  double pressure = 100.0; // 124.0 Torr
   double ic_rho = molar_mass * pressure / (R * 293.15);  // g/cm3
   G4Material* p_ic_gas_mat = nist->BuildMaterialWithNewDensity("butane","G4_BUTANE",ic_rho*g/cm/cm/cm);
 
@@ -296,27 +296,27 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
 
   // -----> beam stopper
-  G4Tubs* p_ic_stopper_geo = new G4Tubs(
-    "ic_stopper_geo",
-    0,
-    1.0*cm,
-    0.5*cm, // thickness
-    0.0,
-    2*CLHEP::pi);
+  //G4Tubs* p_ic_stopper_geo = new G4Tubs(
+  //  "ic_stopper_geo",
+  //  0,
+  //  1.0*cm,
+  //  0.5*cm, // thickness
+  //  0.0,
+  //  2*CLHEP::pi);
 
-  auto p_ic_stopper_logical = new G4LogicalVolume(
-    p_ic_stopper_geo, // the geometry/solid 
-    pStainlessMat,   // the material
-    "ic_stopper_logical");	   // the name
+  //auto p_ic_stopper_logical = new G4LogicalVolume(
+  //  p_ic_stopper_geo, // the geometry/solid 
+  //  pStainlessMat,   // the material
+  //  "ic_stopper_logical");	   // the name
 
-  new G4PVPlacement(0,	//no rotation
-    G4ThreeVector(0,0,(30.0-2.0)*cm), // the center
-    p_ic_stopper_logical,  // the logical volume
-    "ic_stopper_logical",   // the name
-    pWorldLogic, // the mother (logical) volume
-    false,       // no boolean operation
-    1,      // copy number
-    checkOverlaps); // overlaps checking
+  //new G4PVPlacement(0,	//no rotation
+  //  G4ThreeVector(0,0,(30.0-2.0)*cm), // the center
+  //  p_ic_stopper_logical,  // the logical volume
+  //  "ic_stopper_logical",   // the name
+  //  pWorldLogic, // the mother (logical) volume
+  //  false,       // no boolean operation
+  //  1,      // copy number
+  //  checkOverlaps); // overlaps checking
 
 
 

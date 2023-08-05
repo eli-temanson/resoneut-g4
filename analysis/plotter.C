@@ -4,14 +4,14 @@
   gStyle->SetPalette(53);
   
   ROOT::EnableImplicitMT(15); 
-  // ROOT::RDataFrame df_raw("events", "analysis/eff.root");
+  ROOT::RDataFrame df_raw("events", "analysis/eff.root");
   // ROOT::RDataFrame df_raw("events", "analysis/C12dn.root");
   // ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
-  ROOT::RDataFrame df_raw("events", "analysis/B10elastic.root");
+  // ROOT::RDataFrame df_raw("events", "analysis/B10elastic.root");
 
   auto df = df_raw
-    .Filter("s1_e > 0 || s2_e > 0")
-    .Filter("ic_atomic_num == 5");
+    .Filter("s1_e > 0 && s2_e > 0")
+    .Filter("ic_atomic_num == 4");
   //  .Filter("scint_e > 0.001");
   //auto df = df_raw;
 

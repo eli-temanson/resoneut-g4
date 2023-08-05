@@ -275,7 +275,7 @@ void EventAction::EndOfEventAction(const G4Event* event) {
 
   if(scintHC->entries() > 0) {
     for(G4int i = 1; i < scintHC->entries(); i++) {
-      if((*scintHC)[i]->GetEnergy() > 0.075){ // 75 keV threshold limit
+      if((*scintHC)[i]->GetEnergy() > 0.1){ // 100 keV threshold limit
         scintEtot += (*scintHC)[i]->GetEnergy();
         scintTime = (*scintHC)[i]->GetTime();
         scintX = (*scintHC)[i]->GetPosition().x() / mm;
