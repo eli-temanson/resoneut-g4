@@ -4,15 +4,17 @@
   gStyle->SetPalette(53);
   
   ROOT::EnableImplicitMT(15); 
-  ROOT::RDataFrame df_raw("events", "analysis/eff.root");
+  ROOT::RDataFrame df_raw("events", "analysis/elastic-2H.root");
+  // ROOT::RDataFrame df_raw("events", "analysis/elastic-1H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/C12dn.root");
   // ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
   // ROOT::RDataFrame df_raw("events", "analysis/B10elastic.root");
 
   auto df = df_raw
-    .Filter("s1_e > 0 && s2_e > 0")
-    .Filter("ic_atomic_num == 4");
-  //  .Filter("scint_e > 0.001");
+    .Filter("s1_e > 0 && s2_e > 0");
+    //.Filter("ic_atomic_num == 5");
+    //.Filter("scint_e > 0.001");
+  
   //auto df = df_raw;
 
   auto theta_cm = df.Histo1D(
@@ -43,6 +45,9 @@
   auto si_theta_corr = df.Histo2D(
     {"si_theta_corr","si_theta_corr",350, 0, 35, 350, 0, 35},"s1_theta", "s2_theta");
 
+  auto si_kin = df.Define("si_ede","s1_e+s2_e")
+    .Histo2D({"si_kin","si_kin",350, 0, 35, 350, 0, 35},"s1_theta", "si_ede");
+  
   auto ic_phi_si_phi = df.Histo2D(
     {"ic_phi_si_phi","ic_phi_si_phi",200, -200, 200, 200, -200, 200},"s1_phi", "ic_phi");
   
@@ -69,6 +74,7 @@
     si_ede,
     ic_ede,
     si_theta_corr,
+    si_kin,
     scint_e,
     scint_t,
     scint_x_y,
@@ -101,6 +107,10 @@
   gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
   si_theta_corr->DrawCopy("col");
 
+  new TCanvas("c11","",1000,800); 
+  gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  si_kin->DrawCopy("col");
+  
   new TCanvas("c7","",1000,800); 
   gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
   scint_e->DrawCopy();

@@ -69,8 +69,8 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4ParticleDefinition* hydrogen = particleTable->GetIonTable()->GetIon(1, 1, 0.0);
   G4ParticleDefinition* deuteron = particleTable->GetIonTable()->GetIon(1, 2, 0.0);
   G4ParticleDefinition* carbon = particleTable->GetIonTable()->GetIon(6, 12, 0.0);
-  //pTargetDef = hydrogen;
-  pTargetDef = deuteron;
+  pTargetDef = hydrogen;
+  //pTargetDef = deuteron;
 
   // if(G4UniformRand() > 0.9) {
   //   targetDef = deuteron;
@@ -94,14 +94,14 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4ParticleDefinition* neutron = particleTable->FindParticle("neutron");
 
   // 80% of the time choose neutron for (d, n) instead of (d, d)
-  if(pTargetDef == deuteron) {
-    // lightRecoilDef = G4UniformRand() > 0.8 ? deutron : neutron;
-    pEjectileDef = neutron;
-  } else { // Only (c, c)
-    pEjectileDef = carbon;
-  }
-
-  //pEjectileDef = pTargetDef;
+  //if(pTargetDef == deuteron) {
+  //  // lightRecoilDef = G4UniformRand() > 0.8 ? deutron : neutron;
+  //  pEjectileDef = neutron;
+  //} else { // Only (c, c)
+  //  pEjectileDef = carbon;
+  //}
+  // elastic scattering!
+  pEjectileDef = pTargetDef;
   
   Ejectile.Z = pEjectileDef->GetAtomicNumber();
   Ejectile.A = pEjectileDef->GetAtomicMass();
@@ -123,9 +123,9 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4double gamma = std::sqrt(term1/(term2+term3));
   
   // Lab Frame Ejectile Theta, Iliadis(C.38)
-  G4double ThetaCM = GetInvKinTheta();
+  // G4double ThetaCM = GetInvKinTheta();
   // G4double ThetaCM = G4UniformRand();
-  // G4double ThetaCM = std::acos(1.0 - (G4UniformRand()*2.0));
+  G4double ThetaCM = std::acos(1.0 - (G4UniformRand()*2.0));
   Ejectile.Theta = std::acos((gamma + std::cos(ThetaCM))/std::sqrt(1 + gamma*gamma + 2*gamma*std::cos(ThetaCM)));
   G4double r = std::sqrt(Beam.KE*Beam.M*Ejectile.M)*std::cos(Ejectile.Theta)/(Ejectile.M+Fragment.M); 
   G4double s = (Beam.KE*(Fragment.M-Beam.M)+Fragment.M*QValue)/(Ejectile.M+Fragment.M);

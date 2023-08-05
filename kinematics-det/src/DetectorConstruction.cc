@@ -95,7 +95,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     "S1Geo",
     24.0*mm,
     48.0*mm,
-    1000.0*um, // thickness
+    500.0*um, // half-thickness
     0.0,
     2*CLHEP::pi);
 
@@ -124,7 +124,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     "S2Geo",
     11.53*mm,
     35.0*mm,
-    64.0*um, // thickness
+    32.0*um, // half-thickness
     0.0,
     2*CLHEP::pi);
 
@@ -296,27 +296,27 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
 
   // -----> beam stopper
-  //G4Tubs* p_ic_stopper_geo = new G4Tubs(
-  //  "ic_stopper_geo",
-  //  0,
-  //  1.0*cm,
-  //  0.5*cm, // thickness
-  //  0.0,
-  //  2*CLHEP::pi);
+  G4Tubs* p_ic_stopper_geo = new G4Tubs(
+    "ic_stopper_geo",
+    0,
+    1.0*cm,
+    0.5*cm, // thickness
+    0.0,
+    2*CLHEP::pi);
 
-  //auto p_ic_stopper_logical = new G4LogicalVolume(
-  //  p_ic_stopper_geo, // the geometry/solid 
-  //  pStainlessMat,   // the material
-  //  "ic_stopper_logical");	   // the name
+  auto p_ic_stopper_logical = new G4LogicalVolume(
+    p_ic_stopper_geo, // the geometry/solid 
+    pStainlessMat,   // the material
+    "ic_stopper_logical");	   // the name
 
-  //new G4PVPlacement(0,	//no rotation
-  //  G4ThreeVector(0,0,(30.0-2.0)*cm), // the center
-  //  p_ic_stopper_logical,  // the logical volume
-  //  "ic_stopper_logical",   // the name
-  //  pWorldLogic, // the mother (logical) volume
-  //  false,       // no boolean operation
-  //  1,      // copy number
-  //  checkOverlaps); // overlaps checking
+  new G4PVPlacement(0,	//no rotation
+    G4ThreeVector(0,0,(30.0-2.0)*cm), // the center
+    p_ic_stopper_logical,  // the logical volume
+    "ic_stopper_logical",   // the name
+    pWorldLogic, // the mother (logical) volume
+    false,       // no boolean operation
+    1,      // copy number
+    checkOverlaps); // overlaps checking
 
 
 
