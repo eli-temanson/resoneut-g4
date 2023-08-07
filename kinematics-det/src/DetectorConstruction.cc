@@ -299,8 +299,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4Tubs* p_ic_stopper_geo = new G4Tubs(
     "ic_stopper_geo",
     0,
-    1.0*cm,
-    0.5*cm, // thickness
+    0.5*cm,
+    0.5*cm, // z half-thickness
     0.0,
     2*CLHEP::pi);
 
