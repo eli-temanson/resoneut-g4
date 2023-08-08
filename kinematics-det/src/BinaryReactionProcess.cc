@@ -9,9 +9,8 @@ BinaryReactionProcess::BinaryReactionProcess(const G4String& processName) :
     
     SetProcessSubType(111);
     // SetAngDis("assets/dwba_l0.dat");
-    SetAngDis("assets/elastic.txt");
-    // SetAngDis("assets/state2.txt");
-
+    // SetAngDis("assets/elastic.txt");
+    SetAngDis("assets/state2.txt");
 }
 
 BinaryReactionProcess::~BinaryReactionProcess() {}
@@ -65,19 +64,27 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   NucleonStates* states = NucleonStates::Instance();
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
 
+  // Define the neutron or other light recoil particles
   // Determine if (d, d), (d, n) or (c, c)
   G4ParticleDefinition* pTargetDef;
+  G4ParticleDefinition* pEjectileDef;
+  G4ParticleDefinition* neutron = particleTable->FindParticle("neutron");
   G4ParticleDefinition* hydrogen = particleTable->GetIonTable()->GetIon(1, 1, 0.0);
+  G4ParticleDefinition* he3 = particleTable->GetIonTable()->GetIon(2, 3, 0.0);
+  G4ParticleDefinition* helium = particleTable->GetIonTable()->GetIon(2, 4, 0.0);
   G4ParticleDefinition* deuteron = particleTable->GetIonTable()->GetIon(1, 2, 0.0);
   G4ParticleDefinition* carbon = particleTable->GetIonTable()->GetIon(6, 12, 0.0);
-  // pTargetDef = hydrogen;
+ 
+  //pTargetDef = hydrogen;
   pTargetDef = deuteron;
-
+  //pTargetDef = G4UniformRand() >= 0.5 ? hydrogen : deuteron;
+  
   // if(G4UniformRand() > 0.9) {
   //   targetDef = deuteron;
   // } else {
   //   targetDef = carbon;
   // }
+  
   Target.Z = pTargetDef->GetAtomicNumber();
   Target.A = pTargetDef->GetAtomicMass();
   Target.InvMass = MassLookup::GetInstance().FindMass(Target.Z, Target.A);
@@ -89,17 +96,17 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
 
   // G4double energy = aTrack.GetKineticEnergy() / MeV;
   // G4double cmEnergy = energy*Target.M/(Beam.M + Target.M);
-
-  // Define the neutron or other light recoil particles
-  G4ParticleDefinition* pEjectileDef;
-  G4ParticleDefinition* neutron = particleTable->FindParticle("neutron");
-
-  if(true) { // elastic scattering!
+ 
+  // pEjectileDef = G4UniformRand() >= 0.5 ? he3 : helium;
+  if(false) { // elastic scattering!
     pEjectileDef = pTargetDef;
   } else if(pTargetDef == deuteron) {
-    // 80% of the time choose neutron for (d, n) instead of (d, d)
-    // lightRecoilDef = G4UniformRand() > 0.8 ? deutron : neutron;
+    // choose neutron for (d, n) or (d, 3He)
+    // pEjectileDef = G4UniformRand() >= 0.5 ? he3 : neutron;
     pEjectileDef = neutron;
+  } else if(pTargetDef == hydrogen) {
+    // pEjectileDef = G4UniformRand() > 0.5 ? he3 : neutron;
+    pEjectileDef = helium;
   } else { // Only (c, c)
     pEjectileDef = carbon;
   }

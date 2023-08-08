@@ -284,6 +284,25 @@ void EventAction::EndOfEventAction(const G4Event* event) {
       }
     }
   }
+  // now thin
+  if( scint_thinHCID == -1 ) {
+    scint_thinHCID = G4SDManager::GetSDMpointer()->GetCollectionID("Scint_thin/hitCollection");
+  }
+  auto scintHC_thin = GetHitsCollection(scint_thinHCID, event);
+  //G4double scintEtot = 0.0, scintTime = 0.0, scintX = 0.0, scintY = 0.0;
+  //G4int scint_id = -1;
+
+  if(scintHC_thin->entries() > 0) {
+    for(G4int i = 1; i < scintHC_thin->entries(); i++) {
+      if((*scintHC_thin)[i]->GetEnergy() > 0.1){ // 100 keV threshold limit
+        scintEtot += (*scintHC_thin)[i]->GetEnergy();
+        scintTime = (*scintHC_thin)[i]->GetTime();
+        scintX = (*scintHC_thin)[i]->GetPosition().x() / mm;
+        scintY = (*scintHC_thin)[i]->GetPosition().y() / mm;
+        scint_id = (*scintHC_thin)[i]->GetID();
+      }
+    }
+  }
 
   auto analysisManager = G4AnalysisManager::Instance();
   

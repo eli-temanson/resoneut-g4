@@ -4,23 +4,28 @@
   gStyle->SetPalette(53);
   
   ROOT::EnableImplicitMT(15); 
-  ROOT::RDataFrame df_raw("events", "analysis/elastic-2H.root");
+  // ROOT::RDataFrame df_raw("events", "analysis/elastic-2H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/elastic-1H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/C12dn.root");
+  ROOT::RDataFrame df_raw("events", "analysis/B10_d.root");
   // ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
   // ROOT::RDataFrame df_raw("events", "analysis/B10elastic.root");
 
   auto df = df_raw
-    .Filter("s1_e > 0 && s2_e > 0")
-    .Filter("s1_phi < -65 || s1_phi > -43"); 
+    .Filter("s1_e > 0 && s2_e > 0 && s1_e+s2_e < 25")
+    .Filter("ic_de > 0")
+    //.Filter("s1_phi < -65 || s1_phi > -43"); 
     //.Filter("s1_e+s2_e > 7 && s1_e+s2_e < 10");
-    //.Filter("FragmentEx == 0");
-    //.Filter("ic_atomic_num == 4");
-    //.Filter("scint_e > 0.001");
+    .Filter("ic_atomic_num == 4")
+    //.Filter("ic_atomic_mass == 7");
+    .Filter("scint_e > 0.001");
   
   //auto df = df_raw;
 
   std::cout<< *df.Count() / (double)*df_raw.Count() * 100.0 << "%" << std::endl;
+  
+  auto Qvalue = df.Histo1D(
+    {"Qvalue","Qvalue", 2000, -10, 10}, "QValue");
   
   auto theta_cm = df.Histo1D(
     {"theta_cm","theta_cm", 360, 0, 180}, "ThetaCM");
@@ -75,6 +80,7 @@
 
   ROOT::RDF::RunGraphs(
   {
+    Qvalue,
     theta_cm,
     kin_ejectile,
     kin_fragment,
@@ -115,34 +121,37 @@
   gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
   ic_ede->DrawCopy("col");
 
-  //new TCanvas("c6","",1000,800); 
-  //gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
-  //si_theta_corr->DrawCopy("col");
+  new TCanvas("c6","",1000,800); 
+  gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  si_theta_corr->DrawCopy("col");
   
-  //new TCanvas("c7","",1000,800); 
-  //gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
-  //scint_e->DrawCopy();
+  new TCanvas("c7","",1000,800); 
+  gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  scint_e->DrawCopy();
 
   //new TCanvas("c8","",1000,800); 
   //gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
   //scint_t->DrawCopy();
 
-  //new TCanvas("c9","",1000,800); 
-  //gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
-  //scint_x_y->DrawCopy("col");
-  // new TCanvas(); ic_x_y->DrawCopy("lego2");
+  new TCanvas("c9","",1000,800); 
+  gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  scint_x_y->DrawCopy("col");
+  
+  //new TCanvas(); ic_x_y->DrawCopy("lego2");
 
   //new TCanvas("c10","",1000,800); 
   //gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
   //ic_phi_si_phi->DrawCopy("col");
 
-
   new TCanvas("c11","",1000,800); 
   gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
   si_kin->DrawCopy("col");
 
-
   new TCanvas("c12","",1000,800); 
   gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
   ic_kin->DrawCopy("col");
+
+  new TCanvas("c13","",1000,800); 
+  gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  Qvalue->DrawCopy("");
 } 

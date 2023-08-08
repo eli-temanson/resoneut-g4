@@ -372,22 +372,37 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // p-Terphenyl geometry
   //
   G4Box* p_neut_cube_geo = new G4Box("cube",2.5*cm,2.5*cm,2.5*cm);
-  G4Tubs* p_neut_cylinder_geo = new G4Tubs(
+  G4Tubs* p_neut_cylinder_geo_thick = new G4Tubs(
     "cylinder",
     0.0*cm, // inner radius
     3.55*cm, // outer radius
-    1.25*cm, // z-depth
+    1.25*cm, // half z-depth
+    0.0, // start angle
+    2*CLHEP::pi); // spanning angle
+  G4Tubs* p_neut_cylinder_geo_thin = new G4Tubs(
+    "cylinder",
+    0.0*cm, // inner radius
+    3.55*cm, // outer radius
+    0.625*cm, // half z-depth
     0.0, // start angle
     2*CLHEP::pi); // spanning angle
 
   // p-Terphenyl logic volume definition
   // 
   pScintLogical = new G4LogicalVolume(
-    p_neut_cylinder_geo,  // the geometry/solid
+    p_neut_cylinder_geo_thick,  // the geometry/solid
+    // p_neut_cylinder_geo_thick,  // the geometry/solid
     Terph,        // the material
     "Scintillator"); // the name
+
+  pScintLogical_thin = new G4LogicalVolume(
+    p_neut_cylinder_geo_thin,  // the geometry/solid
+    // p_neut_cylinder_geo_thick,  // the geometry/solid
+    Terph,        // the material
+    "Scintillator_thin"); // the name
+
   // DON'T STEP TOO LARGE
-  pScintLogical->SetUserLimits(new G4UserLimits(1.0*mm));
+  // pScintLogical->SetUserLimits(new G4UserLimits(1.0*mm));
 
   // p-Terphenyl visual attributes, this can be skipped!
   //
@@ -397,6 +412,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
              1.0,   // blue
              0.6)); // alpha trans.
   pScintLogical->SetVisAttributes(scint_vis_att);
+  pScintLogical_thin->SetVisAttributes(scint_vis_att);
 
   // p-Terphenyl placement in the "World"
   //
@@ -418,17 +434,63 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // std::vector<double> scint_z = {};
 
   for(int i = 0; i < scint_x.size(); i++) {
-
-    new G4PVPlacement(0,	//no rotation
-      G4ThreeVector(scint_x[i]*cm, scint_y[i]*cm, -23.0*cm),
-      pScintLogical,        // the logical volume
-      "Scintillator",     // the name
-      pWorldLogic,        // the mother (logical) volume
-      false,              // no boolean operation
-      i,                  // copy number
-      checkOverlaps);     // overlaps checking
+    if(i == 0) continue;
+    if(i == 1) continue;
+    if(i == 4) continue;
+    if(i == 9) continue;
+    if(i == 10) continue;
+    if(i==2 || i==3 || i==5 || i==6 || i==15) { // location of thin detectors
+      new G4PVPlacement(0,	//no rotation
+        G4ThreeVector(scint_x[i]*cm, scint_y[i]*cm, -23.625*cm),
+        pScintLogical_thin,        // the logical volume
+        "Scintillator_thin",     // the name
+        pWorldLogic,        // the mother (logical) volume
+        false,              // no boolean operation
+        i,                  // copy number
+        checkOverlaps);     // overlaps checking
+    } else {
+      new G4PVPlacement(0,	//no rotation
+        G4ThreeVector(scint_x[i]*cm, scint_y[i]*cm, -24.25*cm),
+        pScintLogical,        // the logical volume
+        "Scintillator",     // the name
+        pWorldLogic,        // the mother (logical) volume
+        false,              // no boolean operation
+        i,                  // copy number
+        checkOverlaps);     // overlaps checking
+    }
   }
+  
+  //// Aluminum chamber 
+  G4Material* pAlMat = nist->FindOrBuildMaterial("G4_Al");
 
+  G4Tubs* p_scint_chamber_geo = new G4Tubs(
+    "scint_chamber",
+    0.0,
+    20*cm,
+    10*cm, // half z-thickness
+    0.0,
+    2*CLHEP::pi);
+  
+  G4Box* p_scint_hole = new G4Box("scint_hole",30*mm,30*mm,9.5*cm); //half
+  G4VSolid* p_scint_chamber = new G4SubtractionSolid("scint_chamber", p_scint_chamber_geo, p_scint_hole, new G4RotationMatrix(), G4ThreeVector(scint_x[0]*cm,scint_y[0]*cm,-33.0*cm) );
+  
+  for(int i = 1; i < scint_x.size(); i++) { 
+    p_scint_chamber = new G4SubtractionSolid("scint_chamber", p_scint_chamber_geo, p_scint_hole, new G4RotationMatrix(), G4ThreeVector(scint_x[i]*cm,scint_y[i]*cm,-33.0*cm));
+  }
+  
+  auto p_scint_chamber_logical = new G4LogicalVolume(
+    p_scint_chamber, // the geometry/solid 
+    pAlMat,   // the material
+    "scint_chamber_logical");	   // the name
+  
+  new G4PVPlacement(0,	//no rotation
+    G4ThreeVector(0,0, -33*cm),
+    p_scint_chamber_logical,        // the logical volume
+    "Scintillator_chamber",     // the name
+    pWorldLogic,        // the mother (logical) volume
+    false,              // no boolean operation
+    0,                  // copy number
+    checkOverlaps);     // overlaps checking
 
   //=================================================================================                   
   //always return the physical World
@@ -471,4 +533,8 @@ void DetectorConstruction::ConstructSDandField(){
   auto pScint = new GenericSD("Scint");
   G4SDManager::GetSDMpointer()->AddNewDetector(pScint);
   pScintLogical->SetSensitiveDetector(pScint);
+
+  auto pScint_thin = new GenericSD("Scint_thin");
+  G4SDManager::GetSDMpointer()->AddNewDetector(pScint_thin);
+  pScintLogical_thin->SetSensitiveDetector(pScint);
 }

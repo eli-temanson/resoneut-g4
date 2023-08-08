@@ -1,8 +1,23 @@
 Loaded mass file successful.
 Finished filling mass table.
 Processing the Input!
-analysis/eff.root
+analysis/B10dn.root
 Printing nuclear table to use:
+Name:   10B; Z:   5; A:  10
+	 States:
+		Energy:    0.000; Spin*2:  3; Parity: 1; Probability: 1.000000
+	 Thresholds:
+Name:   8Be; Z:   4; A:   8
+	 States:
+		Energy:    0.000; Spin*2:  3; Parity: 1; Probability: 0.333333
+		Energy:    3.000; Spin*2:  3; Parity: 1; Probability: 0.666667
+		Energy:   11.000; Spin*2:  3; Parity: 1; Probability: 1.000000
+	 Thresholds:
+Name:   9Be; Z:   4; A:   9
+	 States:
+		Energy:    6.400; Spin*2:  3; Parity: 1; Probability: 0.500000
+		Energy:    5.600; Spin*2:  3; Parity: 1; Probability: 1.000000
+	 Thresholds:
 Name:   11B; Z:   5; A:  11
 	 States:
 		Energy:   11.440; Spin*2:  5; Parity: 1; Probability: 1.000000
@@ -36,6 +51,7 @@ Checking overlaps for volume targetPhysical:0 (G4Tubs) ... OK!
 Checking overlaps for volume ICLogic:1 (G4Tubs) ... OK! 
 Checking overlaps for volume ICOuterLogical:1 (G4SubtractionSolid) ... OK! 
 Checking overlaps for volume ic_window_logical:1 (G4Tubs) ... OK! 
+Checking overlaps for volume ic_stopper_logical:1 (G4Tubs) ... OK! 
 Checking overlaps for volume Scintillator:0 (G4Tubs) ... OK! 
 Checking overlaps for volume Scintillator:1 (G4Tubs) ... OK! 
 Checking overlaps for volume Scintillator:2 (G4Tubs) ... OK! 
@@ -806,30 +822,1062 @@ Max 2J for sampling of angular correlations         10
 =========================================================================
 
 Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
-Loaded Angular Distribution from: assets/dwba_l0.dat
 
-============================================================================================
---> G4TaskRunManager::CreateAndStartWorkers() --> Creating 100 tasks with 100 events/task...
-============================================================================================
+========================================================================================
+--> G4TaskRunManager::CreateAndStartWorkers() --> Creating 3 tasks with 3 events/task...
+========================================================================================
 
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = B10,   Track ID = 1,   Parent ID = 0
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0    0.609    -1.02      -10      49.7        0        0         0       World initStep
+G4WT0 >     1    0.609    -1.02  -0.0005      49.7 3.63e-22       10        10 targetPhysical Transportation
+G4WT0 >     2    0.609    -1.02  -0.0005         0        0        0        10 targetPhysical BinaryReaction
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = Be9[5600.000],   Track ID = 3,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0    0.609    -1.02  -0.0005      25.5        0        0         0 targetPhysical initStep
+G4WT0 >     1    0.609    -1.02   0.0005      25.3    0.192    0.001     0.001       World Transportation
+G4WT0 >     2     12.7     16.9      300      25.3 1.17e-20      301       301 ic_window_logical Transportation
+G4WT0 >     3     12.7     16.9      300      23.5     1.79  0.00702       301     ICLogic Transportation
+G4WT0 >     4     12.7       17      302      23.3    0.192        2       303     ICLogic StepLimiter
+G4WT0 >     5     12.8     17.1      304      23.2    0.177        2       305     ICLogic StepLimiter
+G4WT0 >     6     12.9     17.2      306        23    0.167        2       307     ICLogic StepLimiter
+G4WT0 >     7       13     17.3      308      22.8    0.171        2       309     ICLogic StepLimiter
+G4WT0 >     8     13.1     17.4      310      22.7    0.173        2       311     ICLogic StepLimiter
+G4WT0 >     9     13.2     17.6      312      22.5    0.188        2       313     ICLogic StepLimiter
+G4WT0 >    10     13.2     17.7      314      22.3    0.152        2       315     ICLogic StepLimiter
+G4WT0 >    11     13.3     17.8      316      22.1    0.177        2       317     ICLogic StepLimiter
+G4WT0 >    12     13.4     17.9      318        22    0.162        2       319     ICLogic StepLimiter
+G4WT0 >    13     13.5       18      320      21.8    0.192        2       321     ICLogic StepLimiter
+G4WT0 >    14     13.6     18.1      322      21.6    0.183        2       323     ICLogic StepLimiter
+G4WT0 >    15     13.7     18.2      324      21.4    0.233        2       325     ICLogic StepLimiter
+G4WT0 >    16     13.7     18.3      326      21.2    0.186        2       327     ICLogic StepLimiter
+G4WT0 >    17     13.8     18.5      328        21    0.215        2       329     ICLogic StepLimiter
+G4WT0 >    18     13.9     18.6      330      20.8    0.174        2       331     ICLogic StepLimiter
+G4WT0 >    19       14     18.7      332      20.6    0.179        2       333     ICLogic StepLimiter
+G4WT0 >    20     14.1     18.8      334      20.4    0.209        2       335     ICLogic StepLimiter
+G4WT0 >    21     14.2     18.9      336      20.2    0.212        2       337     ICLogic StepLimiter
+G4WT0 >    22     14.2       19      338        20    0.192        2       339     ICLogic StepLimiter
+G4WT0 >    23     14.3     19.1      340      19.8    0.203        2       341     ICLogic StepLimiter
+G4WT0 >    24     14.4     19.2      342      19.6    0.199        2       343     ICLogic StepLimiter
+G4WT0 >    25     14.5     19.3      344      19.4    0.202        2       345     ICLogic StepLimiter
+G4WT0 >    26     14.6     19.5      346      19.2    0.171        2       347     ICLogic StepLimiter
+G4WT0 >    27     14.6     19.6      348        19    0.191        2       349     ICLogic StepLimiter
+G4WT0 >    28     14.7     19.7      350      18.8    0.215        2       351     ICLogic StepLimiter
+G4WT0 >    29     14.8     19.8      352      18.7    0.168        2       353     ICLogic StepLimiter
+G4WT0 >    30     14.9     19.9      354      18.4     0.21        2       355     ICLogic StepLimiter
+G4WT0 >    31       15       20      356      18.3    0.159        2       357     ICLogic StepLimiter
+G4WT0 >    32       15     20.2      358      18.1    0.225        2       359     ICLogic StepLimiter
+G4WT0 >    33     15.1     20.3      360      17.9    0.192        2       361     ICLogic StepLimiter
+G4WT0 >    34     15.2     20.4      362      17.6    0.228        2       363     ICLogic StepLimiter
+G4WT0 >    35     15.3     20.5      364      17.4    0.201        2       365     ICLogic StepLimiter
+G4WT0 >    36     15.3     20.6      366      17.2    0.228        2       367     ICLogic StepLimiter
+G4WT0 >    37     15.4     20.8      368        17    0.216        2       369     ICLogic StepLimiter
+G4WT0 >    38     15.5     20.9      370      16.8    0.238        2       371     ICLogic StepLimiter
+G4WT0 >    39     15.6       21      372      16.6    0.212        2       373     ICLogic StepLimiter
+G4WT0 >    40     15.6     21.2      374      16.4      0.2        2       375     ICLogic StepLimiter
+G4WT0 >    41     15.7     21.3      376      16.1    0.244        2       377     ICLogic StepLimiter
+G4WT0 >    42     15.8     21.4      378      15.9     0.24        2       379     ICLogic StepLimiter
+G4WT0 >    43     15.9     21.6      380      15.7    0.203        2       381     ICLogic StepLimiter
+G4WT0 >    44       16     21.7      382      15.4    0.248        2       383     ICLogic StepLimiter
+G4WT0 >    45       16     21.8      384      15.2     0.22        2       385     ICLogic StepLimiter
+G4WT0 >    46     16.1       22      386        15    0.219        2       387     ICLogic StepLimiter
+G4WT0 >    47     16.2     22.1      388      14.7     0.26        2       389     ICLogic StepLimiter
+G4WT0 >    48     16.3     22.2      390      14.5    0.205        2       391     ICLogic StepLimiter
+G4WT0 >    49     16.3     22.4      392      14.3    0.242        2       393     ICLogic StepLimiter
+G4WT0 >    50     16.4     22.5      394        14    0.231        2       395     ICLogic StepLimiter
+G4WT0 >    51     16.5     22.7      396      13.8    0.218        2       397     ICLogic StepLimiter
+G4WT0 >    52     16.5     22.8      398      13.6    0.219        2       399     ICLogic StepLimiter
+G4WT0 >    53     16.6     22.9      400      13.4    0.225        2       401     ICLogic StepLimiter
+G4WT0 >    54     16.7     23.1      402      13.2    0.211        2       403     ICLogic StepLimiter
+G4WT0 >    55     16.8     23.2      404      12.9    0.234        2       405     ICLogic StepLimiter
+G4WT0 >    56     16.8     23.4      406      12.7    0.275        2       407     ICLogic StepLimiter
+G4WT0 >    57     16.9     23.5      408      12.4    0.253        2       409     ICLogic StepLimiter
+G4WT0 >    58       17     23.7      410      12.2     0.25        2       411     ICLogic StepLimiter
+G4WT0 >    59     17.1     23.8      412      11.9    0.247        2       413     ICLogic StepLimiter
+G4WT0 >    60     17.2       24      414      11.6    0.276        2       415     ICLogic StepLimiter
+G4WT0 >    61     17.3     24.1      416      11.4    0.234        2       417     ICLogic StepLimiter
+G4WT0 >    62     17.3     24.3      418      11.1    0.262        2       419     ICLogic StepLimiter
+G4WT0 >    63     17.4     24.4      420      10.8    0.324        2       421     ICLogic StepLimiter
+G4WT0 >    64     17.5     24.6      422      10.5    0.264        2       423     ICLogic StepLimiter
+G4WT0 >    65     17.6     24.7      424      10.3    0.292        2       425     ICLogic StepLimiter
+G4WT0 >    66     17.7     24.9      426        10    0.249        2       427     ICLogic StepLimiter
+G4WT0 >    67     17.8       25      428      9.75    0.259        2       429     ICLogic StepLimiter
+G4WT0 >    68     17.9     25.2      430      9.43     0.32        2       431     ICLogic StepLimiter
+G4WT0 >    69     17.9     25.3      432      9.13    0.301        2       433     ICLogic StepLimiter
+G4WT0 >    70       18     25.5      434      8.83    0.294        2       435     ICLogic StepLimiter
+G4WT0 >    71     18.1     25.6      436      8.53    0.306        2       437     ICLogic StepLimiter
+G4WT0 >    72     18.2     25.8      438      8.22     0.31        2       439     ICLogic StepLimiter
+G4WT0 >    73     18.3     25.9      440      7.93    0.291        2       441     ICLogic StepLimiter
+G4WT0 >    74     18.3     26.1      442      7.62    0.303        2       443     ICLogic StepLimiter
+G4WT0 >    75     18.4     26.2      444      7.25    0.374        2       445     ICLogic StepLimiter
+G4WT0 >    76     18.5     26.4      446      6.95    0.299        2       447     ICLogic StepLimiter
+G4WT0 >    77     18.6     26.5      448      6.56     0.39        2       449     ICLogic StepLimiter
+G4WT0 >    78     18.6     26.6      450      6.22    0.343        2       451     ICLogic StepLimiter
+G4WT0 >    79     18.7     26.8      452      5.87    0.352        2       453     ICLogic StepLimiter
+G4WT0 >    80     18.8     26.9      454      5.47    0.396        2       455     ICLogic StepLimiter
+G4WT0 >    81     18.9     27.1      456      5.05    0.419        2       457     ICLogic StepLimiter
+G4WT0 >    82       19     27.2      458      4.64    0.412        2       459     ICLogic StepLimiter
+G4WT0 >    83       19     27.3      460      4.25    0.387        2       461     ICLogic StepLimiter
+G4WT0 >    84     19.1     27.5      462      3.84     0.41        2       463     ICLogic StepLimiter
+G4WT0 >    85     19.2     27.6      463      3.44    0.405     1.96       465     ICLogic ionIoni
+G4WT0 >    86     19.2     27.7      465      3.06    0.381     1.77       467     ICLogic ionIoni
+G4WT0 >    87     19.3     27.8      467      2.71    0.344     1.61       468     ICLogic ionIoni
+G4WT0 >    88     19.3       28      468      2.41    0.304     1.47       470     ICLogic ionIoni
+G4WT0 >    89     19.4     28.1      470      2.15    0.257     1.36       471     ICLogic ionIoni
+G4WT0 >    90     19.4     28.2      471      1.89    0.257     1.27       472     ICLogic ionIoni
+G4WT0 >    91     19.5     28.3      472      1.68    0.214     1.19       473     ICLogic ionIoni
+G4WT0 >    92     19.5     28.4      473      1.49     0.19     1.12       475     ICLogic ionIoni
+G4WT0 >    93     19.5     28.5      474      1.33    0.157     1.07       476     ICLogic ionIoni
+G4WT0 >    94     19.5     28.6      475      1.17    0.158     1.02       477     ICLogic ionIoni
+G4WT0 >    95     19.5     28.7      476      1.04    0.133    0.977       478     ICLogic ionIoni
+G4WT0 >    96     19.5     28.8      477     0.925    0.116    0.938       479     ICLogic ionIoni
+G4WT0 >    97     19.5     28.9      478     0.828   0.0978    0.903       479     ICLogic ionIoni
+G4WT0 >    98     19.5       29      479      0.75    0.078    0.872       480     ICLogic ionIoni
+G4WT0 >    99     19.5     29.1      480     0.679   0.0702    0.846       481     ICLogic ionIoni
+G4WT0 >   100     19.5     29.2      481     0.616   0.0631    0.821       482     ICLogic ionIoni
+G4WT0 >   101     19.5     29.3      481     0.559   0.0574    0.797       483     ICLogic ionIoni
+G4WT0 >   102     19.5     29.4      482     0.508   0.0508    0.774       484     ICLogic ionIoni
+G4WT0 >   103     19.5     29.5      483     0.464   0.0443    0.751       484     ICLogic ionIoni
+G4WT0 >   104     19.6     29.6      484     0.421   0.0428    0.731       485     ICLogic ionIoni
+G4WT0 >   105     19.6     29.7      484     0.381   0.0398    0.709       486     ICLogic ionIoni
+G4WT0 >   106     19.6     29.8      485     0.346   0.0352    0.686       486     ICLogic ionIoni
+G4WT0 >   107     19.6     29.9      486     0.313   0.0328    0.665       487     ICLogic ionIoni
+G4WT0 >   108     19.6       30      486     0.287   0.0258    0.644       488     ICLogic ionIoni
+G4WT0 >   109     19.5     30.1      487     0.266   0.0218    0.625       488     ICLogic ionIoni
+G4WT0 >   110     19.5     30.2      488     0.245   0.0202    0.609       489     ICLogic ionIoni
+G4WT0 >   111     19.5     30.3      488     0.227   0.0179    0.592       490     ICLogic ionIoni
+G4WT0 >   112     19.5     30.4      489     0.208   0.0197    0.578       490     ICLogic ionIoni
+G4WT0 >   113     19.6     30.5      489     0.192   0.0154    0.562       491     ICLogic ionIoni
+G4WT0 >   114     19.6     30.6      490     0.181   0.0119    0.549       491     ICLogic ionIoni
+G4WT0 >   115     19.6     30.7      490     0.168    0.013    0.538       492     ICLogic ionIoni
+G4WT0 >   116     19.5     30.9      491     0.153   0.0141    0.525       492     ICLogic ionIoni
+G4WT0 >   117     19.5       31      491     0.143   0.0105     0.51       493     ICLogic ionIoni
+G4WT0 >   118     19.4     31.2      492     0.134  0.00895    0.498       493     ICLogic ionIoni
+G4WT0 >   119     19.3     31.4      492     0.123   0.0115    0.487       494     ICLogic ionIoni
+G4WT0 >   120     19.3     31.5      493     0.111   0.0113    0.472       494     ICLogic ionIoni
+G4WT0 >   121     19.2     31.6      493    0.0999   0.0113    0.451       495     ICLogic ionIoni
+G4WT0 >   122     19.1     31.7      493    0.0916  0.00827    0.431       495     ICLogic ionIoni
+G4WT0 >   123     19.1     31.8      494    0.0846  0.00702    0.415       496     ICLogic ionIoni
+G4WT0 >   124     19.1       32      494    0.0774  0.00726    0.402       496     ICLogic ionIoni
+G4WT0 >   125       19     32.1      495    0.0682  0.00912    0.388       496     ICLogic ionIoni
+G4WT0 >   126       19     32.2      495    0.0592  0.00908    0.369       497     ICLogic ionIoni
+G4WT0 >   127       19     32.3      495     0.052  0.00712    0.351       497     ICLogic ionIoni
+G4WT0 >   128       19     32.5      496    0.0473  0.00476    0.336       497     ICLogic ionIoni
+G4WT0 >   129     18.9     32.7      496     0.041  0.00624    0.325       498     ICLogic ionIoni
+G4WT0 >   130     18.9     32.8      496    0.0348  0.00618    0.312       498     ICLogic ionIoni
+G4WT0 >   131     18.9     32.8      496    0.0285  0.00634    0.297       498     ICLogic ionIoni
+G4WT0 >   132     18.9     32.9      497    0.0258  0.00271    0.282       499     ICLogic ionIoni
+G4WT0 >   133     18.8     33.1      497    0.0227   0.0031    0.275       499     ICLogic ionIoni
+G4WT0 >   134     18.8     33.4      497    0.0208  0.00193    0.266       499     ICLogic ionIoni
+G4WT0 >   135     18.9     33.6      497    0.0174  0.00334     0.26       499     ICLogic ionIoni
+G4WT0 >   136       19     33.8      497    0.0128  0.00463    0.249       500     ICLogic ionIoni
+G4WT0 >   137     18.9     33.9      497    0.0123 0.000523    0.231       500     ICLogic ionIoni
+G4WT0 >   138     18.9       34      497    0.0111  0.00116    0.228       500     ICLogic ionIoni
+G4WT0 >   139     18.7     34.1      497    0.0105 0.000568    0.223       500     ICLogic ionIoni
+G4WT0 >   140     18.6       34      497   0.00953  0.00101     0.22       501     ICLogic ionIoni
+G4WT0 >   141     18.7     33.9      497   0.00704  0.00249    0.215       501     ICLogic ionIoni
+G4WT0 >   142     18.6     33.8      497   0.00698  6.8e-05    0.201       501     ICLogic ionIoni
+G4WT0 >   143     18.6     33.7      497   0.00689 8.99e-05      0.2       501     ICLogic ionIoni
+G4WT0 >   144     18.5     33.6      497   0.00592 0.000964      0.2       501     ICLogic ionIoni
+G4WT0 >   145     18.4     33.6      497   0.00548 0.000443    0.193       502     ICLogic ionIoni
+G4WT0 >   146     18.5     33.6      497   0.00534 0.000138     0.19       502     ICLogic ionIoni
+G4WT0 >   147     18.6     33.7      497    0.0032  0.00214    0.189       502     ICLogic ionIoni
+G4WT0 >   148     18.6     33.7      497   0.00284  0.00036    0.167       502     ICLogic ionIoni
+G4WT0 >   149     18.6     33.7      497         0  0.00284    0.162       502     ICLogic ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = He3,   Track ID = 2,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0    0.609    -1.02  -0.0005      17.5        0        0         0 targetPhysical initStep
+G4WT0 >     1    0.609    -1.02   0.0005      17.5   0.0378  0.00101   0.00101       World Transportation
+G4WT0 >     2    -23.7    -37.7      290      17.5 1.54e-21      294       294 ICOuterLogical Transportation
+G4WT0 >     3    -23.7    -37.7      291         0     17.5   0.0743       294 ICOuterLogical ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = B10,   Track ID = 1,   Parent ID = 0
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0  0.00391    -0.11      -10      50.4        0        0         0       World initStep
+G4WT0 >     1  0.00391    -0.11  -0.0005      50.4 3.59e-22       10        10 targetPhysical Transportation
+G4WT0 >     2  0.00391    -0.11  -0.0005         0        0        0        10 targetPhysical BinaryReaction
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = Be8[3000.000],   Track ID = 3,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0  0.00391    -0.11  -0.0005      58.6        0        0         0 targetPhysical initStep
+G4WT0 >     1  0.00402    -0.11   0.0005      58.5   0.0949  0.00103   0.00103       World Transportation
+G4WT0 >     2      7.6      -15       71      58.5 1.24e-21     72.9      72.9     S2Logic Transportation
+G4WT0 >     3     7.61      -15       71        47     11.4   0.0658        73       World Transportation
+G4WT0 >     4     13.5    -26.2      124        47 1.13e-21     54.9       128     S1Logic Transportation
+G4WT0 >     5     13.5    -26.2      125      11.4     35.6     0.13       128     S1Logic ionIoni
+G4WT0 >     6     13.5    -26.2      125         0     11.4   0.0131       128     S1Logic ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = alpha,   Track ID = 2,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0  0.00391    -0.11  -0.0005      6.67        0        0         0 targetPhysical initStep
+G4WT0 >     1  0.00229   -0.107   0.0005       6.4    0.268   0.0037    0.0037       World Transportation
+G4WT0 >     2     -254      500      160       6.4 9.69e-21      583       583  OutOfWorld Transportation
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = B10,   Track ID = 1,   Parent ID = 0
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0     -1.6     0.27      -10      49.1        0        0         0       World initStep
+G4WT0 >     1     -1.6     0.27  -0.0005      49.1 3.67e-22       10        10 targetPhysical Transportation
+G4WT0 >     2     -1.6     0.27  -0.0005         0        0        0        10 targetPhysical BinaryReaction
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = Be7,   Track ID = 3,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0     -1.6     0.27  -0.0005      36.9        0        0         0 targetPhysical initStep
+G4WT0 >     1     -1.6     0.27   0.0005      36.8    0.117  0.00102   0.00102       World Transportation
+G4WT0 >     2     13.2    -3.97       71      36.8 1.66e-21     72.6      72.6     S2Logic Transportation
+G4WT0 >     3     13.2    -3.97       71      20.4     16.4   0.0655      72.7       World Transportation
+G4WT0 >     4     24.4    -7.21      124      20.4 2.07e-21     54.7       127     S1Logic Transportation
+G4WT0 >     5     24.4    -7.21      125         0     20.4   0.0364       127     S1Logic ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = alpha,   Track ID = 2,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0     -1.6     0.27  -0.0005      13.3        0        0         0 targetPhysical initStep
+G4WT0 >     1     -1.6     0.27   0.0005      13.2   0.0554  0.00113   0.00113       World Transportation
+G4WT0 >     2     -500      143      976      13.2 9.53e-21 1.11e+03  1.11e+03  OutOfWorld Transportation
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = B10,   Track ID = 1,   Parent ID = 0
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0     1.42    0.887      -10      48.1        0        0         0       World initStep
+G4WT0 >     1     1.42    0.887  -0.0005      48.1 3.72e-22       10        10 targetPhysical Transportation
+G4WT0 >     2     1.42    0.887  -0.0005         0        0        0        10 targetPhysical BinaryReaction
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = Be8[3000.000],   Track ID = 3,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0     1.42    0.887  -0.0005      32.5        0        0         0 targetPhysical initStep
+G4WT0 >     1     1.42    0.887   0.0005      32.3    0.143    0.001     0.001       World Transportation
+G4WT0 >     2    -21.8    -9.85      300      32.3 8.67e-21      301       301 ic_window_logical Transportation
+G4WT0 >     3    -21.8    -9.85      300      30.9     1.45  0.00703       301     ICLogic Transportation
+G4WT0 >     4    -21.9    -9.92      302      30.7    0.152        2       303     ICLogic StepLimiter
+G4WT0 >     5    -22.1      -10      304      30.6    0.112        2       305     ICLogic StepLimiter
+G4WT0 >     6    -22.2    -10.1      306      30.5    0.159        2       307     ICLogic StepLimiter
+G4WT0 >     7    -22.4    -10.1      308      30.3    0.144        2       309     ICLogic StepLimiter
+G4WT0 >     8    -22.5    -10.2      310      30.2    0.119        2       311     ICLogic StepLimiter
+G4WT0 >     9    -22.7    -10.3      312        30    0.179        2       313     ICLogic StepLimiter
+G4WT0 >    10    -22.8    -10.4      314      29.9    0.133        2       315     ICLogic StepLimiter
+G4WT0 >    11      -23    -10.4      316      29.8    0.126        2       317     ICLogic StepLimiter
+G4WT0 >    12    -23.1    -10.5      318      29.6    0.156        2       319     ICLogic StepLimiter
+G4WT0 >    13    -23.3    -10.6      320      29.4    0.161        2       321     ICLogic StepLimiter
+G4WT0 >    14    -23.4    -10.6      322      29.3    0.156        2       323     ICLogic StepLimiter
+G4WT0 >    15    -23.5    -10.7      324      29.1    0.144        2       325     ICLogic StepLimiter
+G4WT0 >    16    -23.7    -10.8      326        29    0.143        2       327     ICLogic StepLimiter
+G4WT0 >    17    -23.8    -10.9      328      28.8    0.157        2       329     ICLogic StepLimiter
+G4WT0 >    18      -24    -10.9      330      28.7    0.126        2       331     ICLogic StepLimiter
+G4WT0 >    19    -24.1      -11      332      28.5    0.176        2       333     ICLogic StepLimiter
+G4WT0 >    20    -24.3    -11.1      334      28.4    0.139        2       335     ICLogic StepLimiter
+G4WT0 >    21    -24.4    -11.2      336      28.2    0.182        2       337     ICLogic StepLimiter
+G4WT0 >    22    -24.6    -11.2      338      28.1    0.126        2       339     ICLogic StepLimiter
+G4WT0 >    23    -24.7    -11.3      340      27.9    0.188        2       341     ICLogic StepLimiter
+G4WT0 >    24    -24.9    -11.4      342      27.8    0.134        2       343     ICLogic StepLimiter
+G4WT0 >    25      -25    -11.5      344      27.6     0.13        2       345     ICLogic StepLimiter
+G4WT0 >    26    -25.2    -11.6      346      27.5    0.146        2       347     ICLogic StepLimiter
+G4WT0 >    27    -25.3    -11.6      348      27.4    0.139        2       349     ICLogic StepLimiter
+G4WT0 >    28    -25.5    -11.7      350      27.2    0.182        2       351     ICLogic StepLimiter
+G4WT0 >    29    -25.6    -11.8      352        27    0.171        2       353     ICLogic StepLimiter
+G4WT0 >    30    -25.8    -11.9      354      26.9     0.15        2       355     ICLogic StepLimiter
+G4WT0 >    31    -25.9      -12      356      26.7    0.142        2       357     ICLogic StepLimiter
+G4WT0 >    32    -26.1    -12.1      358      26.6     0.15        2       359     ICLogic StepLimiter
+G4WT0 >    33    -26.2    -12.1      360      26.4    0.134        2       361     ICLogic StepLimiter
+G4WT0 >    34    -26.4    -12.2      362      26.3    0.131        2       363     ICLogic StepLimiter
+G4WT0 >    35    -26.5    -12.3      364      26.1    0.192        2       365     ICLogic StepLimiter
+G4WT0 >    36    -26.7    -12.4      366        26    0.144        2       367     ICLogic StepLimiter
+G4WT0 >    37    -26.8    -12.5      368      25.8    0.174        2       369     ICLogic StepLimiter
+G4WT0 >    38      -27    -12.6      370      25.6    0.162        2       371     ICLogic StepLimiter
+G4WT0 >    39    -27.1    -12.6      372      25.5    0.144        2       373     ICLogic StepLimiter
+G4WT0 >    40    -27.3    -12.7      374      25.3    0.165        2       375     ICLogic StepLimiter
+G4WT0 >    41    -27.5    -12.8      376      25.2    0.138        2       377     ICLogic StepLimiter
+G4WT0 >    42    -27.6    -12.9      378        25    0.155        2       379     ICLogic StepLimiter
+G4WT0 >    43    -27.8    -12.9      380      24.9    0.165        2       381     ICLogic StepLimiter
+G4WT0 >    44    -27.9      -13      382      24.7    0.155        2       383     ICLogic StepLimiter
+G4WT0 >    45    -28.1    -13.1      384      24.6    0.154        2       385     ICLogic StepLimiter
+G4WT0 >    46    -28.2    -13.2      386      24.4    0.151        2       387     ICLogic StepLimiter
+G4WT0 >    47    -28.4    -13.2      388      24.2    0.168        2       389     ICLogic StepLimiter
+G4WT0 >    48    -28.5    -13.3      390      24.1    0.174        2       391     ICLogic StepLimiter
+G4WT0 >    49    -28.7    -13.4      392      23.9    0.149        2       393     ICLogic StepLimiter
+G4WT0 >    50    -28.9    -13.4      394      23.7    0.179        2       395     ICLogic StepLimiter
+G4WT0 >    51      -29    -13.5      396      23.6    0.166        2       397     ICLogic StepLimiter
+G4WT0 >    52    -29.2    -13.6      398      23.4     0.18        2       399     ICLogic StepLimiter
+G4WT0 >    53    -29.3    -13.7      400      23.2    0.171        2       401     ICLogic StepLimiter
+G4WT0 >    54    -29.5    -13.7      402      23.1    0.155        2       403     ICLogic StepLimiter
+G4WT0 >    55    -29.7    -13.8      404      22.9    0.171        2       405     ICLogic StepLimiter
+G4WT0 >    56    -29.8    -13.9      406      22.7    0.173        2       407     ICLogic StepLimiter
+G4WT0 >    57      -30      -14      408      22.6    0.165        2       409     ICLogic StepLimiter
+G4WT0 >    58    -30.1      -14      410      22.4     0.19        2       411     ICLogic StepLimiter
+G4WT0 >    59    -30.3    -14.1      412      22.2     0.19        2       413     ICLogic StepLimiter
+G4WT0 >    60    -30.5    -14.2      414        22    0.181        2       415     ICLogic StepLimiter
+G4WT0 >    61    -30.6    -14.3      416      21.8    0.157        2       417     ICLogic StepLimiter
+G4WT0 >    62    -30.8    -14.3      418      21.7     0.16        2       419     ICLogic StepLimiter
+G4WT0 >    63    -30.9    -14.4      420      21.5    0.148        2       421     ICLogic StepLimiter
+G4WT0 >    64    -31.1    -14.5      422      21.4    0.167        2       423     ICLogic StepLimiter
+G4WT0 >    65    -31.3    -14.6      424      21.2    0.176        2       425     ICLogic StepLimiter
+G4WT0 >    66    -31.4    -14.7      426        21    0.164        2       427     ICLogic StepLimiter
+G4WT0 >    67    -31.6    -14.8      428      20.8     0.17        2       429     ICLogic StepLimiter
+G4WT0 >    68    -31.7    -14.8      430      20.6    0.205        2       431     ICLogic StepLimiter
+G4WT0 >    69    -31.9    -14.9      432      20.5    0.181        2       433     ICLogic StepLimiter
+G4WT0 >    70      -32      -15      434      20.3    0.201        2       435     ICLogic StepLimiter
+G4WT0 >    71    -32.2    -15.1      435      20.1    0.192        2       437     ICLogic StepLimiter
+G4WT0 >    72    -32.4    -15.1      437      19.9    0.201        2       439     ICLogic StepLimiter
+G4WT0 >    73    -32.5    -15.2      439      19.7    0.177        2       441     ICLogic StepLimiter
+G4WT0 >    74    -32.7    -15.3      441      19.5    0.179        2       443     ICLogic StepLimiter
+G4WT0 >    75    -32.8    -15.4      443      19.3    0.165        2       445     ICLogic StepLimiter
+G4WT0 >    76      -33    -15.5      445      19.2    0.169        2       447     ICLogic StepLimiter
+G4WT0 >    77    -33.1    -15.5      447      18.9    0.229        2       449     ICLogic StepLimiter
+G4WT0 >    78    -33.3    -15.6      449      18.8    0.167        2       451     ICLogic StepLimiter
+G4WT0 >    79    -33.4    -15.7      451      18.6    0.188        2       453     ICLogic StepLimiter
+G4WT0 >    80    -33.6    -15.8      453      18.4    0.199        2       455     ICLogic StepLimiter
+G4WT0 >    81    -33.7    -15.9      455      18.2    0.164        2       457     ICLogic StepLimiter
+G4WT0 >    82    -33.9    -15.9      457        18    0.188        2       459     ICLogic StepLimiter
+G4WT0 >    83    -34.1      -16      459      17.9    0.162        2       461     ICLogic StepLimiter
+G4WT0 >    84    -34.2    -16.1      461      17.7    0.218        2       463     ICLogic StepLimiter
+G4WT0 >    85    -34.4    -16.2      463      17.5    0.193        2       465     ICLogic StepLimiter
+G4WT0 >    86    -34.5    -16.3      465      17.3    0.178        2       467     ICLogic StepLimiter
+G4WT0 >    87    -34.7    -16.3      467      17.1    0.231        2       469     ICLogic StepLimiter
+G4WT0 >    88    -34.8    -16.4      469      16.9    0.192        2       471     ICLogic StepLimiter
+G4WT0 >    89      -35    -16.5      471      16.6    0.226        2       473     ICLogic StepLimiter
+G4WT0 >    90    -35.1    -16.6      473      16.4    0.206        2       475     ICLogic StepLimiter
+G4WT0 >    91    -35.3    -16.7      475      16.3     0.17        2       477     ICLogic StepLimiter
+G4WT0 >    92    -35.4    -16.7      477      16.1      0.2        2       479     ICLogic StepLimiter
+G4WT0 >    93    -35.6    -16.8      479      15.8     0.22        2       481     ICLogic StepLimiter
+G4WT0 >    94    -35.7    -16.9      481      15.6    0.226        2       483     ICLogic StepLimiter
+G4WT0 >    95    -35.9      -17      483      15.4    0.201        2       485     ICLogic StepLimiter
+G4WT0 >    96    -36.1      -17      485      15.2    0.202        2       487     ICLogic StepLimiter
+G4WT0 >    97    -36.2    -17.1      487        15    0.201        2       489     ICLogic StepLimiter
+G4WT0 >    98    -36.4    -17.2      489      14.8    0.213        2       491     ICLogic StepLimiter
+G4WT0 >    99    -36.5    -17.3      491      14.6    0.207        2       493     ICLogic StepLimiter
+G4WT0 >   100    -36.7    -17.3      493      14.4     0.21        2       495     ICLogic StepLimiter
+G4WT0 >   101    -36.8    -17.4      495      14.2    0.208        2       497     ICLogic StepLimiter
+G4WT0 >   102    -36.9    -17.5      497      13.9    0.229        2       499     ICLogic StepLimiter
+G4WT0 >   103    -37.1    -17.5      499      13.7    0.218        2       501     ICLogic StepLimiter
+G4WT0 >   104    -37.2    -17.6      501      13.5      0.2        2       503     ICLogic StepLimiter
+G4WT0 >   105    -37.4    -17.7      503      13.3    0.229        2       505     ICLogic StepLimiter
+G4WT0 >   106    -37.5    -17.8      505      13.1    0.203        2       507     ICLogic StepLimiter
+G4WT0 >   107    -37.7    -17.8      507      12.8    0.253        2       509     ICLogic StepLimiter
+G4WT0 >   108    -37.8    -17.9      509      12.6    0.251        2       511     ICLogic StepLimiter
+G4WT0 >   109      -38      -18      511      12.3     0.25        2       513     ICLogic StepLimiter
+G4WT0 >   110    -38.1      -18      513      12.1    0.272        2       515     ICLogic StepLimiter
+G4WT0 >   111    -38.3    -18.1      515      11.8    0.254        2       517     ICLogic StepLimiter
+G4WT0 >   112    -38.4    -18.2      517      11.6    0.254        2       519     ICLogic StepLimiter
+G4WT0 >   113    -38.6    -18.2      519      11.3    0.273        2       521     ICLogic StepLimiter
+G4WT0 >   114    -38.7    -18.3      521      11.1     0.21        2       523     ICLogic StepLimiter
+G4WT0 >   115    -38.9    -18.4      523      10.8    0.256        2       525     ICLogic StepLimiter
+G4WT0 >   116      -39    -18.4      525      10.6    0.262        2       527     ICLogic StepLimiter
+G4WT0 >   117    -39.2    -18.5      527      10.3    0.248        2       529     ICLogic StepLimiter
+G4WT0 >   118    -39.3    -18.6      529        10    0.286        2       531     ICLogic StepLimiter
+G4WT0 >   119    -39.4    -18.6      531      9.77    0.262        2       533     ICLogic StepLimiter
+G4WT0 >   120    -39.6    -18.7      533       9.5    0.265        2       535     ICLogic StepLimiter
+G4WT0 >   121    -39.7    -18.7      535      9.22    0.279        2       537     ICLogic StepLimiter
+G4WT0 >   122    -39.9    -18.8      537      8.93    0.289        2       539     ICLogic StepLimiter
+G4WT0 >   123      -40    -18.9      539      8.66    0.277        2       541     ICLogic StepLimiter
+G4WT0 >   124    -40.2    -18.9      541       8.4     0.26        2       543     ICLogic StepLimiter
+G4WT0 >   125    -40.3      -19      543      8.12    0.274        2       545     ICLogic StepLimiter
+G4WT0 >   126    -40.5      -19      545      7.82    0.301        2       547     ICLogic StepLimiter
+G4WT0 >   127    -40.6    -19.1      547      7.54    0.283        2       549     ICLogic StepLimiter
+G4WT0 >   128    -40.8    -19.2      549      7.25     0.29        2       551     ICLogic StepLimiter
+G4WT0 >   129    -40.9    -19.3      551      6.95    0.301        2       553     ICLogic StepLimiter
+G4WT0 >   130      -41    -19.3      553      6.68    0.266        2       555     ICLogic StepLimiter
+G4WT0 >   131    -41.2    -19.4      555      6.38    0.308        2       557     ICLogic StepLimiter
+G4WT0 >   132    -41.3    -19.5      557      6.06    0.318        2       559     ICLogic StepLimiter
+G4WT0 >   133    -41.4    -19.6      559      5.72    0.341        2       561     ICLogic StepLimiter
+G4WT0 >   134    -41.6    -19.6      561      5.37    0.349        2       563     ICLogic StepLimiter
+G4WT0 >   135    -41.7    -19.7      563      5.01    0.356        2       565     ICLogic StepLimiter
+G4WT0 >   136    -41.8    -19.8      565      4.63    0.385        2       567     ICLogic StepLimiter
+G4WT0 >   137      -42    -19.9      567      4.22    0.403        2       569     ICLogic StepLimiter
+G4WT0 >   138    -42.1      -20      569      3.82    0.405        2       571     ICLogic StepLimiter
+G4WT0 >   139    -42.3    -20.1      571       3.4    0.419     1.96       573     ICLogic ionIoni
+G4WT0 >   140    -42.4    -20.2      573      3.07    0.329     1.75       575     ICLogic ionIoni
+G4WT0 >   141    -42.5    -20.3      574      2.74    0.326      1.6       576     ICLogic ionIoni
+G4WT0 >   142    -42.6    -20.4      576      2.48    0.265     1.46       578     ICLogic ionIoni
+G4WT0 >   143    -42.7    -20.5      577      2.21    0.271     1.35       579     ICLogic ionIoni
+G4WT0 >   144    -42.7    -20.6      578      1.95    0.259     1.25       580     ICLogic ionIoni
+G4WT0 >   145    -42.8    -20.7      580      1.73    0.219     1.16       582     ICLogic ionIoni
+G4WT0 >   146    -42.8    -20.7      581      1.53    0.197     1.09       583     ICLogic ionIoni
+G4WT0 >   147    -42.9    -20.8      582      1.36    0.171     1.03       584     ICLogic ionIoni
+G4WT0 >   148    -42.9    -20.9      583      1.21    0.152    0.979       585     ICLogic ionIoni
+G4WT0 >   149      -43      -21      584      1.06    0.149    0.934       586     ICLogic ionIoni
+G4WT0 >   150      -43    -21.1      584     0.954    0.109    0.891       587     ICLogic ionIoni
+G4WT0 >   151      -43    -21.1      585     0.842    0.112    0.859       587     ICLogic ionIoni
+G4WT0 >   152    -43.1    -21.2      586     0.751   0.0908    0.825       588     ICLogic ionIoni
+G4WT0 >   153    -43.1    -21.2      587     0.671   0.0797    0.797       589     ICLogic ionIoni
+G4WT0 >   154    -43.2    -21.3      588     0.607   0.0646    0.771       590     ICLogic ionIoni
+G4WT0 >   155    -43.2    -21.3      588     0.545   0.0616    0.748       591     ICLogic ionIoni
+G4WT0 >   156    -43.3    -21.3      589     0.494   0.0512    0.724       591     ICLogic ionIoni
+G4WT0 >   157    -43.4    -21.3      590     0.449   0.0452    0.703       592     ICLogic ionIoni
+G4WT0 >   158    -43.5    -21.4      591     0.406    0.043    0.684       593     ICLogic ionIoni
+G4WT0 >   159    -43.5    -21.4      591     0.373   0.0334    0.663       593     ICLogic ionIoni
+G4WT0 >   160    -43.6    -21.4      592      0.34    0.032    0.646       594     ICLogic ionIoni
+G4WT0 >   161    -43.7    -21.5      592     0.312   0.0282    0.628       595     ICLogic ionIoni
+G4WT0 >   162    -43.7    -21.6      593     0.287   0.0253    0.611       595     ICLogic ionIoni
+G4WT0 >   163    -43.8    -21.6      594     0.263   0.0241    0.595       596     ICLogic ionIoni
+G4WT0 >   164    -43.9    -21.7      594     0.238    0.025    0.578       596     ICLogic ionIoni
+G4WT0 >   165      -44    -21.7      595     0.219   0.0192    0.559       597     ICLogic ionIoni
+G4WT0 >   166    -44.1    -21.8      595     0.201   0.0174    0.544       597     ICLogic ionIoni
+G4WT0 >   167    -44.2    -21.8      596     0.185   0.0166    0.529       598     ICLogic ionIoni
+G4WT0 >   168    -44.3    -21.8      596     0.173   0.0117    0.517       599     ICLogic ionIoni
+G4WT0 >   169    -44.3    -21.9      597     0.159   0.0138    0.507       599     ICLogic ionIoni
+G4WT0 >   170    -44.4      -22      597     0.149   0.0103    0.494       600     ICLogic ionIoni
+G4WT0 >   171    -44.4    -22.1      598     0.139  0.00935    0.483       600     ICLogic ionIoni
+G4WT0 >   172    -44.3    -22.2      598     0.128   0.0112    0.473       600     ICLogic ionIoni
+G4WT0 >   173    -44.3    -22.4      599     0.116   0.0125    0.461       601     ICLogic ionIoni
+G4WT0 >   174    -44.4    -22.6      599     0.104   0.0115    0.445       601     ICLogic ionIoni
+G4WT0 >   175    -44.4    -22.8      599    0.0947  0.00963    0.428       602     ICLogic ionIoni
+G4WT0 >   176    -44.5      -23      600     0.088  0.00673     0.41       602     ICLogic ionIoni
+G4WT0 >   177    -44.5    -23.2      600    0.0798   0.0082    0.397       603     ICLogic ionIoni
+G4WT0 >   178    -44.5    -23.4      600    0.0725  0.00723    0.382       603     ICLogic ionIoni
+G4WT0 >   179    -44.6    -23.6      601    0.0646  0.00793    0.368       603     ICLogic ionIoni
+G4WT0 >   180    -44.6    -23.8      601    0.0568  0.00777    0.352       604     ICLogic ionIoni
+G4WT0 >   181    -44.6      -24      601    0.0525  0.00434    0.336       604     ICLogic ionIoni
+G4WT0 >   182    -44.7    -24.1      602     0.048  0.00453    0.327       604     ICLogic ionIoni
+G4WT0 >   183    -44.6    -24.2      602    0.0425  0.00545    0.318       605     ICLogic ionIoni
+G4WT0 >   184    -44.6    -24.3      602     0.038  0.00446    0.306       605     ICLogic ionIoni
+G4WT0 >   185    -44.5    -24.4      602    0.0325  0.00558    0.296       605     ICLogic ionIoni
+G4WT0 >   186    -44.5    -24.4      603    0.0272  0.00522    0.283       606     ICLogic ionIoni
+G4WT0 >   187    -44.3    -24.4      603    0.0252  0.00205     0.27       606     ICLogic ionIoni
+G4WT0 >   188    -44.2    -24.3      603    0.0231  0.00207    0.265       606     ICLogic ionIoni
+G4WT0 >   189      -44    -24.1      603    0.0183  0.00479    0.259       606     ICLogic ionIoni
+G4WT0 >   190      -44      -24      603    0.0148  0.00351    0.245       607     ICLogic ionIoni
+G4WT0 >   191    -43.8    -23.8      603    0.0131  0.00175    0.233       607     ICLogic ionIoni
+G4WT0 >   192    -43.8    -23.7      603    0.0103  0.00275    0.226       607     ICLogic ionIoni
+G4WT0 >   193    -43.7    -23.6      603   0.00879  0.00153    0.214       607     ICLogic ionIoni
+G4WT0 >   194    -43.8    -23.5      603   0.00765  0.00114    0.206       608     ICLogic ionIoni
+G4WT0 >   195    -43.9    -23.4      603   0.00757 8.06e-05    0.199       608     ICLogic ionIoni
+G4WT0 >   196    -43.9    -23.5      603   0.00656  0.00101    0.199       608     ICLogic ionIoni
+G4WT0 >   197    -43.9    -23.5      603   0.00503  0.00153    0.193       608     ICLogic ionIoni
+G4WT0 >   198    -43.8    -23.4      603   0.00324   0.0018    0.181       608     ICLogic ionIoni
+G4WT0 >   199    -43.8    -23.5      603   0.00323  4.7e-06    0.163       608     ICLogic ionIoni
+G4WT0 >   200    -43.8    -23.5      603   0.00277 0.000465    0.163       609     ICLogic ionIoni
+G4WT0 >   201    -43.8    -23.5      603   0.00238 0.000386    0.157       609     ICLogic ionIoni
+G4WT0 >   202    -43.9    -23.5      603    0.0021 0.000284    0.151       609     ICLogic ionIoni
+G4WT0 >   203    -43.8    -23.6      603    0.0021 6.28e-09    0.145       609     ICLogic ionIoni
+G4WT0 >   204    -43.8    -23.5      603   0.00161 0.000483    0.145       609     ICLogic ionIoni
+G4WT0 >   205    -43.8    -23.5      603   0.00131 0.000302    0.135       609     ICLogic ionIoni
+G4WT0 >   206    -43.8    -23.5      603   0.00131    1e-06    0.126       609     ICLogic ionIoni
+G4WT0 >   207    -43.8    -23.5      603   0.00131  4.6e-08    0.126       610     ICLogic ionIoni
+G4WT0 >   208    -43.8    -23.5      603   0.00131 2.03e-11    0.126       610     ICLogic ionIoni
+G4WT0 >   209    -43.8    -23.5      603   0.00131 3.02e-06    0.126       610     ICLogic ionIoni
+G4WT0 >   210    -43.8    -23.5      603   0.00131 1.22e-18    0.125       610     ICLogic ionIoni
+G4WT0 >   211    -43.8    -23.5      603         0  0.00131    0.125       610     ICLogic ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = He3,   Track ID = 2,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0     1.42    0.887  -0.0005      12.1        0        0         0 targetPhysical initStep
+G4WT0 >     1     1.42    0.887   0.0005      12.1   0.0311  0.00103   0.00103       World Transportation
+G4WT0 >     2     16.6     7.74       71      12.1 5.46e-22     72.9      72.9     S2Logic Transportation
+G4WT0 >     3     16.6     7.74       71      6.83     5.27   0.0657        73       World Transportation
+G4WT0 >     4     27.9       13      124      6.83 7.18e-22     54.9       128     S1Logic Transportation
+G4WT0 >     5     27.9       13      125         0     6.83   0.0388       128     S1Logic ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = B10,   Track ID = 1,   Parent ID = 0
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0     0.14    0.447      -10      49.8        0        0         0       World initStep
+G4WT0 >     1     0.14    0.447  -0.0005      49.8 3.62e-22       10        10 targetPhysical Transportation
+G4WT0 >     2     0.14    0.447  -0.0005         0        0        0        10 targetPhysical BinaryReaction
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = Be7,   Track ID = 3,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0     0.14    0.447  -0.0005      31.2        0        0         0 targetPhysical initStep
+G4WT0 >     1    0.141    0.447   0.0005        31    0.153  0.00103   0.00103       World Transportation
+G4WT0 >     2     15.4    -10.6       71        31 1.95e-21     73.4      73.4     S2Logic Transportation
+G4WT0 >     3     15.4    -10.6       71      9.84     21.2   0.0662      73.5       World Transportation
+G4WT0 >     4     26.2    -18.6      124      9.84 3.45e-21     55.1       129     S1Logic Transportation
+G4WT0 >     5     26.2    -18.6      125         0     9.84   0.0112       129     S1Logic ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = alpha,   Track ID = 2,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0     0.14    0.447  -0.0005      19.8        0        0         0 targetPhysical initStep
+G4WT0 >     1     0.14    0.448   0.0005      19.7   0.0437  0.00111   0.00111       World Transportation
+G4WT0 >     2    -27.1     20.2       71      19.7 4.69e-22     78.5      78.5     S2Logic Transportation
+G4WT0 >     3    -27.1     20.2       71      15.4     4.31   0.0708      78.6       World Transportation
+G4WT0 >     4     -500      405 1.39e+03      15.4 1.09e-20 1.45e+03  1.53e+03  OutOfWorld Transportation
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = B10,   Track ID = 1,   Parent ID = 0
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0  -0.0547    -1.12      -10      48.8        0        0         0       World initStep
+G4WT0 >     1  -0.0547    -1.12  -0.0005      48.8 3.68e-22       10        10 targetPhysical Transportation
+G4WT0 >     2  -0.0547    -1.12  -0.0005         0        0        0        10 targetPhysical BinaryReaction
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = Be8,   Track ID = 3,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0  -0.0547    -1.12  -0.0005      64.3        0        0         0 targetPhysical initStep
+G4WT0 >     1  -0.0548    -1.12   0.0005      64.2    0.093  0.00101   0.00101       World Transportation
+G4WT0 >     2    -40.7    -7.41      300      64.2 4.74e-21      303       303 ic_window_logical Transportation
+G4WT0 >     3    -40.7    -7.41      300      63.3    0.812  0.00707       303     ICLogic Transportation
+G4WT0 >     4      -41    -7.45      302      63.3   0.0718        2       305     ICLogic StepLimiter
+G4WT0 >     5    -41.3    -7.49      304      63.2   0.0816        2       307     ICLogic StepLimiter
+G4WT0 >     6    -41.5    -7.53      306      63.1   0.0734        2       309     ICLogic StepLimiter
+G4WT0 >     7    -41.8    -7.57      308        63   0.0934        2       311     ICLogic StepLimiter
+G4WT0 >     8    -42.1    -7.61      310      62.9   0.0953        2       313     ICLogic StepLimiter
+G4WT0 >     9    -42.3    -7.65      312      62.8    0.121        2       315     ICLogic StepLimiter
+G4WT0 >    10    -42.6     -7.7      314      62.7   0.0902        2       317     ICLogic StepLimiter
+G4WT0 >    11    -42.9    -7.74      316      62.6    0.112        2       319     ICLogic StepLimiter
+G4WT0 >    12    -43.2    -7.78      318      62.5   0.0715        2       321     ICLogic StepLimiter
+G4WT0 >    13    -43.4    -7.83      320      62.4   0.0956        2       323     ICLogic StepLimiter
+G4WT0 >    14    -43.7    -7.87      322      62.3    0.112        2       325     ICLogic StepLimiter
+G4WT0 >    15      -44    -7.91      324      62.3   0.0775        2       327     ICLogic StepLimiter
+G4WT0 >    16    -44.2    -7.96      326      62.2   0.0675        2       329     ICLogic StepLimiter
+G4WT0 >    17    -44.5       -8      328      62.1    0.101        2       331     ICLogic StepLimiter
+G4WT0 >    18    -44.8    -8.04      330        62   0.0654        2       333     ICLogic StepLimiter
+G4WT0 >    19      -45    -8.09      332      61.9    0.102        2       335     ICLogic StepLimiter
+G4WT0 >    20    -45.3    -8.13      334      61.8   0.0836        2       337     ICLogic StepLimiter
+G4WT0 >    21    -45.6    -8.17      336      61.8   0.0773        2       339     ICLogic StepLimiter
+G4WT0 >    22    -45.9    -8.22      338      61.7   0.0793        2       341     ICLogic StepLimiter
+G4WT0 >    23    -46.1    -8.26      340      61.6    0.084        2       343     ICLogic StepLimiter
+G4WT0 >    24    -46.4     -8.3      342      61.5   0.0935        2       345     ICLogic StepLimiter
+G4WT0 >    25    -46.7    -8.35      344      61.4   0.0768        2       347     ICLogic StepLimiter
+G4WT0 >    26    -46.9    -8.39      346      61.4   0.0516        2       349     ICLogic StepLimiter
+G4WT0 >    27    -47.2    -8.44      348      61.3   0.0798        2       351     ICLogic StepLimiter
+G4WT0 >    28    -47.5    -8.48      350      61.2   0.0713        2       353     ICLogic StepLimiter
+G4WT0 >    29    -47.7    -8.53      352      61.2   0.0643        2       355     ICLogic StepLimiter
+G4WT0 >    30      -48    -8.57      353      61.1   0.0814        2       357     ICLogic StepLimiter
+G4WT0 >    31    -48.3    -8.62      355        61    0.101        2       359     ICLogic StepLimiter
+G4WT0 >    32    -48.5    -8.66      357      60.9   0.0787        2       361     ICLogic StepLimiter
+G4WT0 >    33    -48.8    -8.71      359      60.8   0.0749        2       363     ICLogic StepLimiter
+G4WT0 >    34    -49.1    -8.75      361      60.7    0.109        2       365     ICLogic StepLimiter
+G4WT0 >    35    -49.3    -8.79      363      60.6   0.0818        2       367     ICLogic StepLimiter
+G4WT0 >    36    -49.6    -8.84      365      60.5   0.0938        2       369     ICLogic StepLimiter
+G4WT0 >    37    -49.9    -8.89      367      60.5   0.0696        2       371     ICLogic StepLimiter
+G4WT0 >    38    -50.1    -8.93      369      60.4   0.0798        2       373     ICLogic StepLimiter
+G4WT0 >    39    -50.4    -8.98      371      60.3     0.07        2       375     ICLogic StepLimiter
+G4WT0 >    40    -50.7    -9.02      373      60.2   0.0752        2       377     ICLogic StepLimiter
+G4WT0 >    41    -50.9    -9.06      375      60.2   0.0667        2       379     ICLogic StepLimiter
+G4WT0 >    42    -51.2    -9.11      377      60.1   0.0756        2       381     ICLogic StepLimiter
+G4WT0 >    43    -51.5    -9.15      379        60   0.0608        2       383     ICLogic StepLimiter
+G4WT0 >    44    -51.8     -9.2      381      59.9    0.091        2       385     ICLogic StepLimiter
+G4WT0 >    45      -52    -9.24      383      59.9   0.0657        2       387     ICLogic StepLimiter
+G4WT0 >    46    -52.3    -9.28      385      59.8   0.0735        2       389     ICLogic StepLimiter
+G4WT0 >    47    -52.6    -9.33      387      59.7   0.0885        2       391     ICLogic StepLimiter
+G4WT0 >    48    -52.8    -9.37      389      59.6   0.0841        2       393     ICLogic StepLimiter
+G4WT0 >    49    -53.1    -9.42      391      59.6   0.0619        2       395     ICLogic StepLimiter
+G4WT0 >    50    -53.4    -9.46      393      59.5   0.0633        2       397     ICLogic StepLimiter
+G4WT0 >    51    -53.6    -9.51      395      59.4   0.0708        2       399     ICLogic StepLimiter
+G4WT0 >    52    -53.9    -9.55      397      59.3   0.0949        2       401     ICLogic StepLimiter
+G4WT0 >    53    -54.2     -9.6      399      59.3   0.0779        2       403     ICLogic StepLimiter
+G4WT0 >    54    -54.4    -9.64      401      59.2    0.107        2       405     ICLogic StepLimiter
+G4WT0 >    55    -54.7    -9.69      403      59.1   0.0742        2       407     ICLogic StepLimiter
+G4WT0 >    56      -55    -9.73      405        59   0.0816        2       409     ICLogic StepLimiter
+G4WT0 >    57    -55.2    -9.77      407      58.9   0.0715        2       411     ICLogic StepLimiter
+G4WT0 >    58    -55.5    -9.82      409      58.9   0.0739        2       413     ICLogic StepLimiter
+G4WT0 >    59    -55.8    -9.86      411      58.8   0.0872        2       415     ICLogic StepLimiter
+G4WT0 >    60      -56     -9.9      413      58.7   0.0897        2       417     ICLogic StepLimiter
+G4WT0 >    61    -56.3    -9.94      415      58.6   0.0795        2       419     ICLogic StepLimiter
+G4WT0 >    62    -56.6    -9.98      417      58.5   0.0797        2       421     ICLogic StepLimiter
+G4WT0 >    63    -56.8      -10      419      58.4   0.0985        2       423     ICLogic StepLimiter
+G4WT0 >    64    -57.1    -10.1      421      58.3   0.0866        2       425     ICLogic StepLimiter
+G4WT0 >    65    -57.4    -10.1      423      58.3    0.077        2       427     ICLogic StepLimiter
+G4WT0 >    66    -57.6    -10.2      425      58.2   0.0648        2       429     ICLogic StepLimiter
+G4WT0 >    67    -57.9    -10.2      427      58.1   0.0886        2       431     ICLogic StepLimiter
+G4WT0 >    68    -58.2    -10.2      429        58    0.067        2       433     ICLogic StepLimiter
+G4WT0 >    69    -58.4    -10.3      431      57.9   0.0941        2       435     ICLogic StepLimiter
+G4WT0 >    70    -58.7    -10.3      433      57.9   0.0882        2       437     ICLogic StepLimiter
+G4WT0 >    71      -59    -10.4      435      57.8   0.0789        2       439     ICLogic StepLimiter
+G4WT0 >    72    -59.3    -10.4      437      57.7   0.0748        2       441     ICLogic StepLimiter
+G4WT0 >    73    -59.5    -10.5      439      57.6    0.101        2       443     ICLogic StepLimiter
+G4WT0 >    74    -59.8    -10.5      441      57.5   0.0715        2       445     ICLogic StepLimiter
+G4WT0 >    75    -60.1    -10.5      443      57.4    0.102        2       447     ICLogic StepLimiter
+G4WT0 >    76    -60.3    -10.6      445      57.3    0.102        2       449     ICLogic StepLimiter
+G4WT0 >    77    -60.6    -10.6      447      57.3    0.054        2       451     ICLogic StepLimiter
+G4WT0 >    78    -60.9    -10.7      449      57.2   0.0794        2       453     ICLogic StepLimiter
+G4WT0 >    79    -61.1    -10.7      451      57.1   0.0759        2       455     ICLogic StepLimiter
+G4WT0 >    80    -61.4    -10.8      453        57   0.0938        2       457     ICLogic StepLimiter
+G4WT0 >    81    -61.7    -10.8      455      56.9   0.0712        2       459     ICLogic StepLimiter
+G4WT0 >    82    -61.9    -10.9      457      56.8    0.104        2       461     ICLogic StepLimiter
+G4WT0 >    83    -62.2    -10.9      459      56.8   0.0881        2       463     ICLogic StepLimiter
+G4WT0 >    84    -62.5    -10.9      460      56.7   0.0788        2       465     ICLogic StepLimiter
+G4WT0 >    85    -62.7      -11      462      56.6   0.0956        2       467     ICLogic StepLimiter
+G4WT0 >    86      -63      -11      464      56.5   0.0966        2       469     ICLogic StepLimiter
+G4WT0 >    87    -63.3    -11.1      466      56.4   0.0766        2       471     ICLogic StepLimiter
+G4WT0 >    88    -63.6    -11.1      468      56.3   0.0719        2       473     ICLogic StepLimiter
+G4WT0 >    89    -63.8    -11.2      470      56.3    0.078        2       475     ICLogic StepLimiter
+G4WT0 >    90    -64.1    -11.2      472      56.2   0.0918        2       477     ICLogic StepLimiter
+G4WT0 >    91    -64.4    -11.3      474      56.1   0.0921        2       479     ICLogic StepLimiter
+G4WT0 >    92    -64.6    -11.3      476        56   0.0888        2       481     ICLogic StepLimiter
+G4WT0 >    93    -64.9    -11.3      478      55.9    0.103        2       483     ICLogic StepLimiter
+G4WT0 >    94    -65.2    -11.4      480      55.8   0.0884        2       485     ICLogic StepLimiter
+G4WT0 >    95    -65.4    -11.4      482      55.7   0.0892        2       487     ICLogic StepLimiter
+G4WT0 >    96    -65.7    -11.5      484      55.6    0.101        2       489     ICLogic StepLimiter
+G4WT0 >    97      -66    -11.5      486      55.5   0.0985        2       491     ICLogic StepLimiter
+G4WT0 >    98    -66.2    -11.6      488      55.4      0.1        2       493     ICLogic StepLimiter
+G4WT0 >    99    -66.5    -11.6      490      55.3    0.105        2       495     ICLogic StepLimiter
+G4WT0 >   100    -66.8    -11.6      492      55.2    0.119        2       497     ICLogic StepLimiter
+G4WT0 >   101      -67    -11.7      494      55.1   0.0706        2       499     ICLogic StepLimiter
+G4WT0 >   102    -67.3    -11.7      496        55    0.101        2       501     ICLogic StepLimiter
+G4WT0 >   103    -67.6    -11.8      498      54.9   0.0921        2       503     ICLogic StepLimiter
+G4WT0 >   104    -67.9    -11.8      500      54.8   0.0912        2       505     ICLogic StepLimiter
+G4WT0 >   105    -68.1    -11.8      502      54.8    0.067        2       507     ICLogic StepLimiter
+G4WT0 >   106    -68.4    -11.9      504      54.7   0.0872        2       509     ICLogic StepLimiter
+G4WT0 >   107    -68.7    -11.9      506      54.6   0.0827        2       511     ICLogic StepLimiter
+G4WT0 >   108    -68.9      -12      508      54.5   0.0667        2       513     ICLogic StepLimiter
+G4WT0 >   109    -69.2      -12      510      54.4   0.0841        2       515     ICLogic StepLimiter
+G4WT0 >   110    -69.5      -12      512      54.4   0.0732        2       517     ICLogic StepLimiter
+G4WT0 >   111    -69.7    -12.1      514      54.3   0.0714        2       519     ICLogic StepLimiter
+G4WT0 >   112      -70    -12.1      516      54.2    0.103        2       521     ICLogic StepLimiter
+G4WT0 >   113    -70.3    -12.2      518      54.1   0.0847        2       523     ICLogic StepLimiter
+G4WT0 >   114    -70.5    -12.2      520        54   0.0878        2       525     ICLogic StepLimiter
+G4WT0 >   115    -70.8    -12.2      522      53.9   0.0847        2       527     ICLogic StepLimiter
+G4WT0 >   116    -71.1    -12.3      524      53.8    0.108        2       529     ICLogic StepLimiter
+G4WT0 >   117    -71.3    -12.3      526      53.7   0.0811        2       531     ICLogic StepLimiter
+G4WT0 >   118    -71.6    -12.4      528      53.7   0.0879        2       533     ICLogic StepLimiter
+G4WT0 >   119    -71.9    -12.4      530      53.6   0.0569        2       535     ICLogic StepLimiter
+G4WT0 >   120    -72.1    -12.5      532      53.5    0.093        2       537     ICLogic StepLimiter
+G4WT0 >   121    -72.4    -12.5      534      53.4   0.0855        2       539     ICLogic StepLimiter
+G4WT0 >   122    -72.7    -12.5      536      53.3    0.101        2       541     ICLogic StepLimiter
+G4WT0 >   123    -72.9    -12.6      538      53.2   0.0988        2       543     ICLogic StepLimiter
+G4WT0 >   124    -73.2    -12.6      540      53.1   0.0732        2       545     ICLogic StepLimiter
+G4WT0 >   125    -73.5    -12.7      542        53    0.123        2       547     ICLogic StepLimiter
+G4WT0 >   126    -73.7    -12.7      544      52.9   0.0838        2       549     ICLogic StepLimiter
+G4WT0 >   127      -74    -12.8      546      52.8    0.104        2       551     ICLogic StepLimiter
+G4WT0 >   128    -74.3    -12.8      548      52.8   0.0808        2       553     ICLogic StepLimiter
+G4WT0 >   129    -74.5    -12.8      550      52.7   0.0715        2       555     ICLogic StepLimiter
+G4WT0 >   130    -74.8    -12.9      552      52.6   0.0815        2       557     ICLogic StepLimiter
+G4WT0 >   131    -75.1    -12.9      554      52.5   0.0675        2       559     ICLogic StepLimiter
+G4WT0 >   132    -75.3      -13      556      52.4    0.115        2       561     ICLogic StepLimiter
+G4WT0 >   133    -75.6      -13      558      52.3   0.0872        2       563     ICLogic StepLimiter
+G4WT0 >   134    -75.9      -13      560      52.3   0.0743        2       565     ICLogic StepLimiter
+G4WT0 >   135    -76.1    -13.1      562      52.2    0.098        2       567     ICLogic StepLimiter
+G4WT0 >   136    -76.4    -13.1      564      52.1   0.0887        2       569     ICLogic StepLimiter
+G4WT0 >   137    -76.7    -13.1      566        52   0.0947        2       571     ICLogic StepLimiter
+G4WT0 >   138    -76.9    -13.2      567      51.9   0.0779        2       573     ICLogic StepLimiter
+G4WT0 >   139    -77.2    -13.2      569      51.8    0.111        2       575     ICLogic StepLimiter
+G4WT0 >   140    -77.5    -13.3      571      51.7    0.115        2       577     ICLogic StepLimiter
+G4WT0 >   141    -77.8    -13.3      573      51.6    0.106        2       579     ICLogic StepLimiter
+G4WT0 >   142      -78    -13.3      575      51.5    0.116        2       581     ICLogic StepLimiter
+G4WT0 >   143    -78.3    -13.4      577      51.4   0.0878        2       583     ICLogic StepLimiter
+G4WT0 >   144    -78.6    -13.4      579      51.3   0.0891        2       585     ICLogic StepLimiter
+G4WT0 >   145    -78.9    -13.5      581      51.2   0.0679        2       587     ICLogic StepLimiter
+G4WT0 >   146    -79.1    -13.5      583      51.1    0.103        2       589     ICLogic StepLimiter
+G4WT0 >   147    -79.4    -13.5      585        51   0.0919        2       591     ICLogic StepLimiter
+G4WT0 >   148    -79.7    -13.6      587      50.9   0.0994        2       593     ICLogic StepLimiter
+G4WT0 >   149    -79.9    -13.6      589      50.8   0.0854        2       595     ICLogic StepLimiter
+G4WT0 >   150    -80.2    -13.6      591      50.7    0.108        2       597     ICLogic StepLimiter
+G4WT0 >   151    -80.5    -13.7      593      50.6   0.0989        2       599     ICLogic StepLimiter
+G4WT0 >   152    -80.8    -13.7      595      50.5   0.0883        2       601     ICLogic StepLimiter
+G4WT0 >   153      -81    -13.8      597      50.4    0.112        2       603     ICLogic StepLimiter
+G4WT0 >   154    -81.3    -13.8      599      50.3    0.102        2       605     ICLogic StepLimiter
+G4WT0 >   155    -81.6    -13.8      601      50.2   0.0926        2       607     ICLogic StepLimiter
+G4WT0 >   156    -81.8    -13.9      603      50.1   0.0984        2       609     ICLogic StepLimiter
+G4WT0 >   157    -82.1    -13.9      605        50   0.0921        2       611     ICLogic StepLimiter
+G4WT0 >   158    -82.4      -14      607      49.9    0.128        2       613     ICLogic StepLimiter
+G4WT0 >   159    -82.7      -14      609      49.8   0.0726        2       615     ICLogic StepLimiter
+G4WT0 >   160    -82.9    -14.1      611      49.7    0.101        2       617     ICLogic StepLimiter
+G4WT0 >   161    -83.2    -14.1      613      49.6    0.102        2       619     ICLogic StepLimiter
+G4WT0 >   162    -83.5    -14.1      615      49.5    0.111        2       621     ICLogic StepLimiter
+G4WT0 >   163    -83.7    -14.2      617      49.4   0.0826        2       623     ICLogic StepLimiter
+G4WT0 >   164      -84    -14.2      619      49.4   0.0821        2       625     ICLogic StepLimiter
+G4WT0 >   165    -84.3    -14.2      621      49.3    0.106        2       627     ICLogic StepLimiter
+G4WT0 >   166    -84.5    -14.3      623      49.1    0.102        2       629     ICLogic StepLimiter
+G4WT0 >   167    -84.8    -14.3      625        49    0.109        2       631     ICLogic StepLimiter
+G4WT0 >   168    -85.1    -14.3      627      48.9   0.0964        2       633     ICLogic StepLimiter
+G4WT0 >   169    -85.4    -14.4      629      48.8   0.0976        2       635     ICLogic StepLimiter
+G4WT0 >   170    -85.6    -14.4      631      48.7    0.118        2       637     ICLogic StepLimiter
+G4WT0 >   171    -85.9    -14.5      633      48.6    0.108        2       639     ICLogic StepLimiter
+G4WT0 >   172    -86.2    -14.5      635      48.5   0.0766        2       641     ICLogic StepLimiter
+G4WT0 >   173    -86.4    -14.5      637      48.4    0.115        2       643     ICLogic StepLimiter
+G4WT0 >   174    -86.7    -14.6      639      48.3   0.0836        2       645     ICLogic StepLimiter
+G4WT0 >   175      -87    -14.6      641      48.2    0.112        2       647     ICLogic StepLimiter
+G4WT0 >   176    -87.3    -14.7      643      48.1   0.0943        2       649     ICLogic StepLimiter
+G4WT0 >   177    -87.5    -14.7      645        48    0.101        2       651     ICLogic StepLimiter
+G4WT0 >   178    -87.8    -14.7      647      47.9   0.0965        2       653     ICLogic StepLimiter
+G4WT0 >   179    -88.1    -14.8      649      47.8    0.108        2       655     ICLogic StepLimiter
+G4WT0 >   180    -88.3    -14.8      651      47.7      0.1        2       657     ICLogic StepLimiter
+G4WT0 >   181    -88.6    -14.9      653      47.6    0.113        2       659     ICLogic StepLimiter
+G4WT0 >   182    -88.9    -14.9      655      47.6    0.068        2       661     ICLogic StepLimiter
+G4WT0 >   183    -89.1    -14.9      657      47.4    0.113        2       663     ICLogic StepLimiter
+G4WT0 >   184    -89.4      -15      659      47.3     0.11        2       665     ICLogic StepLimiter
+G4WT0 >   185    -89.7      -15      661      47.2    0.105        2       667     ICLogic StepLimiter
+G4WT0 >   186      -90      -15      663      47.1   0.0961        2       669     ICLogic StepLimiter
+G4WT0 >   187    -90.2    -15.1      665        47    0.118        2       671     ICLogic StepLimiter
+G4WT0 >   188    -90.5    -15.1      667      46.9    0.113        2       673     ICLogic StepLimiter
+G4WT0 >   189    -90.8    -15.1      669      46.8    0.107        2       675     ICLogic StepLimiter
+G4WT0 >   190      -91    -15.2      671      46.7    0.124        2       677     ICLogic StepLimiter
+G4WT0 >   191    -91.3    -15.2      672      46.5    0.127        2       679     ICLogic StepLimiter
+G4WT0 >   192    -91.6    -15.3      674      46.4   0.0991        2       681     ICLogic StepLimiter
+G4WT0 >   193    -91.9    -15.3      676      46.3    0.121        2       683     ICLogic StepLimiter
+G4WT0 >   194    -92.1    -15.3      678      46.2    0.119        2       685     ICLogic StepLimiter
+G4WT0 >   195    -92.4    -15.4      680      46.1   0.0794        2       687     ICLogic StepLimiter
+G4WT0 >   196    -92.7    -15.4      682        46    0.104        2       689     ICLogic StepLimiter
+G4WT0 >   197      -93    -15.5      684      45.9   0.0758        2       691     ICLogic StepLimiter
+G4WT0 >   198    -93.2    -15.5      686      45.8    0.102        2       693     ICLogic StepLimiter
+G4WT0 >   199    -93.5    -15.5      688      45.7    0.114        2       695     ICLogic StepLimiter
+G4WT0 >   200    -93.8    -15.6      690      45.6    0.105        2       697     ICLogic StepLimiter
+G4WT0 >   201    -94.1    -15.6      692      45.5    0.121        2       699     ICLogic StepLimiter
+G4WT0 >   202    -94.3    -15.7      694      45.4   0.0602        2       701     ICLogic StepLimiter
+G4WT0 >   203    -94.6    -15.7      696      45.3    0.141        2       703     ICLogic StepLimiter
+G4WT0 >   204    -94.9    -15.7      698      45.2    0.121        2       705     ICLogic StepLimiter
+G4WT0 >   205    -95.1    -15.8      700      45.1   0.0783     1.77       707 ICOuterLogical Transportation
+G4WT0 >   206    -95.1    -15.8      700         0     45.1   0.0474       707 ICOuterLogical ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = alpha,   Track ID = 2,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0  -0.0547    -1.12  -0.0005      2.41        0        0         0       World initStep
+G4WT0 >     1      500       76    -57.8      2.41 1.94e-20      509       509  OutOfWorld Transportation
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = B10,   Track ID = 1,   Parent ID = 0
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0    0.641     1.09      -10      48.6        0        0         0       World initStep
+G4WT0 >     1    0.641     1.09  -0.0005      48.6  3.7e-22       10        10 targetPhysical Transportation
+G4WT0 >     2    0.641     1.09  -0.0005         0        0        0        10 targetPhysical BinaryReaction
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = Be8[3000.000],   Track ID = 3,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0    0.641     1.09  -0.0005      42.9        0        0         0 targetPhysical initStep
+G4WT0 >     1    0.641     1.09   0.0005      42.7    0.137  0.00109   0.00109       World Transportation
+G4WT0 >     2    -27.5       15       71      42.7 1.75e-21     77.6      77.6     S2Logic Transportation
+G4WT0 >     3    -27.6     15.1       71        26     16.8     0.07      77.7       World Transportation
+G4WT0 >     4     -500      264 1.31e+03        26 4.65e-20 1.35e+03  1.42e+03  OutOfWorld Transportation
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = alpha,   Track ID = 2,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0    0.641     1.09  -0.0005      20.5        0        0         0 targetPhysical initStep
+G4WT0 >     1    0.642     1.09   0.0005      20.5    0.052  0.00177   0.00177       World Transportation
+G4WT0 >     2      500     -245      379      20.5 3.88e-21      673       673  OutOfWorld Transportation
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = B10,   Track ID = 1,   Parent ID = 0
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0   -0.572    0.466      -10      50.4        0        0         0       World initStep
+G4WT0 >     1   -0.572    0.466  -0.0005      50.4 3.59e-22       10        10 targetPhysical Transportation
+G4WT0 >     2   -0.572    0.466  -0.0005         0        0        0        10 targetPhysical BinaryReaction
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = Be8,   Track ID = 3,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0   -0.572    0.466  -0.0005      30.1        0        0         0 targetPhysical initStep
+G4WT0 >     1   -0.572    0.466   0.0005        30    0.142  0.00102   0.00102       World Transportation
+G4WT0 >     2     11.2    -5.11       71        30 2.22e-21     72.2      72.2     S2Logic Transportation
+G4WT0 >     3     11.2    -5.12       71         0       30   0.0639      72.2     S2Logic ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = He3,   Track ID = 2,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0   -0.572    0.466  -0.0005      19.8        0        0         0 targetPhysical initStep
+G4WT0 >     1   -0.572    0.466   0.0005      19.8   0.0168  0.00107   0.00107       World Transportation
+G4WT0 >     2    -25.5     12.2       71      19.8 3.58e-22     76.1      76.1     S2Logic Transportation
+G4WT0 >     3    -25.5     12.2       71      16.6     3.15   0.0687      76.2       World Transportation
+G4WT0 >     4      -98     46.2      280      16.6 1.23e-21      224       300 ICOuterLogical Transportation
+G4WT0 >     5      -98     46.2      280         0     16.6   0.0683       300 ICOuterLogical ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = B10,   Track ID = 1,   Parent ID = 0
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0   -0.196   -0.293      -10      50.7        0        0         0       World initStep
+G4WT0 >     1   -0.196   -0.293  -0.0005      50.7 3.57e-22       10        10 targetPhysical Transportation
+G4WT0 >     2   -0.196   -0.293  -0.0005         0        0        0        10 targetPhysical BinaryReaction
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = Be9[6400.000],   Track ID = 3,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0   -0.196   -0.293  -0.0005      32.4        0        0         0 targetPhysical initStep
+G4WT0 >     1   -0.196   -0.293   0.0005      32.2    0.203    0.001     0.001       World Transportation
+G4WT0 >     2     25.7      3.7      300      32.2 9.62e-21      301       301 ic_window_logical Transportation
+G4WT0 >     3     25.7      3.7      300      30.8      1.4  0.00703       301     ICLogic Transportation
+G4WT0 >     4     25.9     3.73      302      30.6    0.137        2       303     ICLogic StepLimiter
+G4WT0 >     5     26.1     3.76      304      30.5    0.136        2       305     ICLogic StepLimiter
+G4WT0 >     6     26.3     3.78      306      30.4    0.159        2       307     ICLogic StepLimiter
+G4WT0 >     7     26.4     3.81      308      30.2    0.141        2       309     ICLogic StepLimiter
+G4WT0 >     8     26.6     3.84      310        30    0.165        2       311     ICLogic StepLimiter
+G4WT0 >     9     26.8     3.87      312      29.9    0.151        2       313     ICLogic StepLimiter
+G4WT0 >    10       27      3.9      314      29.8    0.143        2       315     ICLogic StepLimiter
+G4WT0 >    11     27.1     3.92      316      29.6    0.144        2       317     ICLogic StepLimiter
+G4WT0 >    12     27.3     3.95      318      29.4    0.163        2       319     ICLogic StepLimiter
+G4WT0 >    13     27.5     3.98      320      29.3    0.179        2       321     ICLogic StepLimiter
+G4WT0 >    14     27.7     4.01      322      29.1    0.144        2       323     ICLogic StepLimiter
+G4WT0 >    15     27.8     4.05      324      28.9     0.18        2       325     ICLogic StepLimiter
+G4WT0 >    16       28     4.08      326      28.8    0.177        2       327     ICLogic StepLimiter
+G4WT0 >    17     28.2     4.11      328      28.6    0.184        2       329     ICLogic StepLimiter
+G4WT0 >    18     28.4     4.14      330      28.4    0.166        2       331     ICLogic StepLimiter
+G4WT0 >    19     28.5     4.16      332      28.3    0.161        2       333     ICLogic StepLimiter
+G4WT0 >    20     28.7     4.19      334      28.1    0.141        2       335     ICLogic StepLimiter
+G4WT0 >    21     28.9     4.22      336      27.9    0.174        2       337     ICLogic StepLimiter
+G4WT0 >    22       29     4.24      338      27.8     0.16        2       339     ICLogic StepLimiter
+G4WT0 >    23     29.2     4.27      340      27.6    0.165        2       341     ICLogic StepLimiter
+G4WT0 >    24     29.4     4.29      342      27.4    0.179        2       343     ICLogic StepLimiter
+G4WT0 >    25     29.6     4.32      344      27.2    0.185        2       345     ICLogic StepLimiter
+G4WT0 >    26     29.7     4.34      346      27.1     0.19        2       347     ICLogic StepLimiter
+G4WT0 >    27     29.9     4.36      348      26.9    0.137        2       349     ICLogic StepLimiter
+G4WT0 >    28     30.1     4.39      350      26.7     0.18        2       351     ICLogic StepLimiter
+G4WT0 >    29     30.2     4.41      352      26.6    0.144        2       353     ICLogic StepLimiter
+G4WT0 >    30     30.4     4.44      354      26.4    0.159        2       355     ICLogic StepLimiter
+G4WT0 >    31     30.6     4.47      356      26.3    0.158        2       357     ICLogic StepLimiter
+G4WT0 >    32     30.8     4.49      358      26.1    0.172        2       359     ICLogic StepLimiter
+G4WT0 >    33     30.9     4.52      360      25.9    0.168        2       361     ICLogic StepLimiter
+G4WT0 >    34     31.1     4.54      362      25.8    0.172        2       363     ICLogic StepLimiter
+G4WT0 >    35     31.3     4.57      364      25.6    0.178        2       365     ICLogic StepLimiter
+G4WT0 >    36     31.5     4.59      366      25.4     0.18        2       367     ICLogic StepLimiter
+G4WT0 >    37     31.7     4.61      368      25.2    0.195        2       369     ICLogic StepLimiter
+G4WT0 >    38     31.8     4.64      370      25.1     0.15        2       371     ICLogic StepLimiter
+G4WT0 >    39       32     4.66      372      24.9    0.211        2       373     ICLogic StepLimiter
+G4WT0 >    40     32.2     4.69      374      24.6    0.224        2       375     ICLogic StepLimiter
+G4WT0 >    41     32.4     4.72      376      24.5    0.166        2       377     ICLogic StepLimiter
+G4WT0 >    42     32.5     4.74      378      24.3      0.2        2       379     ICLogic StepLimiter
+G4WT0 >    43     32.7     4.77      380      24.1    0.177        2       381     ICLogic StepLimiter
+G4WT0 >    44     32.9     4.79      382      23.9    0.168        2       383     ICLogic StepLimiter
+G4WT0 >    45     33.1     4.82      384      23.7    0.219        2       385     ICLogic StepLimiter
+G4WT0 >    46     33.2     4.84      386      23.5    0.169        2       387     ICLogic StepLimiter
+G4WT0 >    47     33.4     4.86      388      23.3    0.199        2       389     ICLogic StepLimiter
+G4WT0 >    48     33.6     4.89      390      23.1    0.195        2       391     ICLogic StepLimiter
+G4WT0 >    49     33.8     4.91      392      22.9    0.213        2       393     ICLogic StepLimiter
+G4WT0 >    50     33.9     4.93      394      22.7      0.2        2       395     ICLogic StepLimiter
+G4WT0 >    51     34.1     4.96      396      22.5    0.187        2       397     ICLogic StepLimiter
+G4WT0 >    52     34.3     4.98      398      22.3    0.192        2       399     ICLogic StepLimiter
+G4WT0 >    53     34.4     5.01      400      22.1    0.211        2       401     ICLogic StepLimiter
+G4WT0 >    54     34.6     5.03      402        22    0.165        2       403     ICLogic StepLimiter
+G4WT0 >    55     34.8     5.06      404      21.8    0.169        2       405     ICLogic StepLimiter
+G4WT0 >    56       35     5.08      406      21.6    0.214        2       407     ICLogic StepLimiter
+G4WT0 >    57     35.1     5.11      408      21.4    0.176        2       409     ICLogic StepLimiter
+G4WT0 >    58     35.3     5.13      410      21.2    0.183        2       411     ICLogic StepLimiter
+G4WT0 >    59     35.5     5.16      412        21    0.182        2       413     ICLogic StepLimiter
+G4WT0 >    60     35.7     5.18      414      20.9    0.186        2       415     ICLogic StepLimiter
+G4WT0 >    61     35.9      5.2      416      20.7    0.176        2       417     ICLogic StepLimiter
+G4WT0 >    62       36     5.23      418      20.5    0.146        2       419     ICLogic StepLimiter
+G4WT0 >    63     36.2     5.26      420      20.4    0.188        2       421     ICLogic StepLimiter
+G4WT0 >    64     36.4     5.29      422      20.2    0.186        2       423     ICLogic StepLimiter
+G4WT0 >    65     36.6     5.32      424        20    0.173        2       425     ICLogic StepLimiter
+G4WT0 >    66     36.8     5.35      426      19.8    0.205        2       427     ICLogic StepLimiter
+G4WT0 >    67       37     5.38      427      19.6    0.186        2       429     ICLogic StepLimiter
+G4WT0 >    68     37.1     5.41      429      19.4      0.2        2       431     ICLogic StepLimiter
+G4WT0 >    69     37.3     5.44      431      19.2    0.205        2       433     ICLogic StepLimiter
+G4WT0 >    70     37.5     5.47      433        19    0.201        2       435     ICLogic StepLimiter
+G4WT0 >    71     37.7      5.5      435      18.8    0.197        2       437     ICLogic StepLimiter
+G4WT0 >    72     37.9     5.53      437      18.6     0.19        2       439     ICLogic StepLimiter
+G4WT0 >    73       38     5.56      439      18.4    0.197        2       441     ICLogic StepLimiter
+G4WT0 >    74     38.2     5.59      441      18.2    0.206        2       443     ICLogic StepLimiter
+G4WT0 >    75     38.4     5.62      443        18     0.23        2       445     ICLogic StepLimiter
+G4WT0 >    76     38.6     5.65      445      17.7    0.229        2       447     ICLogic StepLimiter
+G4WT0 >    77     38.7     5.68      447      17.5    0.223        2       449     ICLogic StepLimiter
+G4WT0 >    78     38.9     5.71      449      17.3    0.178        2       451     ICLogic StepLimiter
+G4WT0 >    79     39.1     5.74      451      17.1    0.238        2       453     ICLogic StepLimiter
+G4WT0 >    80     39.3     5.77      453      16.9    0.225        2       455     ICLogic StepLimiter
+G4WT0 >    81     39.5      5.8      455      16.7    0.191        2       457     ICLogic StepLimiter
+G4WT0 >    82     39.7     5.83      457      16.5    0.216        2       459     ICLogic StepLimiter
+G4WT0 >    83     39.8     5.86      459      16.3     0.19        2       461     ICLogic StepLimiter
+G4WT0 >    84       40      5.9      461      16.1    0.232        2       463     ICLogic StepLimiter
+G4WT0 >    85     40.2     5.93      463      15.8    0.212        2       465     ICLogic StepLimiter
+G4WT0 >    86     40.4     5.97      465      15.6    0.235        2       467     ICLogic StepLimiter
+G4WT0 >    87     40.6        6      467      15.4    0.251        2       469     ICLogic StepLimiter
+G4WT0 >    88     40.8     6.04      469      15.1    0.265        2       471     ICLogic StepLimiter
+G4WT0 >    89     40.9     6.09      471      14.8    0.253        2       473     ICLogic StepLimiter
+G4WT0 >    90     41.1     6.14      473      14.6    0.225        2       475     ICLogic StepLimiter
+G4WT0 >    91     41.3     6.19      475      14.3    0.265        2       477     ICLogic StepLimiter
+G4WT0 >    92     41.5     6.24      477      14.1    0.256        2       479     ICLogic StepLimiter
+G4WT0 >    93     41.6     6.28      479      13.9    0.222        2       481     ICLogic StepLimiter
+G4WT0 >    94     41.8     6.34      481      13.6    0.251        2       483     ICLogic StepLimiter
+G4WT0 >    95       42     6.39      483      13.4    0.252        2       485     ICLogic StepLimiter
+G4WT0 >    96     42.2     6.44      485      13.1    0.284        2       487     ICLogic StepLimiter
+G4WT0 >    97     42.4      6.5      487      12.8     0.26        2       489     ICLogic StepLimiter
+G4WT0 >    98     42.5     6.55      489      12.6    0.208        2       491     ICLogic StepLimiter
+G4WT0 >    99     42.7      6.6      491      12.4    0.228        2       493     ICLogic StepLimiter
+G4WT0 >   100     42.9     6.65      493      12.1    0.269        2       495     ICLogic StepLimiter
+G4WT0 >   101       43      6.7      495      11.9    0.233        2       497     ICLogic StepLimiter
+G4WT0 >   102     43.2     6.75      497      11.6    0.277        2       499     ICLogic StepLimiter
+G4WT0 >   103     43.4     6.79      499      11.4    0.258        2       501     ICLogic StepLimiter
+G4WT0 >   104     43.5     6.84      501      11.1    0.258        2       503     ICLogic StepLimiter
+G4WT0 >   105     43.7     6.89      503      10.8    0.247        2       505     ICLogic StepLimiter
+G4WT0 >   106     43.9     6.93      505      10.5    0.296        2       507     ICLogic StepLimiter
+G4WT0 >   107       44     6.98      507      10.3    0.242        2       509     ICLogic StepLimiter
+G4WT0 >   108     44.2     7.02      509        10    0.284        2       511     ICLogic StepLimiter
+G4WT0 >   109     44.4     7.07      511      9.77    0.258        2       513     ICLogic StepLimiter
+G4WT0 >   110     44.5     7.12      513      9.44    0.327        2       515     ICLogic StepLimiter
+G4WT0 >   111     44.7     7.17      515      9.13    0.308        2       517     ICLogic StepLimiter
+G4WT0 >   112     44.8     7.22      517      8.85    0.281        2       519     ICLogic StepLimiter
+G4WT0 >   113       45     7.27      519      8.55    0.296        2       521     ICLogic StepLimiter
+G4WT0 >   114     45.1     7.31      521      8.25    0.309        2       523     ICLogic StepLimiter
+G4WT0 >   115     45.3     7.36      523      7.92    0.324        2       525     ICLogic StepLimiter
+G4WT0 >   116     45.4      7.4      525      7.62    0.304        2       527     ICLogic StepLimiter
+G4WT0 >   117     45.6     7.45      527      7.31    0.311        2       529     ICLogic StepLimiter
+G4WT0 >   118     45.7      7.5      529      6.97    0.334        2       531     ICLogic StepLimiter
+G4WT0 >   119     45.9     7.55      531      6.63    0.342        2       533     ICLogic StepLimiter
+G4WT0 >   120       46      7.6      533      6.26     0.37        2       535     ICLogic StepLimiter
+G4WT0 >   121     46.2     7.64      535       5.9    0.359        2       537     ICLogic StepLimiter
+G4WT0 >   122     46.3     7.69      537      5.52    0.381        2       539     ICLogic StepLimiter
+G4WT0 >   123     46.5     7.73      539      5.15    0.371        2       541     ICLogic StepLimiter
+G4WT0 >   124     46.6     7.78      541      4.77     0.38        2       543     ICLogic StepLimiter
+G4WT0 >   125     46.7     7.83      543      4.36    0.408        2       545     ICLogic StepLimiter
+G4WT0 >   126     46.9     7.88      545      3.95    0.415        2       547     ICLogic StepLimiter
+G4WT0 >   127       47     7.93      547      3.54    0.403        2       549     ICLogic StepLimiter
+G4WT0 >   128     47.1     7.97      549      3.17    0.375     1.82       551     ICLogic ionIoni
+G4WT0 >   129     47.2        8      551      2.82    0.346     1.65       553     ICLogic ionIoni
+G4WT0 >   130     47.4     8.03      552      2.52    0.303     1.52       554     ICLogic ionIoni
+G4WT0 >   131     47.5     8.04      553      2.24    0.282      1.4       556     ICLogic ionIoni
+G4WT0 >   132     47.6     8.06      555         2    0.239      1.3       557     ICLogic ionIoni
+G4WT0 >   133     47.7     8.07      556      1.77    0.224     1.22       558     ICLogic ionIoni
+G4WT0 >   134     47.8     8.11      557      1.59    0.188     1.15       559     ICLogic ionIoni
+G4WT0 >   135     47.9     8.13      558      1.41    0.177      1.1       560     ICLogic ionIoni
+G4WT0 >   136       48     8.17      559      1.26    0.151     1.05       561     ICLogic ionIoni
+G4WT0 >   137     48.1     8.19      560      1.13    0.129        1       562     ICLogic ionIoni
+G4WT0 >   138     48.2     8.21      561      1.01    0.116    0.964       563     ICLogic ionIoni
+G4WT0 >   139     48.3     8.24      562     0.909    0.103    0.929       564     ICLogic ionIoni
+G4WT0 >   140     48.3     8.24      563     0.815    0.094    0.898       565     ICLogic ionIoni
+G4WT0 >   141     48.4     8.24      564     0.733   0.0823    0.868       566     ICLogic ionIoni
+G4WT0 >   142     48.5     8.24      565     0.667   0.0654     0.84       567     ICLogic ionIoni
+G4WT0 >   143     48.6     8.23      566     0.601   0.0669    0.817       568     ICLogic ionIoni
+G4WT0 >   144     48.7     8.23      566      0.54   0.0606    0.791       568     ICLogic ionIoni
+G4WT0 >   145     48.8     8.22      567     0.492   0.0484    0.766       569     ICLogic ionIoni
+G4WT0 >   146     48.9     8.21      568     0.443   0.0486    0.744       570     ICLogic ionIoni
+G4WT0 >   147       49     8.18      568     0.398   0.0451     0.72       571     ICLogic ionIoni
+G4WT0 >   148     49.1     8.15      569     0.361    0.037    0.696       571     ICLogic ionIoni
+G4WT0 >   149     49.1     8.14      570     0.335   0.0258    0.674       572     ICLogic ionIoni
+G4WT0 >   150     49.2     8.15      571     0.307   0.0279    0.658       573     ICLogic ionIoni
+G4WT0 >   151     49.3     8.18      571      0.28   0.0273    0.639       573     ICLogic ionIoni
+G4WT0 >   152     49.4      8.2      572     0.257   0.0231     0.62       574     ICLogic ionIoni
+G4WT0 >   153     49.6      8.2      572      0.24   0.0169    0.602       575     ICLogic ionIoni
+G4WT0 >   154     49.6     8.19      573     0.223   0.0164    0.588       575     ICLogic ionIoni
+G4WT0 >   155     49.7     8.18      573     0.207   0.0161    0.575       576     ICLogic ionIoni
+G4WT0 >   156     49.8     8.18      574     0.193   0.0148    0.562       576     ICLogic ionIoni
+G4WT0 >   157     49.9     8.14      575     0.177   0.0152    0.549       577     ICLogic ionIoni
+G4WT0 >   158     50.1     8.11      575     0.163    0.014    0.535       577     ICLogic ionIoni
+G4WT0 >   159     50.2     8.15      576     0.152   0.0117    0.521       578     ICLogic ionIoni
+G4WT0 >   160     50.3     8.16      576     0.139   0.0124    0.508       578     ICLogic ionIoni
+G4WT0 >   161     50.4     8.18      577     0.127   0.0122    0.494       579     ICLogic ionIoni
+G4WT0 >   162     50.4      8.2      577      0.12   0.0069    0.478       579     ICLogic ionIoni
+G4WT0 >   163     50.5     8.21      577     0.112  0.00781    0.468       580     ICLogic ionIoni
+G4WT0 >   164     50.6     8.26      578     0.101   0.0116    0.454       580     ICLogic ionIoni
+G4WT0 >   165     50.7     8.33      578    0.0928  0.00803    0.432       581     ICLogic ionIoni
+G4WT0 >   166     50.8     8.39      579    0.0871  0.00565    0.417       581     ICLogic ionIoni
+G4WT0 >   167     50.9     8.39      579    0.0783  0.00887    0.407       582     ICLogic ionIoni
+G4WT0 >   168     50.9     8.37      580    0.0722   0.0061    0.389       582     ICLogic ionIoni
+G4WT0 >   169       51     8.25      580    0.0644  0.00781    0.377       582     ICLogic ionIoni
+G4WT0 >   170     51.2     8.19      580    0.0555  0.00881    0.362       583     ICLogic ionIoni
+G4WT0 >   171     51.3     8.13      580    0.0472  0.00834    0.343       583     ICLogic ionIoni
+G4WT0 >   172     51.6     8.19      581    0.0426  0.00461    0.325       583     ICLogic ionIoni
+G4WT0 >   173     51.8     8.32      581    0.0379  0.00469    0.315       584     ICLogic ionIoni
+G4WT0 >   174     51.9     8.44      581    0.0338  0.00413    0.305       584     ICLogic ionIoni
+G4WT0 >   175       52     8.54      581    0.0304  0.00342    0.295       584     ICLogic ionIoni
+G4WT0 >   176       52      8.6      582    0.0258  0.00454    0.287       585     ICLogic ionIoni
+G4WT0 >   177     52.1     8.66      582    0.0233  0.00254    0.275       585     ICLogic ionIoni
+G4WT0 >   178     52.2     8.65      582    0.0209  0.00238    0.267       585     ICLogic ionIoni
+G4WT0 >   179     52.4     8.74      582    0.0166  0.00426     0.26       585     ICLogic ionIoni
+G4WT0 >   180     52.5      8.8      582    0.0147  0.00195    0.246       586     ICLogic ionIoni
+G4WT0 >   181     52.6     8.95      582    0.0134   0.0013    0.238       586     ICLogic ionIoni
+G4WT0 >   182     52.7     9.09      582    0.0116  0.00183    0.233       586     ICLogic ionIoni
+G4WT0 >   183     52.6     9.24      582   0.00899  0.00258    0.225       586     ICLogic ionIoni
+G4WT0 >   184     52.6     9.37      582    0.0087 0.000292    0.212       587     ICLogic ionIoni
+G4WT0 >   185     52.6      9.5      582    0.0066   0.0021    0.211       587     ICLogic ionIoni
+G4WT0 >   186     52.6     9.62      582   0.00463  0.00197    0.198       587     ICLogic ionIoni
+G4WT0 >   187     52.5     9.69      582   0.00426 0.000366    0.182       587     ICLogic ionIoni
+G4WT0 >   188     52.5     9.66      582    0.0042 6.71e-05    0.179       587     ICLogic ionIoni
+G4WT0 >   189     52.5     9.73      582   0.00229   0.0019    0.178       587     ICLogic ionIoni
+G4WT0 >   190     52.5     9.75      582   0.00107  0.00123    0.154       588     ICLogic ionIoni
+G4WT0 >   191     52.5     9.75      582   0.00107 4.16e-08    0.122       588     ICLogic ionIoni
+G4WT0 >   192     52.5     9.76      582   0.00101 5.29e-05    0.122       588     ICLogic ionIoni
+G4WT0 >   193     52.6     9.76      582         0  0.00101    0.119       588     ICLogic ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = He3,   Track ID = 2,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0   -0.196   -0.293  -0.0005      10.8        0        0         0 targetPhysical initStep
+G4WT0 >     1   -0.197   -0.293   0.0005      10.8   0.0494  0.00104   0.00104       World Transportation
+G4WT0 >     2    -19.2     -3.3       71      10.8 6.16e-22     73.5      73.5     S2Logic Transportation
+G4WT0 >     3    -19.2     -3.3       71      4.66      6.1   0.0663      73.6       World Transportation
+G4WT0 >     4    -32.1    -10.6      124      4.66 1.04e-21     55.5       129     S1Logic Transportation
+G4WT0 >     5    -32.1    -10.6      125         0     4.66   0.0198       129     S1Logic ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = B10,   Track ID = 1,   Parent ID = 0
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0    0.064   -0.899      -10      50.6        0        0         0       World initStep
+G4WT0 >     1    0.064   -0.899  -0.0005      50.6 3.57e-22       10        10 targetPhysical Transportation
+G4WT0 >     2    0.064   -0.899  -0.0005         0        0        0        10 targetPhysical BinaryReaction
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = Be8[11000.000],   Track ID = 3,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0    0.064   -0.899  -0.0005      11.3        0        0         0 targetPhysical initStep
+G4WT0 >     1   0.0639     -0.9   0.0005        11    0.334  0.00104   0.00104       World Transportation
+G4WT0 >     2    -6.86    -19.3       71        11 4.69e-21     73.6      73.6     S2Logic Transportation
+G4WT0 >     3    -6.86    -19.3       71         0       11   0.0123      73.7     S2Logic ionIoni
+G4WT0 > 
+G4WT0 > *********************************************************************************************************
+G4WT0 > * G4Track Information:   Particle = alpha,   Track ID = 2,   Parent ID = 1
+G4WT0 > *********************************************************************************************************
+G4WT0 > 
+G4WT0 > Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+G4WT0 >     0    0.064   -0.899  -0.0005      46.2        0        0         0 targetPhysical initStep
+G4WT0 >     1   0.0641   -0.899   0.0005      46.1   0.0257  0.00102   0.00102       World Transportation
+G4WT0 >     2     4.74     11.8       71      46.1 1.99e-22     72.2      72.2     S2Logic Transportation
+G4WT0 >     3     4.75     11.8       71      44.3      1.8   0.0651      72.3       World Transportation
+G4WT0 >     4     19.1     49.6      280      44.3 6.07e-22      213       285 ICOuterLogical Transportation
+G4WT0 >     5     19.2     49.6      280      24.3     20.1    0.196       285 ICOuterLogical ionIoni
+G4WT0 >     6     19.2     49.6      280     0.705     23.6    0.111       285 ICOuterLogical ionIoni
+G4WT0 >     7     19.2     49.6      280         0    0.705  0.00148       285 ICOuterLogical ionIoni
 WARNING - Attempt to delete the physical volume store while geometry closed !
 WARNING - Attempt to delete the logical volume store while geometry closed !
 WARNING - Attempt to delete the solid store while geometry closed !

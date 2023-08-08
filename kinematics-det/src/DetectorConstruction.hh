@@ -83,6 +83,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction
     G4LogicalVolume* pS2Logical = nullptr;
     G4LogicalVolume* pICLogical = nullptr;
     G4LogicalVolume* pScintLogical = nullptr;
+    G4LogicalVolume* pScintLogical_thin = nullptr;
 
     G4UserLimits* pStepLimit;
 };

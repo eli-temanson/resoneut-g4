@@ -16,6 +16,29 @@
     },
 
     {
+      "Name": "7Be",
+      "ZA": [
+        4,
+        7
+      ],
+      "States": [
+        {"Energy": 0.0, "Spin-parity": "1.5-"},
+        {"Energy": 0.43, "Spin-parity": "0.5-"}
+      ]
+    },
+
+    {
+      "Name": "9Be",
+      "ZA": [
+        4,
+        9
+      ],
+      "States": [
+        {"Energy": 0.0, "Spin-parity": "1.5-"}
+      ]
+    },
+
+    {
       "Name": "11B",
       "ZA": [
         5,
@@ -63,3 +86,4 @@
     } 
   ]
 }
+
