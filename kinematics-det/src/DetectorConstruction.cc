@@ -460,37 +460,37 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     }
   }
   
-  //// Aluminum chamber 
-  G4Material* pAlMat = nist->FindOrBuildMaterial("G4_Al");
+  // Aluminum chamber 
+  //G4Material* pAlMat = nist->FindOrBuildMaterial("G4_Al");
 
-  G4Tubs* p_scint_chamber_geo = new G4Tubs(
-    "scint_chamber",
-    0.0,
-    20*cm,
-    10*cm, // half z-thickness
-    0.0,
-    2*CLHEP::pi);
-  
-  G4Box* p_scint_hole = new G4Box("scint_hole",30*mm,30*mm,9.5*cm); //half
-  G4VSolid* p_scint_chamber = new G4SubtractionSolid("scint_chamber", p_scint_chamber_geo, p_scint_hole, new G4RotationMatrix(), G4ThreeVector(scint_x[0]*cm,scint_y[0]*cm,-33.0*cm) );
-  
-  for(int i = 1; i < scint_x.size(); i++) { 
-    p_scint_chamber = new G4SubtractionSolid("scint_chamber", p_scint_chamber_geo, p_scint_hole, new G4RotationMatrix(), G4ThreeVector(scint_x[i]*cm,scint_y[i]*cm,-33.0*cm));
-  }
-  
-  auto p_scint_chamber_logical = new G4LogicalVolume(
-    p_scint_chamber, // the geometry/solid 
-    pAlMat,   // the material
-    "scint_chamber_logical");	   // the name
-  
-  new G4PVPlacement(0,	//no rotation
-    G4ThreeVector(0,0, -33*cm),
-    p_scint_chamber_logical,        // the logical volume
-    "Scintillator_chamber",     // the name
-    pWorldLogic,        // the mother (logical) volume
-    false,              // no boolean operation
-    0,                  // copy number
-    checkOverlaps);     // overlaps checking
+  //G4Tubs* p_scint_chamber_geo = new G4Tubs(
+  //  "scint_chamber",
+  //  0.0,
+  //  20*cm,
+  //  10*cm, // half z-thickness
+  //  0.0,
+  //  2*CLHEP::pi);
+  //
+  //G4Box* p_scint_hole = new G4Box("scint_hole",30*mm,30*mm,9.75*cm); //half
+  //G4VSolid* p_scint_chamber = new G4SubtractionSolid("scint_chamber", p_scint_chamber_geo, p_scint_hole, new G4RotationMatrix(), G4ThreeVector(scint_x[0]*cm,scint_y[0]*cm,-33.0*cm) );
+  //
+  //for(int i = 1; i < scint_x.size(); i++) { 
+  //  p_scint_chamber = new G4SubtractionSolid("scint_chamber", p_scint_chamber_geo, p_scint_hole, new G4RotationMatrix(), G4ThreeVector(scint_x[i]*cm,scint_y[i]*cm,-33.0*cm));
+  //}
+  //
+  //auto p_scint_chamber_logical = new G4LogicalVolume(
+  //  p_scint_chamber, // the geometry/solid 
+  //  pAlMat,   // the material
+  //  "scint_chamber_logical");	   // the name
+  //
+  //new G4PVPlacement(0,	//no rotation
+  //  G4ThreeVector(0,0, -33*cm),
+  //  p_scint_chamber_logical,        // the logical volume
+  //  "Scintillator_chamber",     // the name
+  //  pWorldLogic,        // the mother (logical) volume
+  //  false,              // no boolean operation
+  //  0,                  // copy number
+  //  checkOverlaps);     // overlaps checking
 
   //=================================================================================                   
   //always return the physical World

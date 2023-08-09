@@ -80,8 +80,8 @@ private:
       thetaCM = std::acos(1.0 - (2.0*G4UniformRand())); 
     // Weight that distribution by the Normalized Ang Dis. 
     //} while (G4UniformRand() > angDis(180.0 - (thetaCM / degree))); 
-    } while (G4UniformRand() > GetAngDis(180.0 - (thetaCM / degree))); 
-    //} while (( 180.0 - thetaCM / degree) > 55.0 || G4UniformRand() > GetAngDis(180.0 - (thetaCM / degree))); 
+    //} while (G4UniformRand() > GetAngDis(180.0 - (thetaCM / degree))); 
+    } while (G4UniformRand() > GetAngDis((thetaCM / degree))); 
     
     return thetaCM;
     //return angdis_f1->GetRandom(); 

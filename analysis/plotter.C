@@ -4,21 +4,22 @@
   gStyle->SetPalette(53);
   
   ROOT::EnableImplicitMT(15); 
-  // ROOT::RDataFrame df_raw("events", "analysis/elastic-2H.root");
+  ROOT::RDataFrame df_raw("events", "analysis/elastic-2H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/elastic-1H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/C12dn.root");
-  ROOT::RDataFrame df_raw("events", "analysis/B10_d.root");
+  // ROOT::RDataFrame df_raw("events", "analysis/B10_d.root");
   // ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
   // ROOT::RDataFrame df_raw("events", "analysis/B10elastic.root");
 
   auto df = df_raw
-    .Filter("s1_e > 0 && s2_e > 0 && s1_e+s2_e < 25")
-    .Filter("ic_de > 0")
+    .Filter("s1_e > 0 && s2_e > 0 && s1_e+s2_e < 25");
+    //.Filter("ic_de > 0");
     //.Filter("s1_phi < -65 || s1_phi > -43"); 
     //.Filter("s1_e+s2_e > 7 && s1_e+s2_e < 10");
-    .Filter("ic_atomic_num == 4")
+    //.Filter("FragmentEx == 0")
+    //.Filter("ic_atomic_num == 4")
     //.Filter("ic_atomic_mass == 7");
-    .Filter("scint_e > 0.001");
+    //.Filter("scint_e > 0.001");
   
   //auto df = df_raw;
 

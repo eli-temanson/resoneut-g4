@@ -1,5 +1,5 @@
 {
-    "filename_output" : "analysis/B10_d.root",
+    "filename_output" : "analysis/elastic-2H.root",
     "filename_nuclear_states" : "test",
     "filename_mass_table" : "test",
     "filename_angular_distribution" : "test",
