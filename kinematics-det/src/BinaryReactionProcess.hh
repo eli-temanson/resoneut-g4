@@ -77,14 +77,17 @@ private:
     double thetaCM = 0.0;
     do{ // from dwba, randomize neutron events going from regular to inverse kin (180-theta)
       // create a uniform distribution in radians 
-      thetaCM = std::acos(1.0 - (2.0*G4UniformRand())); 
+      //thetaCM = std::acos(1.0 - (2.0*G4UniformRand())); 
+      //thetaCM = std::acos(degree * (G4UniformRand()*(50.0-15.0) + 15.0)); 
+      
+      thetaCM = std::acos((G4UniformRand()*(.9659-.6427) + .6427)); 
+    
     // Weight that distribution by the Normalized Ang Dis. 
     //} while (G4UniformRand() > angDis(180.0 - (thetaCM / degree))); 
     //} while (G4UniformRand() > GetAngDis(180.0 - (thetaCM / degree))); 
     } while (G4UniformRand() > GetAngDis((thetaCM / degree))); 
     
     return thetaCM;
-    //return angdis_f1->GetRandom(); 
   }
 
 

@@ -12,10 +12,10 @@
   // ROOT::RDataFrame df_raw("events", "analysis/B10elastic.root");
 
   auto df = df_raw
-    .Filter("s1_e > 0 && s2_e > 0 && s1_e+s2_e < 25");
-    //.Filter("ic_de > 0");
+    .Filter("s1_e > 0 && s2_e > 0 && s1_e+s2_e < 25")
+    //.Filter("ic_de > 4 && ic_de < 8 && ic_e < 1")
     //.Filter("s1_phi < -65 || s1_phi > -43"); 
-    //.Filter("s1_e+s2_e > 7 && s1_e+s2_e < 10");
+    .Filter("s1_e+s2_e > 7 && s1_e+s2_e < 10");
     //.Filter("FragmentEx == 0")
     //.Filter("ic_atomic_num == 4")
     //.Filter("ic_atomic_mass == 7");
