@@ -8,8 +8,8 @@ BinaryReactionProcess::BinaryReactionProcess(const G4String& processName) :
   fScatteringEnergy(1e6) {
     
     SetProcessSubType(111);
-    // SetAngDis("assets/dwba_l0.dat");
-    SetAngDis("assets/elastic.txt");
+    SetAngDis("assets/dwba_l0.dat");
+    // SetAngDis("assets/elastic.txt");
     // SetAngDis("assets/state2.txt");
 }
 
@@ -76,8 +76,8 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4ParticleDefinition* carbon = particleTable->GetIonTable()->GetIon(6, 12, 0.0);
  
   //pTargetDef = hydrogen;
-  pTargetDef = deuteron;
-  //pTargetDef = G4UniformRand() >= 0.5 ? hydrogen : deuteron;
+  //pTargetDef = deuteron;
+  pTargetDef = G4UniformRand() >= 0.5 ? hydrogen : deuteron;
   
   // if(G4UniformRand() > 0.9) {
   //   targetDef = deuteron;
@@ -98,7 +98,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   // G4double cmEnergy = energy*Target.M/(Beam.M + Target.M);
  
   // pEjectileDef = G4UniformRand() >= 0.5 ? he3 : helium;
-  if(true) { // elastic scattering!
+  if(false) { // elastic scattering!
     pEjectileDef = pTargetDef;
   } else if(pTargetDef == deuteron) {
     // choose neutron for (d, n) or (d, 3He)
@@ -131,9 +131,9 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   G4double gamma = std::sqrt(term1/(term2+term3));
   
   // Lab Frame Ejectile Theta, Iliadis(C.38)
-  G4double ThetaCM = GetInvKinTheta();
+  //G4double ThetaCM = GetInvKinTheta();
   //G4double ThetaCM = G4UniformRand();
-  //G4double ThetaCM = std::acos(1.0 - (G4UniformRand()*2.0));
+  G4double ThetaCM = std::acos(1.0 - (G4UniformRand()*2.0));
   Ejectile.Theta = std::acos((gamma + std::cos(ThetaCM))/std::sqrt(1 + gamma*gamma + 2*gamma*std::cos(ThetaCM)));
   G4double r = std::sqrt(Beam.KE*Beam.M*Ejectile.M)*std::cos(Ejectile.Theta)/(Ejectile.M+Fragment.M); 
   G4double s = (Beam.KE*(Fragment.M-Beam.M)+Fragment.M*QValue)/(Ejectile.M+Fragment.M);

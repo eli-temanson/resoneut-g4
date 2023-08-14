@@ -124,7 +124,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     "S2Geo",
     11.53*mm,
     35.0*mm,
-    32.0*um, // half-thickness
+    35.5*um, // half-thickness
     0.0,
     2*CLHEP::pi);
 

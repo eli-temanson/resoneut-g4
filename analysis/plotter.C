@@ -4,24 +4,26 @@
   gStyle->SetPalette(53);
   
   ROOT::EnableImplicitMT(15); 
-  ROOT::RDataFrame df_raw("events", "analysis/elastic-2H.root");
+  // ROOT::RDataFrame df_raw("events", "analysis/elastic-2H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/elastic-1H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/C12dn.root");
   // ROOT::RDataFrame df_raw("events", "analysis/B10_d.root");
-  // ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
+  ROOT::RDataFrame df_raw("events", "analysis/B10.root");
   // ROOT::RDataFrame df_raw("events", "analysis/B10elastic.root");
 
-  auto df = df_raw
-    .Filter("s1_e > 0 && s2_e > 0 && s1_e+s2_e < 25")
+  //auto df = df_raw
+  //  //.Filter("QValue > 0");
+  //  .Filter("s1_e > 0 && s2_e > 0 && s1_e+s2_e < 25")
+  //  .Filter("s1_theta < 25");
     //.Filter("ic_de > 4 && ic_de < 8 && ic_e < 1")
     //.Filter("s1_phi < -65 || s1_phi > -43"); 
-    .Filter("s1_e+s2_e > 7 && s1_e+s2_e < 10");
+    //.Filter("s1_e+s2_e > 7 && s1_e+s2_e < 10");
     //.Filter("FragmentEx == 0")
     //.Filter("ic_atomic_num == 4")
     //.Filter("ic_atomic_mass == 7");
     //.Filter("scint_e > 0.001");
   
-  //auto df = df_raw;
+  auto df = df_raw;
 
   std::cout<< *df.Count() / (double)*df_raw.Count() * 100.0 << "%" << std::endl;
   
@@ -51,8 +53,7 @@
     .Define("ic_ede","ic_e+ic_de")
     .Define("ic_exy","ic_ex+ic_ey")
     .Histo2D({"ic_ede","ic_ede;ic_e+ic_de;ic_ex+ic_ey",500, 0, 50, 200, 0, 20},"ic_ede", "ic_exy");
-  //auto ic_ede = df.Histo2D(
-  //  {"ic_ede","ic_ede;ic_e;ic_de",500, 0, 50, 200, 0, 20},"ic_e", "ic_de");
+  //auto ic_ede = df.Histo2D({"ic_ede","ic_ede;ic_e;ic_de",500, 0, 50, 200, 0, 20},"ic_e", "ic_de");
   
   auto si_theta_corr = df.Histo2D(
     {"si_theta_corr","si_theta_corr;s1_theta;s2_theta",350, 0, 35, 350, 0, 35},"s1_theta", "s2_theta");
@@ -78,6 +79,13 @@
   auto ic_x_y = df.Histo2D(
     {"ic_x_y","ic_x_y;ic_x;ic_y",100, -30, 30, 100, -30, 30},"ic_x", "ic_y");
 
+  auto decay_heavy_light = df.Histo2D(
+    {"decay_heavy_light","decay_heavy_light;heavy;light",1000, 0, 100, 1000, 0, 100}, "DecayHeavyKE", "DecayLightKE");
+  
+  auto si_e_ic_e = df 
+    .Define("ic_ede","ic_e+ic_de")
+    .Define("si_ede","s1_e+s2_e")
+    .Histo2D({"si_e_ic_e","si_e_ic_e;si_e;ic_e",1000, 0, 100, 1000, 0, 100},"si_ede", "ic_ede");
 
   ROOT::RDF::RunGraphs(
   {
@@ -96,7 +104,9 @@
     scint_t,
     scint_x_y,
     ic_x_y,
-    ic_phi_si_phi
+    ic_phi_si_phi,
+    si_e_ic_e,
+    decay_heavy_light
   });
 
   new TCanvas("c1","",1000,800); 
@@ -155,4 +165,15 @@
   new TCanvas("c13","",1000,800); 
   gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
   Qvalue->DrawCopy("");
+
+
+  new TCanvas("c14","",1000,800); 
+  gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  si_e_ic_e->DrawCopy("col");
+
+
+  new TCanvas("c15","",1000,800); 
+  gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  decay_heavy_light->DrawCopy("col");
+
 } 
