@@ -6,7 +6,7 @@
 /event/verbose 0
 /tracking/verbose 0
 /tracking/storeTrajectory 0
-/run/beamOn 10000
+/run/beamOn 100000
 
 #/vis/open VRML2FILE
 #/vis/drawVolume

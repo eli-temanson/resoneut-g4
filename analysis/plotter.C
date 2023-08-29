@@ -1,37 +1,42 @@
 
-// void plotter() 
-{
+void plotter() {
   gStyle->SetPalette(53);
   
   ROOT::EnableImplicitMT(15); 
+  // ROOT::RDataFrame df_raw("events", "analysis/elastic.root");
   // ROOT::RDataFrame df_raw("events", "analysis/elastic-2H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/elastic-1H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/C12dn.root");
-  // ROOT::RDataFrame df_raw("events", "analysis/B10_d.root");
-  ROOT::RDataFrame df_raw("events", "analysis/B10.root");
+  ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
   // ROOT::RDataFrame df_raw("events", "analysis/B10elastic.root");
 
-  //auto df = df_raw
-  //  //.Filter("QValue > 0");
-  //  .Filter("s1_e > 0 && s2_e > 0 && s1_e+s2_e < 25")
-  //  .Filter("s1_theta < 25");
-    //.Filter("ic_de > 4 && ic_de < 8 && ic_e < 1")
+  auto df = df_raw
+    //.Filter("ThetaCM < 40 && ThetaCM > 20")
+    //.Filter("QValue < -1 && QValue > -2")
+    //.Filter("si_atomic_num == 1")
+    //.Filter("si_atomic_mass == 2")
+    .Filter("s1_e + s2_e > 10 && s1_e+s2_e < 25 && s1_theta < 22 && s2_theta < 22")
+    //.Filter("ic_ex+ic_ey > 10")
+    .Filter("ic_de + ic_e > 0")
     //.Filter("s1_phi < -65 || s1_phi > -43"); 
     //.Filter("s1_e+s2_e > 7 && s1_e+s2_e < 10");
     //.Filter("FragmentEx == 0")
-    //.Filter("ic_atomic_num == 4")
-    //.Filter("ic_atomic_mass == 7");
-    //.Filter("scint_e > 0.001");
+    .Filter("ic_atomic_num == 4")
+    .Filter("ic_atomic_mass == 7")
+    .Filter("scint_e < 0.5");
   
-  auto df = df_raw;
+  //auto df = df_raw;
 
   std::cout<< *df.Count() / (double)*df_raw.Count() * 100.0 << "%" << std::endl;
   
   auto Qvalue = df.Histo1D(
     {"Qvalue","Qvalue", 2000, -10, 10}, "QValue");
   
+  auto theta_cm_raw = df_raw.Histo1D(
+    {"theta_cm_raw","theta_cm_raw", 56, 0, 180}, "ThetaCM");
+  
   auto theta_cm = df.Histo1D(
-    {"theta_cm","theta_cm", 360, 0, 180}, "ThetaCM");
+    {"theta_cm","theta_cm", 56, 0, 180}, "ThetaCM");
   
   auto kin_ejectile = df.Histo2D(
     {"kin_ejectile","kin_ejectile;theta;eject ke",2000, 0, 200, 200, 0, 50}, "ThetaEjectile", "EjectileKE");
@@ -46,7 +51,7 @@
     {"kin_decay_heavy","kin_decay_heavy;theta;decay ke heavy",2000, 0, 20, 500, 0, 50}, "ThetaDecayHeavy", "DecayHeavyKE");
 
   auto si_ede = df.Define("si_ede","s1_e+s2_e")
-    .Histo2D({"si_ede","si_ede;s1 + s2 e;s2 e",200, 0, 30, 200, 0, 14},"si_ede", "s2_e");
+    .Histo2D({"si_ede","si_ede;s1 + s2 e;s2 e",600, 0, 30, 500, 0, 15},"si_ede", "s2_e");
 
   auto ic_ede = df
     //.Define("ic_ede","ic_de")
@@ -72,6 +77,8 @@
 
   auto scint_t = df.Histo1D(
     {"scint_t","scint_t", 1000, -10, 110}, "scint_t");
+  
+  auto scint_theta = df.Histo1D({"scint_theta","scint_theta", 360, 0, 180}, "scint_theta");
 
   auto scint_x_y = df.Histo2D(
     {"scint_x_y","scint_x_y",250, -500, 500, 250, -500, 500},"scint_x", "scint_y");
@@ -83,14 +90,15 @@
     {"decay_heavy_light","decay_heavy_light;heavy;light",1000, 0, 100, 1000, 0, 100}, "DecayHeavyKE", "DecayLightKE");
   
   auto si_e_ic_e = df 
-    .Define("ic_ede","ic_e+ic_de")
+    .Define("ic_ede","ic_e+ic_de+ic_ey+ic_ex")
     .Define("si_ede","s1_e+s2_e")
-    .Histo2D({"si_e_ic_e","si_e_ic_e;si_e;ic_e",1000, 0, 100, 1000, 0, 100},"si_ede", "ic_ede");
+    .Histo2D({"si_e_ic_e","si_e_ic_e;si_e;ic_etot",1000, 0, 100, 1000, 0, 100},"si_ede", "ic_ede");
 
   ROOT::RDF::RunGraphs(
   {
     Qvalue,
     theta_cm,
+    theta_cm_raw,
     kin_ejectile,
     kin_fragment,
     kin_decay_light,
@@ -102,6 +110,7 @@
     si_kin,
     scint_e,
     scint_t,
+    scint_theta,
     scint_x_y,
     ic_x_y,
     ic_phi_si_phi,
@@ -111,7 +120,13 @@
 
   new TCanvas("c1","",1000,800); 
   gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  //auto theta_cm_raw_ptr = theta_cm_raw->GetPtr()
+  theta_cm->Divide(theta_cm_raw.GetPtr());
   theta_cm->DrawCopy("");
+  
+  new TCanvas("c2","",1000,800); 
+  gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  theta_cm_raw->DrawCopy("");
   
   //new TCanvas("c2","",1000,800); 
   //gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
@@ -176,4 +191,7 @@
   gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
   decay_heavy_light->DrawCopy("col");
 
+  new TCanvas("c16","",1000,800); 
+  gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  scint_theta->DrawCopy("");
 } 

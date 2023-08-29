@@ -124,6 +124,10 @@ RunAction::RunAction() {
   analysisManager->CreateNtupleDColumn("scint_y");
   analysisManager->CreateNtupleDColumn("scint_id");
 
+  analysisManager->CreateNtupleDColumn("si_atomic_mass");
+  analysisManager->CreateNtupleDColumn("si_atomic_num"); 
+
+  analysisManager->CreateNtupleDColumn("scint_theta");
 
   analysisManager->FinishNtuple();
   // analysisManager->SetNtupleFileName(1, "data/Ntuple-events");
@@ -183,8 +187,15 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   }
   auto s1HC = GetHitsCollection(s1HCID, event);
   G4double s1Etot = 0.0, s1X = 0.0, s1Y = 0.0, s1Theta = 0.0, s1Phi = 0.0;
+  G4int siAtomicNum = -1.0, siAtomicMass = -1.0;
 
   if(s1HC->entries() > 0) {
+
+    if(s1HC->entries() > 1) {
+      siAtomicNum = (*s1HC)[1]->GetParticle()->GetAtomicNumber();
+      siAtomicMass = (*s1HC)[1]->GetParticle()->GetAtomicMass();
+    }
+
     for(G4int i = 1; i < s1HC->entries(); i++) {
       s1Etot += (*s1HC)[i]->GetEnergy();
       s1X = (*s1HC)[i]->GetPosition().x() / mm;
@@ -270,7 +281,7 @@ void EventAction::EndOfEventAction(const G4Event* event) {
     scintHCID = G4SDManager::GetSDMpointer()->GetCollectionID("Scint/hitCollection");
   }
   auto scintHC = GetHitsCollection(scintHCID, event);
-  G4double scintEtot = 0.0, scintTime = 0.0, scintX = 0.0, scintY = 0.0;
+  G4double scintEtot = 0.0, scintTime = 0.0, scintX = 0.0, scintY = 0.0, scintTheta = 0.0;
   G4int scint_id = -1;
 
   if(scintHC->entries() > 0) {
@@ -278,6 +289,7 @@ void EventAction::EndOfEventAction(const G4Event* event) {
       if((*scintHC)[i]->GetEnergy() > 0.1){ // 100 keV threshold limit
         scintEtot += (*scintHC)[i]->GetEnergy();
         scintTime = (*scintHC)[i]->GetTime();
+        scintTheta = (*scintHC)[i]->GetPosition().theta() / deg;
         scintX = (*scintHC)[i]->GetPosition().x() / mm;
         scintY = (*scintHC)[i]->GetPosition().y() / mm;
         scint_id = (*scintHC)[i]->GetID();
@@ -297,6 +309,7 @@ void EventAction::EndOfEventAction(const G4Event* event) {
       if((*scintHC_thin)[i]->GetEnergy() > 0.1){ // 100 keV threshold limit
         scintEtot += (*scintHC_thin)[i]->GetEnergy();
         scintTime = (*scintHC_thin)[i]->GetTime();
+        scintTheta = (*scintHC)[i]->GetPosition().theta() / deg;
         scintX = (*scintHC_thin)[i]->GetPosition().x() / mm;
         scintY = (*scintHC_thin)[i]->GetPosition().y() / mm;
         scint_id = (*scintHC_thin)[i]->GetID();
@@ -358,6 +371,10 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   analysisManager->FillNtupleDColumn(0, 37, scintY);
   analysisManager->FillNtupleDColumn(0, 38, scint_id);
 
+  analysisManager->FillNtupleDColumn(0, 39, siAtomicMass);
+  analysisManager->FillNtupleDColumn(0, 40, siAtomicNum);
+  
+  analysisManager->FillNtupleDColumn(0, 41, scintTheta);
 
   analysisManager->AddNtupleRow();
 }
