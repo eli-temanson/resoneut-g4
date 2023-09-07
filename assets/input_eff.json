@@ -1,0 +1,27 @@
+{
+  "filename_output": "analysis/single_neut_eff.root",
+  "filename_nuclear_states": "test",
+  "filename_mass_table": "test",
+  "filename_angular_distribution": "test",
+  "filename_run_macro": "assets/run.mac",
+  "beam": [
+    {
+      "energyMeV": 0.1,
+      "sigmaMeV": 0.0,
+      "ZA": [
+        0,
+        1
+      ],
+      "pos": [
+        7.44,
+        0,
+        0
+      ],
+      "momentum": [
+        0,
+        0,
+        -1
+      ]
+    }
+  ]
+}
