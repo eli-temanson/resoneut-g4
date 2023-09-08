@@ -402,7 +402,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     "Scintillator_thin"); // the name
 
   // DON'T STEP TOO LARGE
-  // pScintLogical->SetUserLimits(new G4UserLimits(1.0*mm));
+  pScintLogical->SetUserLimits(new G4UserLimits(1.0*mm));
+  pScintLogical_thin->SetUserLimits(new G4UserLimits(1.0*mm));
 
   // p-Terphenyl visual attributes, this can be skipped!
   //

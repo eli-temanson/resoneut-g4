@@ -31,6 +31,8 @@
 //#include "FTFP_BERT_HP.hh"
 //#include "QGSP_BERT_HP.hh"
 
+
+
 // Allows user to choose the random engine
 #include "Randomize.hh"
 
@@ -68,7 +70,7 @@ int main(int argc,char** argv) {
 
   // Physics list
   //
-  //runManager->SetUserInitialization(new FTFP_BERT_HP());
+  // runManager->SetUserInitialization(new FTFP_BERT_HP());
   runManager->SetUserInitialization(new PhysicsList());
 
   // User action initialization

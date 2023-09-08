@@ -283,10 +283,11 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   auto scintHC = GetHitsCollection(scintHCID, event);
   G4double scintEtot = 0.0, scintTime = 0.0, scintX = 0.0, scintY = 0.0, scintTheta = 0.0;
   G4int scint_id = -1;
-  G4double n_threshold = 0.050; // MeV
+  G4double n_threshold = 0.090; // MeV
 
   if(scintHC->entries() > 0) {
     for(G4int i = 1; i < scintHC->entries(); i++) {
+      // if((*scintHC)[i]->GetEnergy() / MeV >= n_threshold){
       // if((*scintHC)[i]->GetEnergy() / MeV >= n_threshold && (*scintHC)[i]->GetTargetName() == "H1"){ //"C12" or "H1"
       // if((*scintHC)[i]->GetEnergy() / MeV >= n_threshold && (*scintHC)[i]->GetTargetName() != "C12"){ //"C12" or "H1"
       if((*scintHC)[i]->GetEnergy() / MeV >= n_threshold && (*scintHC)[i]->GetParticle()->GetParticleName() == "proton"){ 
@@ -311,6 +312,7 @@ void EventAction::EndOfEventAction(const G4Event* event) {
 
   if(scintHC_thin->entries() > 0) {
     for(G4int i = 1; i < scintHC_thin->entries(); i++) {
+      // if((*scintHC_thin)[i]->GetEnergy() / MeV >= n_threshold){
       // if((*scintHC_thin)[i]->GetEnergy() / MeV >= n_threshold && (*scintHC_thin)[i]->GetTargetName() == "H1"){ //"C12" or "H1"
       // if((*scintHC_thin)[i]->GetEnergy() / MeV >= n_threshold && (*scintHC_thin)[i]->GetTargetName() != "C12"){ //"C12" or "H1"
       if((*scintHC_thin)[i]->GetEnergy() / MeV >= n_threshold && (*scintHC_thin)[i]->GetParticle()->GetParticleName() == "proton"){ 

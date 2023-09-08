@@ -6,15 +6,15 @@
   "filename_run_macro": "assets/run.mac",
   "beam": [
     {
-      "energyMeV": 0.1,
+      "energyMeV": 0.250,
       "sigmaMeV": 0.0,
       "ZA": [
         0,
         1
       ],
       "pos": [
-        7.44,
-        0,
+        -15.06,
+        0.0,
         0
       ],
       "momentum": [

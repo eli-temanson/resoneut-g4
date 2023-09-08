@@ -21,9 +21,9 @@ en = []
 # e_original = data["Isotopes"][0]["States"][0]["Energy"]
 # threshold = data["Isotopes"][0]["Thresholds"][0]["Energy"] + 0.5
 
-e0 = 0.1 # 50 keV start
-emax = 1.0
-N = 20
+e0 = 0.200 # keV start
+emax = 1.5
+N = 50
 dE = (emax-e0)/N
 energy = e0 - dE
 
@@ -55,7 +55,7 @@ json.dump(data, file, indent=2)
 file.close()
 
 # plot or store the efficiency curve
-csv_eff = open("analysis/neff.csv", "w")
+csv_eff = open("analysis/neff_thres_200keV.csv", "w")
 writer = csv.writer(csv_eff, delimiter=',')
 for i in range(len(eff)):
     writer.writerow((en[i], eff[i]))
