@@ -82,8 +82,8 @@ private:
     
     // Weight that distribution by the Normalized Ang Dis. 
     //} while (G4UniformRand() > angDis(180.0 - (thetaCM / degree))); 
-    //} while (G4UniformRand() > GetAngDis(180.0 - (thetaCM / degree))); 
-    } while (G4UniformRand() > GetAngDis((thetaCM / degree))); 
+    } while (G4UniformRand() > GetAngDis(180.0 - (thetaCM / degree))); 
+    // } while (G4UniformRand() > GetAngDis((thetaCM / degree))); 
     
     return thetaCM;
   }

@@ -2,13 +2,13 @@
 void plotter() {
   gStyle->SetPalette(53);
   
-  ROOT::EnableImplicitMT(15); 
+  ROOT::EnableImplicitMT(10); 
   // ROOT::RDataFrame df_raw("events", "analysis/elastic.root");
   // ROOT::RDataFrame df_raw("events", "analysis/elastic-2H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/elastic-1H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/C12dn.root");
-  ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
-  // ROOT::RDataFrame df_raw("events", "analysis/B10elastic.root");
+  // ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
+  ROOT::RDataFrame df_raw("events", "analysis/B10dn_offset.root");
 
   auto df = df_raw
     //.Filter("ThetaCM < 40 && ThetaCM > 20")
@@ -17,13 +17,15 @@ void plotter() {
     //.Filter("si_atomic_mass == 2")
     .Filter("s1_e + s2_e > 10 && s1_e+s2_e < 25 && s1_theta < 22 && s2_theta < 22")
     //.Filter("ic_ex+ic_ey > 10")
-    .Filter("ic_de + ic_e > 0")
-    //.Filter("s1_phi < -65 || s1_phi > -43"); 
+    .Filter("ic_de + ic_e > 10")
+    .Filter("ic_x < 100 && ic_x > -100")
+    .Filter("ic_y < 100 && ic_y > -100")
+    .Filter("s1_phi < -65 || s1_phi > -43")
     //.Filter("s1_e+s2_e > 7 && s1_e+s2_e < 10");
     //.Filter("FragmentEx == 0")
     .Filter("ic_atomic_num == 4")
-    .Filter("ic_atomic_mass == 7")
-    .Filter("scint_e < 0.5");
+    .Filter("ic_atomic_mass == 7");
+    // .Filter("scint_e < 0.5");
   
   //auto df = df_raw;
 
