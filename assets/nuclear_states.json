@@ -70,7 +70,19 @@
       ],
       "States": [
         {
+          "Energy": 8.654,
+          "Spin-parity": "2.5+"
+        },
+        {
           "Energy": 8.699,
+          "Spin-parity": "2.5+"
+        },
+        {
+          "Energy": 9.2,
+          "Spin-parity": "2.5+"
+        },
+        {
+          "Energy": 9.8,
           "Spin-parity": "2.5+"
         }
       ],

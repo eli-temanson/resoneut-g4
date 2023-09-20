@@ -78,8 +78,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   pParticleGun->SetParticlePosition(
     G4ThreeVector(
-      G4RandGauss::shoot(-6.0*mm,1.0*mm),
-      G4RandGauss::shoot(-6.0*mm,1.0*mm),
+      G4RandGauss::shoot(-.0*mm,2.0*mm),
+      G4RandGauss::shoot(-.0*mm,2.0*mm),
       -1.0*cm));
 
   pParticleGun->SetParticleMomentumDirection(G4ThreeVector(0, 0, 1));

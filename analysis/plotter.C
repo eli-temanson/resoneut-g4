@@ -7,19 +7,21 @@ void plotter() {
   // ROOT::RDataFrame df_raw("events", "analysis/elastic-2H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/elastic-1H.root");
   // ROOT::RDataFrame df_raw("events", "analysis/C12dn.root");
-  // ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
-  ROOT::RDataFrame df_raw("events", "analysis/B10dn_offset.root");
+  ROOT::RDataFrame df_raw("events", "analysis/B10dn.root");
+  // ROOT::RDataFrame df_raw("events", "analysis/B10dn_offset.root");
 
   auto df = df_raw
     //.Filter("ThetaCM < 40 && ThetaCM > 20")
-    //.Filter("QValue < -1 && QValue > -2")
+    .Filter("QValue < -2.2 && QValue > -2.5")
     //.Filter("si_atomic_num == 1")
     //.Filter("si_atomic_mass == 2")
-    .Filter("s1_e + s2_e > 10 && s1_e+s2_e < 25 && s1_theta < 22 && s2_theta < 22")
+    .Filter("s1_e + s2_e > 10 && s1_e+s2_e < 22")
     //.Filter("ic_ex+ic_ey > 10")
     .Filter("ic_de + ic_e > 10")
+    .Filter("ic_ex + ic_ey > 5")
     .Filter("ic_x < 100 && ic_x > -100")
     .Filter("ic_y < 100 && ic_y > -100")
+    .Filter("s1_theta < 23 && s1_theta > 10")
     .Filter("s1_phi < -65 || s1_phi > -43")
     //.Filter("s1_e+s2_e > 7 && s1_e+s2_e < 10");
     //.Filter("FragmentEx == 0")
@@ -29,13 +31,13 @@ void plotter() {
   
   //auto df = df_raw;
 
-  std::cout<< *df.Count() / (double)*df_raw.Count() * 100.0 << "%" << std::endl;
+  // std::cout<< *df.Count() / (double)*df_raw.Count() * 100.0 << "%" << std::endl;
   
   auto Qvalue = df.Histo1D(
     {"Qvalue","Qvalue", 2000, -10, 10}, "QValue");
   
-  auto theta_cm_raw = df_raw.Histo1D(
-    {"theta_cm_raw","theta_cm_raw", 56, 0, 180}, "ThetaCM");
+  // auto theta_cm_raw = df_raw.Histo1D(
+  //   {"theta_cm_raw","theta_cm_raw", 56, 0, 180}, "ThetaCM");
   
   auto theta_cm = df.Histo1D(
     {"theta_cm","theta_cm", 56, 0, 180}, "ThetaCM");
@@ -100,7 +102,7 @@ void plotter() {
   {
     Qvalue,
     theta_cm,
-    theta_cm_raw,
+    // theta_cm_raw,
     kin_ejectile,
     kin_fragment,
     kin_decay_light,
@@ -120,15 +122,15 @@ void plotter() {
     decay_heavy_light
   });
 
-  new TCanvas("c1","",1000,800); 
-  gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
-  //auto theta_cm_raw_ptr = theta_cm_raw->GetPtr()
-  theta_cm->Divide(theta_cm_raw.GetPtr());
-  theta_cm->DrawCopy("");
+  // new TCanvas("c1","",1000,800); 
+  // gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  // //auto theta_cm_raw_ptr = theta_cm_raw->GetPtr()
+  // theta_cm->Divide(theta_cm_raw.GetPtr());
+  // theta_cm->DrawCopy("");
   
-  new TCanvas("c2","",1000,800); 
-  gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
-  theta_cm_raw->DrawCopy("");
+  // new TCanvas("c2","",1000,800); 
+  // gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);
+  // theta_cm_raw->DrawCopy("");
   
   //new TCanvas("c2","",1000,800); 
   //gPad->SetLeftMargin(0.17); gPad->SetBottomMargin(0.15);

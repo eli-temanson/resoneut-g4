@@ -8,7 +8,7 @@ BinaryReactionProcess::BinaryReactionProcess(const G4String& processName) :
   fScatteringEnergy(1e6) {
     
     SetProcessSubType(111);
-    //SetAngDis("assets/dwba_l0.dat");
+    // SetAngDis("assets/dwba_l0.dat");
     //SetAngDis("assets/elastic.txt");
     SetAngDis("assets/state2.txt");
 }
@@ -132,7 +132,7 @@ G4VParticleChange* BinaryReactionProcess::PostStepDoIt(const G4Track& aTrack, co
   
   // Lab Frame Ejectile Theta, Iliadis(C.38)
   G4double ThetaCM = GetInvKinTheta();
-  //G4double ThetaCM = G4UniformRand();
+  // G4double ThetaCM = G4UniformRand();
   // G4double ThetaCM = std::acos(1.0 - (G4UniformRand()*2.0));
   // G4double ThetaCM = std::acos(-0.5-(G4UniformRand()/2.0));
   Ejectile.Theta = std::acos((gamma + std::cos(ThetaCM))/std::sqrt(1 + gamma*gamma + 2*gamma*std::cos(ThetaCM)));

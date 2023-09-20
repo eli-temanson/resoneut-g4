@@ -43,6 +43,7 @@ private:
   tk::spline angDis;
   // TRandom3 *Rndm = new TRandom3();
   TGraph *angdis;
+  // TF1* f_angdis;
   
   void SetAngDis(const std::string &filename){
     std::ifstream input(filename.c_str()); 
@@ -65,6 +66,8 @@ private:
     std::transform(Y.begin(), Y.end(), Y.begin(), [&max_value](auto& c) { return c / max_value;});
     //angDis = tk::spline(X,Y);
     angdis = new TGraph(X.size(), &X[0],&Y[0]);
+    // f_angdis = new TF1("f_angdis",[&](double*x,double*p){ return p[0]*angdis->Eval(x[0]); },0,180,1);
+
     input.close();
   }
 
@@ -78,13 +81,11 @@ private:
     do{ // from dwba, randomize neutron events going from regular to inverse kin (180-theta)
       // create a uniform distribution in radians 
       thetaCM = std::acos(1.0 - (2.0*G4UniformRand())); 
-      //thetaCM = std::acos((G4UniformRand()*(.9659-.6427) + .6427)); 
-    
     // Weight that distribution by the Normalized Ang Dis. 
     //} while (G4UniformRand() > angDis(180.0 - (thetaCM / degree))); 
-    } while (G4UniformRand() > GetAngDis(180.0 - (thetaCM / degree))); 
-    // } while (G4UniformRand() > GetAngDis((thetaCM / degree))); 
+    } while (G4UniformRand() > GetAngDis(180.0 - (thetaCM *180.0/3.1415))); 
     
+    // return f_angdis->GetRandom();
     return thetaCM;
   }
 
